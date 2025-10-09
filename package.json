@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "humanize-duration": "^3.33.1",
+    "quill": "^2.0.3",
+    "rc-progress": "^4.0.0",
+    "react-router-dom": "^7.9.3",
+    "react-simple-star-rating": "^5.1.7",
+    "react-youtube": "^10.1.0",
+    "tailwindcss": "^4.1.14",
+    "uniqid": "^5.4.0"
+  }
+}
