@@ -22,7 +22,11 @@ const MyEnrollments = () => {
     { lectureCompleted: 0, totalLectures: 2 },
     { lectureCompleted: 5, totalLectures: 5 },
   ])
-
+   useEffect(() => {
+  }, []);
+    if (!Array.isArray(enrolledCourses) || enrolledCourses.length === 0) {
+    return <div className="p-6 text-center">You have no enrollments yet.</div>;
+  }
   return (
     <>
     <div className="md:px-36 px-8 pt-10">
