@@ -10,16 +10,19 @@ const app = express();
 await connectDB();
 
 app.use(cors());
-app.use(express.json()); // General JSON parsing for other routes
 
+// DO NOT register global JSON parser before webhook route
 app.get('/', (req, res) => res.send("API working"));
 
-// IMPORTANT: Use express.raw() for webhooks ONLY
+// IMPORTANT: Use express.raw() for webhooks ONLY and ensure it runs before express.json()
 app.post(
   '/clerk', 
   express.raw({ type: 'application/json' }), 
   clerkWebhooks
 );
+
+// register body parser for all other routes after webhook
+app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
