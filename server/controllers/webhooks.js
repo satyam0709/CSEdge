@@ -5,7 +5,6 @@ export const clerkWebhooks = async (req, res) => {
   try {
     console.log("Webhook endpoint hit");
 
-    // Ensure we have a Buffer for signature verification
     const payloadBuffer = Buffer.isBuffer(req.body)
       ? req.body
       : Buffer.from(typeof req.body === 'string' ? req.body : JSON.stringify(req.body));
@@ -22,7 +21,6 @@ export const clerkWebhooks = async (req, res) => {
 
     const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
-    // Verify webhook using raw Buffer
     const evt = whook.verify(payloadBuffer, headers);
 
     console.log("Event type:", evt.type);
@@ -66,7 +64,6 @@ export const clerkWebhooks = async (req, res) => {
   } catch (error) {
     console.error("Webhook error:", error.message || error);
     console.error("Full error:", error);
-    // Return 400 so Clerk sees signature/parse problem; 500 for other server errors
     return res.status(400).json({ success: false, message: error.message || 'webhook error' });
   }
 };
