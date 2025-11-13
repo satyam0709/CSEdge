@@ -7,6 +7,7 @@ import { clerkMiddleware } from '@clerk/express';
 import educatorRouter from './routes/educatorRoutes.js';
 import connectCloudinary from './configs/cloudinary.js';
 import courseRouter from './routes/courseRoutes.js';
+import userRouter from './routes/userRoutes.js';
 
 const app = express();
 await connectDB();
@@ -32,6 +33,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/educator', express.json() , educatorRouter);
 app.use('/api/course' , express.json() , courseRouter);
+app.use('/api/user' , express.json(), userRouter)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
