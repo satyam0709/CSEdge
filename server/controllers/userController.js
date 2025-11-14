@@ -5,6 +5,7 @@ import Stripe from "stripe"
 
 export const getUserData = async(req,res)=>{
     try{
+        const {courseId} = req.body;
         const userId = req.auth.userId
         const user = await User.findById(userId)
 
@@ -70,7 +71,7 @@ export const purchaseCourse = async(req,res)=>{
         }]
 
         const session = await stripeInstance.checkout.sessions.create({
-            success_url : `€{origin}/loading/my-enrollments`,
+            success_url : `${origin}/loading/my-enrollments`, 
             cancel_url : `${origin}/`,
             line_items: line_items,
             mode: 'payment',
