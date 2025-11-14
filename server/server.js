@@ -34,7 +34,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/educator', express.json() , educatorRouter);
 app.use('/api/course' , express.json() , courseRouter);
 app.use('/api/user' , express.json(), userRouter)
-app.post('/stripe' , express.raw({type: 'application/json'}), stripeWebhooks)
+app.post(
+  "/webhook/stripe",
+  express.raw({ type: "application/json" }),
+  stripeWebhooks
+);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -45,6 +49,9 @@ app.use((err, req, res, next) => {
         error: process.env.NODE_ENV === 'development' ? err.message : {}
     });
 });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 5000;
 
