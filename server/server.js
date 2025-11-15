@@ -14,40 +14,39 @@ await connectDB();
 await connectCloudinary();
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Your Vite dev server
+    origin: 'http://localhost:5173',
     credentials: true
 }));
 
-app.use(clerkMiddleware());
-app.get('/', (req, res) => res.send("API working"));
-
-// Webhook route with raw body parser (must be before express.json())
-app.post(
-  '/clerk', 
-  express.raw({ type: 'application/json' }), 
-  clerkWebhooks
+// ❗ Stripe webhook MUST be before ANY body parsers or Clerk middleware
+app.post('/webhooks/stripe', 
+    express.raw({ type: 'application/json' }), 
+    stripeWebhooks
 );
 
-// Body parser for all other routes
+// ❗ Clerk webhook also needs raw
+app.post('/clerk', 
+    express.raw({ type: 'application/json' }), 
+    clerkWebhooks
+);
+
+// All other routes → now safe to parse JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/educator', express.json() , educatorRouter);
-app.use('/api/course' , express.json() , courseRouter);
-app.use('/api/user' , express.json(), userRouter)
-app.post('/stripe' , express.raw({type: 'application/json'}), stripeWebhooks)
 
-// Error handling middleware
+// Clerk middleware (AFTER webhook ONLY)
+app.use(clerkMiddleware());
+
+// Routes (NO extra express.json())
+app.use('/api/educator', educatorRouter);
+app.use('/api/course', courseRouter);
+app.use('/api/user', userRouter);
+
+// Error Handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ 
-        success: false, 
-        message: 'Something went wrong!',
-        error: process.env.NODE_ENV === 'development' ? err.message : {}
-    });
+    res.status(500).json({ success: false, message: 'Something went wrong!' });
 });
 
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
