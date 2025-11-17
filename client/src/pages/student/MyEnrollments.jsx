@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
 import {Line} from 'rc-progress'
 import Footer from '../../components/student/Footer'
+import { useEffect } from 'react'
 
 const MyEnrollments = () => {
   const { enrolledCourses, calculateCourseDuration , navigate} = useContext(AppContext)

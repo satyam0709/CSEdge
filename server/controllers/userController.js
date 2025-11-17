@@ -6,8 +6,7 @@ import Stripe from "stripe"
 
 export const getUserData = async(req, res) => {
     try {
-        const { courseId } = req.body;
-        const { userId } = req.auth();
+        const userId = req.auth.userId;
         const user = await User.findById(userId);
 
         if (!user) {
@@ -22,12 +21,11 @@ export const getUserData = async(req, res) => {
 
 export const userEnrolledCourses = async(req, res) => {
     try {
-        // Fixed: Use req.auth() as a function
-        const { userId } = req.auth();
+        const userId = req.auth.userId;
         const userData = await User.findById(userId).populate('enrolledCourses');
 
         res.json({ success: true, enrolledCourses: userData.enrolledCourses });
-    }   
+    }
     catch (error) {
         res.json({ success: false, message: error.message });
     }
@@ -37,10 +35,9 @@ export const purchaseCourse = async(req, res) => {
     try {
         const { courseId } = req.body;
         const { origin } = req.headers;
-        
-        // Fixed: Use req.auth() as a function
-        const { userId } = req.auth();
-        
+
+        const userId = req.auth.userId;
+
         const userData = await User.findById(userId);
         const courseData = await Course.findById(courseId);
 
@@ -50,7 +47,7 @@ export const purchaseCourse = async(req, res) => {
 
         const purchaseData = {
             courseId: courseData._id,
-            userId: userId,  // This should now be the correct format
+            userId: userId,
             amount: (courseData.coursePrice - courseData.discount * courseData.coursePrice / 100).toFixed(2),
         }
 
@@ -72,7 +69,7 @@ export const purchaseCourse = async(req, res) => {
         }]
 
         const session = await stripeInstance.checkout.sessions.create({
-            success_url: `${origin}/loading/my-enrollments`, 
+            success_url: `${origin}/loading/my-enrollments`,
             cancel_url: `${origin}/`,
             line_items: line_items,
             mode: 'payment',
