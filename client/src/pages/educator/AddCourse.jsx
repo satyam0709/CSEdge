@@ -1,9 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import uniqid from 'uniqid'
 import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
+import { AppContext } from '../../context/AppContext'
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
 const AddCourse = () => {
+
+  const {backendUrl, getToken} = useContext(AppContext)
   const quillRef = useRef(null)
   const editorRef = useRef(null)
 
@@ -69,9 +74,10 @@ const AddCourse = () => {
       setChapters(
         chapters.map((chapter) => {
           if (chapter.chapterId === chapterId) {
-            const updatedContent = [...chapter.chapterContent]
-            updatedContent.splice(lectureIndex, 1)
-            return { ...chapter, chapterContent: updatedContent }
+            return {
+              ...chapter,
+              chapterContent: chapter.chapterContent.filter((_, index) => index !== lectureIndex)
+            }
           }
           return chapter
         })
@@ -79,7 +85,7 @@ const AddCourse = () => {
     }
   }
 
-  // Add lecture with proper order tracking (YOUR FUNCTION - FIXED)
+  // Add lecture with proper order tracking
   const addLecture = () => {
     if (!lectureDetails.lectureTitle || !lectureDetails.lectureDuration || !lectureDetails.lectureUrl) {
       alert('Please fill all lecture details')
@@ -95,61 +101,68 @@ const AddCourse = () => {
               ? chapter.chapterContent.slice(-1)[0].lectureOrder + 1 
               : 1,
             lectureId: uniqid()
-          };
+          }
           return {
             ...chapter,
             chapterContent: [...chapter.chapterContent, newLecture]
-          };
+          }
         }
-        return chapter;
+        return chapter
       })
-    );
-    setShowPopup(false);
+    )
+    setShowPopup(false)
     setLectureDetails({
       lectureTitle: '',
       lectureDuration: '',
       lectureUrl: '',
       isPreviewFree: false,
-    });
-    setCurrentChapterId(null);
-  };
+    })
+    setCurrentChapterId(null)
+  }
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault()
     
-    // Get course description from Quill editor
-    const courseDescription = quillRef.current ? quillRef.current.root.innerHTML : ''
-    
-    // Prepare course data
-    const courseData = {
-      courseTitle,
-      courseDescription,
-      coursePrice: Number(coursePrice),
-      discount: Number(discount),
-      image,
-      chapters
+    try {
+      if (!image) {
+        toast.error('Thumbnail Not Selected')
+        return
+      }
+
+      const courseData = {
+        courseTitle,
+        courseDescription: quillRef.current.root.innerHTML,
+        coursePrice: Number(coursePrice),
+        discount: Number(discount),
+        courseContent: chapters,
+      }
+
+      const formData = new FormData()
+      formData.append('courseData', JSON.stringify(courseData))
+      formData.append('image', image)
+
+      const token = await getToken()
+      const {data} = await axios.post(backendUrl + '/api/educator/add-course',
+        formData, {headers: {Authorization: `Bearer ${token}`}}
+      )
+
+      if (data.success) {
+        toast.success(data.message)
+        setCourseTitle('')
+        setCoursePrice(0)
+        setDiscount(0)
+        setImage(null)
+        setChapters([])
+        quillRef.current.root.innerHTML = ""
+      } else {
+        toast.error(data.message)
+      }
+
+    } catch (error) {
+      toast.error(error.message)
     }
-    
-    console.log('Course Data:', courseData)
-    
-    // TODO: Add your API call here to save the course
-    // Example:
-    // const formData = new FormData()
-    // formData.append('courseTitle', courseTitle)
-    // formData.append('courseDescription', courseDescription)
-    // formData.append('coursePrice', coursePrice)
-    // formData.append('discount', discount)
-    // formData.append('image', image)
-    // formData.append('chapters', JSON.stringify(chapters))
-    // 
-    // const response = await fetch('/api/courses', {
-    //   method: 'POST',
-    //   body: formData
-    // })
-    
-    alert('Course saved successfully! Check console for details.')
-  };
+  }
 
   // Close popup
   const closePopup = () => {
@@ -237,7 +250,7 @@ const AddCourse = () => {
         {/* Adding Chapters & Lectures */}
         <div>
           {chapters.map((chapter, chapterIndex) => (
-            <div key={chapterIndex} className="bg-white border rounded-lg mb-4">
+            <div key={chapter.chapterId} className="bg-white border rounded-lg mb-4">
               <div className="flex justify-between items-center p-4 border-b">
                 <div className="flex items-center">
                   <img
@@ -268,7 +281,7 @@ const AddCourse = () => {
                 <div className="p-4">
                   {chapter.chapterContent.map((lecture, lectureIndex) => (
                     <div
-                      key={lectureIndex}
+                      key={lecture.lectureId}
                       className="flex justify-between items-center mb-2"
                     >
                       <span>

@@ -11,7 +11,7 @@ import Dashboard from './pages/educator/Dashboard'
 import AddCourse from './pages/educator/AddCourse'
 import MyCourses from './pages/educator/MyCourses'
 import StudentEnrolled from './pages/educator/StudentEnrolled'
-import { Navbar } from './components/student/Navbar'
+import Navbar from './components/student/Navbar'
   import { ToastContainer } from 'react-toastify';
 
 

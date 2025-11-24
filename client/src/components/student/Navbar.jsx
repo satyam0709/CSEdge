@@ -1,86 +1,74 @@
-import React, { useContext } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
-import { assets } from "../../assets/assets";
-import { AppContext } from "../../context/AppContext";
+import React, { useContext } from 'react'
+import { assets } from '../../assets/assets'
+import { Link, useNavigate } from 'react-router-dom'
+import { useClerk, UserButton, useUser } from '@clerk/clerk-react'
+import { AppContext } from '../../context/AppContext'
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
-export const Navbar = () => {
-  const { isEducator } = useContext(AppContext);
-  const { openSignIn } = useClerk();
-  const { user } = useUser();
-  const navigate = useNavigate();
-  const location = useLocation();
+const Navbar = () => {
+  const { user } = useUser()
+  const { signOut } = useClerk()
+  const navigate = useNavigate()
+  const { isEducator, setIsEducator, backendUrl, getToken } = useContext(AppContext)
 
-  const isCourseListPage = location.pathname.includes("/course-list");
+  const becomeEducator = async () => {
+    try {
+      const token = await getToken();
+      const { data } = await axios.post(`${backendUrl}/api/educator/update-role`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+
+      if (data.success) {
+        setIsEducator(true)
+        toast.success(data.message)
+      } else {
+        toast.error(data.message || 'Unable to update educator role')
+      }
+    } catch (error) {
+      console.error('Become educator error:', error)
+      toast.error('Unable to update educator role') 
+    }
+  }
 
   return (
-    <div
-      className={`flex items-center justify-between px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500 py-4 ${
-        isCourseListPage ? "bg-white" : "bg-white/90 backdrop-blur-sm"
-      }`}
-    >
-      <img
-        onClick={() => navigate("/")}
-        src={assets.logo_dark}
-        alt="logo"
-        className="w-28 lg:w-32 cursor-pointer"
-      />
+    <div className='flex items-center justify-between py-3 px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500/20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-10'>
 
-      {/* Desktop View */}
-      <div className="hidden md:flex items-center gap-5 text-gray-500">
-        <div className="flex items-center gap-5">
-          {user && (
-            <>
-              <button
-                onClick={() => navigate("/educator")}
-                className="cursor-pointer"
-              >
-                {isEducator ? "Educator Dashboard" : "Become Educator"}
-              </button>
-              | <Link to="/my-enrollments">My Enrollments</Link>
-            </>
-          )}
-        </div>
-        {user ? (
-          <UserButton />
-        ) : (
-          <button
-            onClick={() => openSignIn()}
-            className="bg-blue-600 text-white px-5 py-2 rounded-full cursor-pointer"
-          >
-            Create Account
-          </button>
-        )}
-      </div>
+      <img onClick={() => navigate('/')} src={assets.logo} alt="logo" className='w-28 lg:w-32 cursor-pointer' />
 
-      {/* Mobile View */}
-      <div className="md:hidden flex items-center gap-2 sm:gap-5 text-gray-500">
-        <div className="flex items-center gap-1 sm:gap-2 max-sm:text-xs">
-          {user && (
-            <>
-              <button
-                onClick={() => navigate("/educator")}
-                className="cursor-pointer"
-              >
-                {isEducator ? "Educator Dashboard" : "Become Educator"}
+      <div className='hidden md:flex items-center gap-5 text-gray-500'>
+
+        <div className='flex items-center gap-4'>
+
+          {user ?
+            <div className='flex items-center gap-4'>
+
+              <Link to='/my-enrollments' className='text-gray-500 hover:text-gray-700 transition'>My Enrollments</Link>
+
+              <button onClick={isEducator ? () => navigate('/educator') : becomeEducator} className='flex items-center gap-2 border border-gray-500/30 px-3 py-1.5 rounded-full hover:bg-gray-50 transition'>
+
+                {isEducator ? 'Educator Dashboard' : 'Become Educator'}
+                <img src={assets.user_icon} alt="" className='w-4 h-4' />
+
               </button>
-              | <Link to="/my-enrollments">My Enrollments</Link>
-            </>
-          )}
+
+              <UserButton />
+
+            </div>
+            : <button onClick={() => navigate('/login')} className='bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition'>Login</button>}
+
         </div>
 
-        {user ? (
-          <UserButton />
-        ) : (
-          <button onClick={() => openSignIn()}>
-            <img
-              src={assets.user_icon}
-              alt=""
-              className="cursor-pointer"
-            />
-          </button>
-        )}
       </div>
+
+      <div className='flex items-center gap-2 sm:gap-3 md:hidden'>
+
+        {user ? <UserButton /> : <button onClick={() => navigate('/login')}><img src={assets.user_icon} alt="" /></button>}
+
+      </div>
+
     </div>
-  );
-};
+  )
+}
+
+export default Navbar

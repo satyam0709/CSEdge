@@ -1,52 +1,70 @@
-import express from 'express';
-import cors from 'cors';
-import 'dotenv/config';
-import connectDB from './configs/mongodb.js';
-import { clerkWebhooks, stripeWebhooks } from './controllers/webhooks.js';
-import { clerkMiddleware } from '@clerk/express';
-import educatorRouter from './routes/educatorRoutes.js';
-import connectCloudinary from './configs/cloudinary.js';
-import courseRouter from './routes/courseRoutes.js';
-import userRouter from './routes/userRoutes.js';
+import express from "express";
+import cors from "cors";
+import "dotenv/config";
+import connectDB from "./configs/mongodb.js";
+import connectCloudinary from "./configs/cloudinary.js";
+import { clerkMiddleware } from "@clerk/express";
+import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
+import educatorRouter from "./routes/educatorRoutes.js";
+import courseRouter from "./routes/courseRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 
 const app = express();
+
+// Connect DB + cloud
 await connectDB();
 await connectCloudinary();
 
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
-}));
-
-// ❗ Stripe webhook MUST be before ANY body parsers or Clerk middleware
-app.post('/webhooks/stripe', 
-    express.raw({ type: 'application/json' }), 
-    stripeWebhooks
+app.use(
+  cors({
+    origin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
+    credentials: true,
+  })
 );
 
-// ❗ Clerk webhook also needs raw
-app.post('/clerk', 
-    express.raw({ type: 'application/json' }), 
-    clerkWebhooks
+// Stripe webhook
+app.post(
+  "/webhooks/stripe",
+  express.raw({ type: "application/json" }),
+  stripeWebhooks
 );
 
-// All other routes → now safe to parse JSON
+// Clerk webhook
+app.post(
+  "/webhooks/clerk",
+  express.raw({ type: "application/json" }),
+  clerkWebhooks
+);
+
+// ---------------------------------------------------------
+// GLOBAL MIDDLEWARE (Applies to API routes below)
+// ---------------------------------------------------------
+
+// JSON body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Clerk middleware (AFTER webhook ONLY)
+// Clerk auth middleware
 app.use(clerkMiddleware());
 
-// Routes (NO extra express.json())
-app.use('/api/educator', educatorRouter);
-app.use('/api/course', courseRouter);
-app.use('/api/user', userRouter);
+// API routes
+app.use("/api/educator", educatorRouter);
+app.use("/api/course", courseRouter);
+app.use("/api/user", userRouter);
 
-// Error Handler
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ success: false, message: 'Something went wrong!' });
+// 404
+app.use((req, res) => {
+  res.status(404).json({ success: false, message: "Route not found" });
 });
 
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ success: false, message: err.message });
+});
+
+// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

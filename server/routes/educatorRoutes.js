@@ -6,7 +6,7 @@ import { updateRoleToEducator, addCourse, getEducatorCourse , educatorDashboardD
 
 const educatorRouter = express.Router();
 
-educatorRouter.get('/update-role', requireAuth(), updateRoleToEducator);
+educatorRouter.post('/update-role', requireAuth(), updateRoleToEducator);
 educatorRouter.post('/add-course', upload.single('image'), protectEducator, addCourse);
 educatorRouter.get('/courses' , protectEducator , getEducatorCourse)
 educatorRouter.get('/dashboard' , protectEducator , educatorDashboardData)

@@ -5,6 +5,8 @@ import Loading from '../../components/student/Loading';
 import { assets } from '../../assets/assets';
 import Footer from '../../components/student/Footer';
 import YouTube from 'react-youtube';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const CourseDetails = () => {
   const { id } = useParams();
@@ -14,19 +16,75 @@ const CourseDetails = () => {
   const [playerData, setPlayerData] = useState(null);
 
   const {
-    allCourses,
     calculateRating,
     calculateChapterTime,
     calculateCourseTime,
     calculateNumberOfLectures,
     currency,
+    backendUrl,
+    userData,
+    getToken
   } = useContext(AppContext);
+
+  const fetchCourseData = async () => {
+    try {
+      const { data } = await axios.get(backendUrl + '/api/course/' + id)
+
+      if (data.success) {
+        setCourseData(data.courseData)
+      }
+      else {
+        toast.error(data.message)
+      }
+
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
+  const enrollCourse = async () => {
+    try {
+      if (!userData) {
+        return toast.warn('Login to enroll');
+      }
+      if (isAlreadyEnrolled) {
+        return toast.warn('Already enrolled')
+      }
+
+      const token = await getToken();
+
+      const { data } = await axios.post(backendUrl + '/api/user/purchase', {
+        courseId: courseData._id
+      },
+        { headers: { Authorization: `Bearer ${token}` } })
+
+      if (data.success) {
+        const { session_url } = data
+        window.location.replace(session_url)
+      }
+      else {
+        toast.error(data.message)
+      }
+
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
 
   // Load course data by ID
   useEffect(() => {
-    const findCourse = allCourses.find(course => course._id === id);
-    setCourseData(findCourse);
-  }, [id, allCourses]);
+    fetchCourseData()
+  }, []);
+
+  // Improved Enrollment Check Logic
+  useEffect(() => {
+    if (userData && courseData) {
+      const isEnrolled = userData.enrolledCourses.some(course => 
+        (typeof course === 'object' ? course._id : course) === courseData._id
+      );
+      setIsAlreadyEnrolled(isEnrolled);
+    }
+  }, [userData, courseData]);
 
   const toggleSection = index => {
     setOpenSections(prev => ({
@@ -35,14 +93,12 @@ const CourseDetails = () => {
     }));
   };
 
-  // Handle YouTube ID extraction safely
+  // Improved YouTube ID extraction
   const extractYouTubeID = (url) => {
-    try {
-      const parts = url.split('/');
-      return parts[parts.length - 1] || null;
-    } catch (e) {
-      return null;
-    }
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
   };
 
   if (!courseData) return <Loading />;
@@ -97,10 +153,7 @@ const CourseDetails = () => {
                 : 'student'}
             </p>
             <p className="text-sm text-gray-700">
-              Course by{' '}
-              <span className="text-blue-600 underline">
-                {courseData.instructorName}
-              </span>
+              Course by {courseData.educator.name}
             </p>
           </div>
 
@@ -123,9 +176,8 @@ const CourseDetails = () => {
                       <img
                         src={assets.down_arrow_icon}
                         alt="arrow"
-                        className={`w-4 h-4 transform transition-transform duration-300 ${
-                          openSections[index] ? 'rotate-180' : ''
-                        }`}
+                        className={`w-4 h-4 transform transition-transform duration-300 ${openSections[index] ? 'rotate-180' : ''
+                          }`}
                       />
                       <p className="font-medium">{chapter.chapterTitle}</p>
                     </div>
@@ -137,9 +189,8 @@ const CourseDetails = () => {
 
                   {/* LECTURES LIST */}
                   <div
-                    className={`overflow-hidden transition-all duration-300 ${
-                      openSections[index] ? 'max-h-96' : 'max-h-0'
-                    }`}
+                    className={`overflow-hidden transition-all duration-300 ${openSections[index] ? 'max-h-96' : 'max-h-0'
+                      }`}
                   >
                     <ul className="md:pl-10 pl-6 pr-4 py-2 text-gray-600 border-t border-gray-300">
                       {chapter.chapterContent.map((lecture, i) => (
@@ -247,7 +298,8 @@ const CourseDetails = () => {
               </div>
             </div>
 
-            <button className="md:mt-6 mt-4 w-full py-3 rounded bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
+            <button onClick={enrollCourse}
+              className="md:mt-6 mt-4 w-full py-3 rounded bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
               {isAlreadyEnrolled ? 'Already Enrolled' : 'Enroll Now'}
             </button>
 

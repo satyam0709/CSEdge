@@ -67,7 +67,7 @@ export const AppContextProvider = (props)=>{
         course.courseRatings.forEach(rating => {
             totalRating += rating.rating;
         });
-        return Match.floor (totalRating / course.courseRatings.length);
+        return Math.floor(totalRating / course.courseRatings.length);
     }
 
     const calculateChapterTime = (chapter)=>{
@@ -133,6 +133,12 @@ export const AppContextProvider = (props)=>{
                 fetchUserEnrolledCourses()
             }
         },[user])
+
+        useEffect(()=>{
+            if(userData){
+                fetchUserEnrolledCourses()
+            }
+        },[userData])
 
     
             const value = {
