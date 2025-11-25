@@ -12,7 +12,8 @@ import AddCourse from './pages/educator/AddCourse'
 import MyCourses from './pages/educator/MyCourses'
 import StudentEnrolled from './pages/educator/StudentEnrolled'
 import Navbar from './components/student/Navbar'
-  import { ToastContainer } from 'react-toastify';
+import Login from './pages/Login'
+import { ToastContainer } from 'react-toastify';
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
       <Route path='/my-enrollments' element={<MyEnrollments />}/>
       <Route path='/player/:courseId' element={<Player />}/>
       <Route path='/loading/:path' element={<Loading />}/>
+      <Route path='/login' element={<Login />} />
       <Route path='/educator' element={<Educator/>}>
           <Route path='/educator' element={<Dashboard/>}/>
           <Route path='add-course' element={<AddCourse />}/>
