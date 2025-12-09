@@ -1,3 +1,0 @@
-- [ ] Change the educator route from GET to POST in server/routes/educatorRoutes.js
-- [ ] Update the axios call in client/src/components/student/Navbar.jsx from GET to POST
-- [ ] Test the updated functionality to ensure the "Become Educator" button works

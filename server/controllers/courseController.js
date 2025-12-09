@@ -22,7 +22,6 @@ export const getCourseId = async(req,res)=>{
              return res.json({success: false, message: 'Course not found'})
         }
 
-        // remove lec url if preview is false
         courseData.courseContent.forEach(chapter=>{
             chapter.chapterContent.forEach(lecture =>{
                 if(!lecture.isPreviewFree){
@@ -37,7 +36,6 @@ export const getCourseId = async(req,res)=>{
     }
 }
 
-// Static data is allowed here ONLY for seeding purposes
 const sampleCourses = [
     {
         courseTitle: "Full Stack Web Development",
@@ -139,10 +137,8 @@ const sampleCourses = [
 
 export const seedCourses = async (req, res) => {
     try {
-        // Clear existing courses (optional, for fresh seeding)
         await Course.deleteMany({});
 
-        // Insert sample courses
         const seededCourses = await Course.insertMany(sampleCourses);
 
         res.json({ success: true, message: `${seededCourses.length} courses seeded successfully`, courses: seededCourses });

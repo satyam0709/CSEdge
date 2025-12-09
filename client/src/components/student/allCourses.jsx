@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BookOpen, Youtube, GraduationCap, ChevronRight, ArrowLeft } from 'lucide-react';
+import axios from 'axios';
 
-const coursesData = [
+const fallbackCoursesData = [
   {
     id: 'dsa',
     title: 'DSA',
@@ -20,186 +21,6 @@ const coursesData = [
         { title: 'Algorithm Design', platform: 'edX', url: '#' }
       ]
     }
-  },
-  {
-    id: 'oop',
-    title: "OOP's",
-    description: 'Object Oriented Programming',
-    resources: {
-      blogs: [
-        { title: 'OOP Principles Explained', url: '#', author: 'Dev.to' }
-      ],
-      youtube: [
-        { title: 'OOP in Java', channel: 'Programming with Mosh', url: '#' }
-      ],
-      courses: [
-        { title: 'OOP Fundamentals', platform: 'Udemy', url: '#' }
-      ]
-    }
-  },
-  {
-    id: 'aptitude',
-    title: 'Aptitude',
-    description: 'Quantitative & Logical Reasoning',
-    resources: {
-      blogs: [
-        { title: 'Aptitude Tips & Tricks', url: '#', author: 'IndiaBix' }
-      ],
-      youtube: [
-        { title: 'Aptitude Complete Course', channel: 'Arun Sharma', url: '#' }
-      ],
-      courses: [
-        { title: 'Placement Aptitude', platform: 'GeeksforGeeks', url: '#' }
-      ]
-    }
-  },
-  {
-    id: 'lld',
-    title: 'LLD',
-    description: 'Low Level Design',
-    resources: {
-      blogs: [
-        { title: 'LLD Design Patterns', url: '#', author: 'Refactoring Guru' }
-      ],
-      youtube: [
-        { title: 'LLD Interview Prep', channel: 'Concept && Coding', url: '#' }
-      ],
-      courses: [
-        { title: 'System Design LLD', platform: 'Scaler', url: '#' }
-      ]
-    }
-  },
-  {
-    id: 'fundamentals',
-    title: 'Computer Fundamentals',
-    description: 'Core CS Concepts',
-    subcategories: [
-      {
-        id: 'cn',
-        title: 'Computer Network',
-        resources: {
-          blogs: [
-            { title: 'Networking Basics', url: '#', author: 'NetworkChuck' }
-          ],
-          youtube: [
-            { title: 'Computer Networks Full Course', channel: 'Gate Smashers', url: '#' }
-          ],
-          courses: [
-            { title: 'Computer Networking', platform: 'Coursera', url: '#' }
-          ]
-        }
-      },
-      {
-        id: 'os',
-        title: 'Operating System',
-        resources: {
-          blogs: [
-            { title: 'OS Concepts', url: '#', author: 'GeeksforGeeks' }
-          ],
-          youtube: [
-            { title: 'Operating Systems', channel: 'Neso Academy', url: '#' }
-          ],
-          courses: [
-            { title: 'OS Fundamentals', platform: 'Udacity', url: '#' }
-          ]
-        }
-      },
-      {
-        id: 'dbms',
-        title: 'DBMS',
-        resources: {
-          blogs: [
-            { title: 'Database Management', url: '#', author: 'TutorialsPoint' }
-          ],
-          youtube: [
-            { title: 'DBMS Complete Course', channel: 'Gate Smashers', url: '#' }
-          ],
-          courses: [
-            { title: 'Database Systems', platform: 'Stanford Online', url: '#' }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: 'se',
-    title: 'Software Engineering',
-    description: 'SDLC & Best Practices',
-    resources: {
-      blogs: [
-        { title: 'Software Development Lifecycle', url: '#', author: 'Martin Fowler' }
-      ],
-      youtube: [
-        { title: 'Software Engineering Basics', channel: 'CS Dojo', url: '#' }
-      ],
-      courses: [
-        { title: 'Software Engineering', platform: 'MIT OCW', url: '#' }
-      ]
-    }
-  },
-  {
-    id: 'webdev',
-    title: 'Web Development',
-    description: 'Full Stack Development',
-    subcategories: [
-      {
-        id: 'frontend',
-        title: 'Frontend',
-        resources: {
-          blogs: [
-            { title: 'React Best Practices', url: '#', author: 'CSS-Tricks' }
-          ],
-          youtube: [
-            { title: 'Frontend Development', channel: 'Traversy Media', url: '#' }
-          ],
-          courses: [
-            { title: 'Frontend Masters', platform: 'Frontend Masters', url: '#' }
-          ]
-        }
-      },
-      {
-        id: 'backend',
-        title: 'Backend',
-        resources: {
-          blogs: [
-            { title: 'REST API Design', url: '#', author: 'Microsoft Docs' }
-          ],
-          youtube: [
-            { title: 'Backend Development', channel: 'Fireship', url: '#' }
-          ],
-          courses: [
-            { title: 'Backend with Node.js', platform: 'The Odin Project', url: '#' }
-          ]
-        }
-      },
-      {
-        id: 'fullstack',
-        title: 'Full Stack',
-        resources: {
-          blogs: [
-            { title: 'MERN Stack Guide', url: '#', author: 'freeCodeCamp' }
-          ],
-          youtube: [
-            { title: 'Full Stack Course', channel: 'Code with Harry', url: '#' }
-          ],
-          courses: [
-            { title: 'Full Stack Open', platform: 'University of Helsinki', url: '#' }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: 'languages',
-    title: 'Programming Languages',
-    description: 'Learn Popular Languages',
-    subcategories: [
-      { id: 'c', title: 'C', resources: { blogs: [{ title: 'C Programming', url: '#', author: 'Learn-C' }], youtube: [{ title: 'C Tutorial', channel: 'Neso Academy', url: '#' }], courses: [{ title: 'C for Everyone', platform: 'Coursera', url: '#' }] } },
-      { id: 'cpp', title: 'C++', resources: { blogs: [{ title: 'Modern C++', url: '#', author: 'isocpp.org' }], youtube: [{ title: 'C++ Full Course', channel: 'freeCodeCamp', url: '#' }], courses: [{ title: 'C++ Programming', platform: 'Udacity', url: '#' }] } },
-      { id: 'java', title: 'Java', resources: { blogs: [{ title: 'Java Tutorial', url: '#', author: 'Baeldung' }], youtube: [{ title: 'Java Complete Course', channel: 'Telusko', url: '#' }], courses: [{ title: 'Java Programming', platform: 'Coursera', url: '#' }] } },
-      { id: 'python', title: 'Python', resources: { blogs: [{ title: 'Python Guide', url: '#', author: 'Real Python' }], youtube: [{ title: 'Python for Beginners', channel: 'Programming with Mosh', url: '#' }], courses: [{ title: 'Python Crash Course', platform: 'Codecademy', url: '#' }] } },
-      { id: 'js', title: 'JavaScript', resources: { blogs: [{ title: 'JavaScript.info', url: '#', author: 'javascript.info' }], youtube: [{ title: 'JS Mastery', channel: 'JavaScript Mastery', url: '#' }], courses: [{ title: 'JavaScript Basics', platform: 'freeCodeCamp', url: '#' }] } }
-    ]
   }
 ];
 
@@ -207,6 +28,38 @@ export default function CourseCard() {
   const [view, setView] = useState('main');
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+  const [coursesData, setCoursesData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const apiUrl = `${import.meta.env.VITE_API_URL}/api/course/all`;
+      console.log('Fetching from:', apiUrl);
+      
+      const response = await axios.get(apiUrl);
+      console.log('API Response:', response.data);
+      
+      if (response.data.success && response.data.courses) {
+        setCoursesData(response.data.courses);
+      } else {
+        console.warn('No courses in response, using fallback data');
+        setCoursesData(fallbackCoursesData);
+      }
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+      setError('Failed to fetch courses. Using demo data.');
+      setCoursesData(fallbackCoursesData);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCourseClick = (course) => {
     setSelectedCourse(course);
@@ -235,9 +88,26 @@ export default function CourseCard() {
 
   const currentResources = selectedSubcategory?.resources || selectedCourse?.resources;
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-blue-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading courses...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-blue-50 p-8">
       <div className="max-w-7xl mx-auto">
+        {error && (
+          <div className="mb-4 p-4 bg-yellow-100 text-yellow-800 rounded-lg border border-yellow-300">
+            {error}
+          </div>
+        )}
+
         {view !== 'main' && (
           <button
             onClick={handleBack}
@@ -259,24 +129,30 @@ export default function CourseCard() {
               We bring everything together to help you achieve your personal and professional goals.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {coursesData.map((course) => (
-                <div
-                  key={course.id}
-                  onClick={() => handleCourseClick(course)}
-                  className="bg-white rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all hover:-translate-y-1 border border-slate-200"
-                >
-                  <h2 className="text-2xl font-bold text-slate-800 mb-2">{course.title}</h2>
-                  <p className="text-slate-600 mb-4">{course.description}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-blue-600 font-medium">
-                      {course.subcategories ? `${course.subcategories.length} topics` : 'View resources'}
-                    </span>
-                    <ChevronRight className="text-blue-600" size={20} />
+            {coursesData.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-slate-600">No courses available at the moment.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {coursesData.map((course) => (
+                  <div
+                    key={course._id || course.id}
+                    onClick={() => handleCourseClick(course)}
+                    className="bg-white rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all hover:-translate-y-1 border border-slate-200"
+                  >
+                    <h2 className="text-2xl font-bold text-slate-800 mb-2">{course.title}</h2>
+                    <p className="text-slate-600 mb-4">{course.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-blue-600 font-medium">
+                        {course.subcategories ? `${course.subcategories.length} topics` : 'View resources'}
+                      </span>
+                      <ChevronRight className="text-blue-600" size={20} />
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </>
         )}
 
@@ -315,7 +191,7 @@ export default function CourseCard() {
                   <h2 className="text-2xl font-bold text-slate-800">Blogs & Articles</h2>
                 </div>
                 <div className="space-y-3">
-                  {currentResources.blogs.map((blog, idx) => (
+                  {currentResources.blogs?.map((blog, idx) => (
                     <div key={idx} className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors border border-slate-200">
                       <h3 className="text-slate-800 font-semibold mb-1">{blog.title}</h3>
                       <p className="text-slate-600 text-sm">by {blog.author}</p>
@@ -330,7 +206,7 @@ export default function CourseCard() {
                   <h2 className="text-2xl font-bold text-slate-800">YouTube Videos</h2>
                 </div>
                 <div className="space-y-3">
-                  {currentResources.youtube.map((video, idx) => (
+                  {currentResources.youtube?.map((video, idx) => (
                     <div key={idx} className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors border border-slate-200">
                       <h3 className="text-slate-800 font-semibold mb-1">{video.title}</h3>
                       <p className="text-slate-600 text-sm">{video.channel}</p>
@@ -345,13 +221,13 @@ export default function CourseCard() {
                   <h2 className="text-2xl font-bold text-slate-800">Free Courses</h2>
                 </div>
                 <div className="space-y-3">
-                  {currentResources.courses.map((course, idx) => (
+                  {currentResources.courses?.map((course, idx) => (
                     <div key={idx} className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors border border-slate-200">
                       <h3 className="text-slate-800 font-semibold mb-1">{course.title}</h3>
                       <p className="text-slate-600 text-sm">{course.platform}</p>
                     </div>
                   ))}
-                </div>
+                </div> 
               </div>
             </div>
           </>
