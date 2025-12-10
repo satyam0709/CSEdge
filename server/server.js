@@ -5,9 +5,9 @@ import connectDB from "./configs/mongodb.js";
 import connectCloudinary from "./configs/cloudinary.js";
 import { clerkMiddleware } from "@clerk/express";
 import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
-import educatorRouter from "./routes/educatorRoutes.js";
-import courseRouter from "./routes/courseRoutes.js";
-import userRouter from "./routes/userRoutes.js";
+import educatorRouter from "./routes/app-educator-routes.js";
+import courseRouter from "./routes/app-course-routes.js";
+import userRouter from "./routes/app-user-routes.js";
 
 const app = express();
 
