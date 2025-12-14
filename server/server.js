@@ -15,9 +15,13 @@ const app = express();
 await connectDB();
 await connectCloudinary();
 
+const allowedOrigins = process.env.CLIENT_ORIGIN 
+  ? process.env.CLIENT_ORIGIN.split(',')
+  : ["http://localhost:5173", "http://localhost:5174"];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || ["http://localhost:5173", "http://localhost:5174"],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
@@ -46,6 +50,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Clerk auth middleware
 app.use(clerkMiddleware());
+
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
 
 // API routes
 app.use("/api/educator", educatorRouter);
