@@ -1,18 +1,18 @@
 // src/lib/dsaData.js
 
 // ==========================================
-// 1. TOPIC MAP (The Syllabus)
+// 1. TOPIC MAP (Syllabus)
 // ==========================================
 const getTopicForLevel = (level) => {
-  if (level <= 5) return "Basics: Loops & Conditions";
-  if (level <= 10) return "Basics: Functions & Pointers";
-  if (level <= 15) return "Arrays: Searching"; // Linear/Binary Search
-  if (level <= 20) return "Arrays: Sorting"; // Bubble, Merge, Quick
-  if (level <= 25) return "Strings & Pattern Matching";
-  if (level <= 30) return "Linked Lists";
-  if (level <= 35) return "Stacks & Queues";
-  if (level <= 40) return "Trees & BST";
-  if (level <= 45) return "Graphs & Hashing";
+  if (level <= 5) return "Basics: Loops, Conditions & Logic";
+  if (level <= 10) return "Pointers & Memory Management";
+  if (level <= 15) return "Arrays & Strings: Two Pointers";
+  if (level <= 20) return "Searching & Sorting Algorithms";
+  if (level <= 25) return "Recursion & Backtracking";
+  if (level <= 30) return "Linked Lists (Singly/Doubly)";
+  if (level <= 35) return "Stacks, Queues & Deque";
+  if (level <= 40) return "Trees, BST & Heaps";
+  if (level <= 45) return "Graphs: BFS, DFS & Shortest Path";
   return "Dynamic Programming & Greedy"; // 46-50
 };
 
@@ -26,92 +26,93 @@ export const DSA_LEVELS = Array.from({ length: 50 }, (_, i) => {
 
   return {
     id: num,
-    name: `Lvl ${num}`,
+    name: `DSA Level ${num}`,
     topic: topic, 
     difficulty,
-    requiredScore: 60,
-    questionsCount: 25,
-    timeLimit: 1200, 
+    requiredScore: Math.min(60 + i, 85),
+    questionsCount: 15, // CHANGED TO 15
+    timeLimit: 900 + (num * 10), 
   };
 });
 
 // ==========================================
-// 2. QUESTION BANK (Organized by Topics)
+// 2. QUESTION BANKS (Organized by Topics)
 // ==========================================
 
 const BANKS = {
   basics: [
-    { q: "What is the output?", code: "int a=5; print(a++); print(a);", o: ["5 6", "6 6", "5 5", "6 5"], a: 0, exp: "Post-increment prints current value (5) then increments to 6." },
-    { q: "Correct way to declare a pointer?", code: "", o: ["int *ptr;", "int ptr;", "pointer int;", "int &ptr;"], a: 0, exp: "Asterisk (*) denotes a pointer." },
-    { q: "Time complexity of accessing array index?", code: "arr[5]", o: ["O(1)", "O(N)", "O(logN)", "O(N^2)"], a: 0, exp: "Array access is constant time." },
-    { q: "What handles 'true' or 'false' values?", o: ["bool", "int", "char", "void"], a: 0, exp: "Boolean data type stores logical values." }
+    { q: "What is the result of 5 ^ 3 (XOR)?", code: "5 (101) ^ 3 (011)", o: ["6 (110)", "2", "8", "15"], a: 0, exp: "XOR returns 1 if bits are different. 101 ^ 011 = 110 (6)." },
+    { q: "Output of this loop?", code: "for(int i=0; i<5; i+=2) print(i);", o: ["0 2 4", "0 1 2 3 4", "0 2", "Infinite"], a: 0, exp: "Steps by 2: 0, then 2, then 4. Next is 6 which fails i<5." },
+    { q: "Complexity of sum 1 to N?", code: "for(i=1; i<=N; i++) sum+=i;", o: ["O(N)", "O(1)", "O(logN)", "O(N^2)"], a: 0, exp: "Loop runs N times." }
+  ],
+  pointers: [
+    { q: "What does `*ptr` access?", o: ["Value at address", "Memory Address", "Next pointer", "Null"], a: 0, exp: "Dereferencing operator (*) gets the value stored at the pointer's address." },
+    { q: "Size of an integer pointer on 64-bit system?", o: ["8 bytes", "4 bytes", "2 bytes", "16 bytes"], a: 0, exp: "Pointers store addresses. On 64-bit systems, addresses are 64-bit (8 bytes)." },
+    { q: "Output?", code: "int arr[]={10,20}; int *p=arr; print(*(p+1));", o: ["20", "10", "Garbage", "Error"], a: 0, exp: "p points to 10. p+1 points to 20. *(p+1) gives 20." }
   ],
   arrays: [
-    { q: "Best case complexity of Bubble Sort?", o: ["O(N)", "O(N^2)", "O(logN)", "O(1)"], a: 0, exp: "O(N) occurs when the array is already sorted." },
-    { q: "Binary Search requires the array to be?", o: ["Sorted", "Unsorted", "Large", "Small"], a: 0, exp: "Binary search relies on sorted order to divide space." },
-    { q: "Identify the algorithm:", code: "for(i=0; i<N; i++) \n for(j=0; j<N-i-1; j++) \n  if(arr[j] > arr[j+1]) swap...", o: ["Bubble Sort", "Quick Sort", "Merge Sort", "Insertion Sort"], a: 0, exp: "Nested loops comparing adjacent elements is Bubble Sort." },
-    { q: "Which finding algorithm is O(N)?", o: ["Linear Search", "Binary Search", "Hash Search", "Sort"], a: 0, exp: "Linear search checks every element." }
+    { q: "Binary Search precondition?", o: ["Array must be Sorted", "Array size > 100", "No duplicates", "Integers only"], a: 0, exp: "Binary search relies on dividing a sorted range." },
+    { q: "Worst case of Quicksort?", o: ["O(N^2)", "O(N log N)", "O(N)", "O(1)"], a: 0, exp: "Occurs when pivot is always the smallest or largest element (already sorted)." },
+    { q: "Kadane's Algorithm finds?", o: ["Max Subarray Sum", "Longest Substring", "Shortest Path", "Cycle"], a: 0, exp: "Standard algorithm for Maximum Subarray Sum problem." }
   ],
-  strings: [
-    { q: "Logic to check Palindrome?", code: "racecar", o: ["Read forward == backward", "Sort letters", "Check length", "Remove vowels"], a: 0, exp: "A palindrome reads the same forwards and backwards." },
-    { q: "Anagram of 'listen'?", o: ["silent", "list", "tinsel", "enlist"], a: 0, exp: "Anagrams contain the exact same letters." },
-    { q: "ASCII value of 'A'?", o: ["65", "97", "48", "1"], a: 0, exp: "Standard ASCII for uppercase A is 65." }
+  recursion: [
+    { q: "Base case for Factorial?", code: "int fact(n)", o: ["if (n<=1) return 1;", "if (n==0) return 0;", "if (n<0) return;", "None"], a: 0, exp: "Factorial of 0 or 1 is 1. Without this, infinite recursion occurs." },
+    { q: "Towers of Hanoi complexity?", o: ["O(2^N)", "O(N^2)", "O(N log N)", "O(N!)"], a: 0, exp: "Each step doubles the moves required." },
+    { q: "Tail Recursion optimization?", o: ["Saves Stack Space", "Runs slower", "Uses Heap", "No benefit"], a: 0, exp: "Compiler can reuse the current stack frame, preventing stack overflow." }
   ],
   linkedlist: [
-    { q: "Last node of Linked List points to?", o: ["NULL", "Head", "Previous", "Random"], a: 0, exp: "The tail node points to NULL to signify end." },
-    { q: "Finding a cycle uses which approach?", o: ["Fast/Slow Pointers", "Binary Search", "Sorting", "Stack"], a: 0, exp: "Floyd's Cycle Detection uses two pointers moving at different speeds." },
-    { q: "Complexity to insert at Head?", o: ["O(1)", "O(N)", "O(logN)", "O(N^2)"], a: 0, exp: "Updating head pointer is constant time." }
-  ],
-  stacks: [
-    { q: "Stack follows which principle?", o: ["LIFO", "FIFO", "LILO", "Random"], a: 0, exp: "Last In, First Out." },
-    { q: "Convert Infix (A+B) to Postfix?", o: ["AB+", "+AB", "A+B", "BA+"], a: 0, exp: "Operator comes after operands in Postfix." },
-    { q: "Valid Parentheses check uses?", o: ["Stack", "Queue", "Array", "Tree"], a: 0, exp: "Push open brackets, pop on closed brackets." }
+    { q: "Floyd's Cycle Detection uses?", o: ["Slow & Fast Pointers", "Hashing", "DFS", "Recursion"], a: 0, exp: "Tortoise and Hare algorithm." },
+    { q: "Reverse Linked List time complexity?", o: ["O(N)", "O(N log N)", "O(1)", "O(N^2)"], a: 0, exp: "Iterative reversal visits each node once." },
+    { q: "Insert at end of Doubly LL?", o: ["O(1) if Tail known", "O(N)", "O(log N)", "O(1) always"], a: 0, exp: "If we have a tail pointer, it is constant time." }
   ],
   trees: [
-    { q: "Max nodes in binary tree of height H?", o: ["2^H - 1", "2*H", "H^2", "H!"], a: 0, exp: "Formula for full binary tree nodes." },
-    { q: "Traversal: Left -> Root -> Right?", o: ["Inorder", "Preorder", "Postorder", "Level Order"], a: 0, exp: "Inorder traversal visits root in the middle." },
-    { q: "BST Property?", o: ["Left < Root < Right", "Left > Root > Right", "Random", "Left = Right"], a: 0, exp: "Binary Search Tree ordering property." }
+    { q: "Max nodes in Binary Tree height H?", o: ["2^H - 1", "2*H", "H^2", "H!"], a: 0, exp: "Geometric progression sum formula." },
+    { q: "BST Left Child is always?", o: ["Smaller than Root", "Larger than Root", "Equal to Root", "Random"], a: 0, exp: "BST Property: Left < Root < Right." },
+    { q: "Lowest Common Ancestor (LCA) complexity?", o: ["O(H)", "O(N^2)", "O(1)", "O(log N)"], a: 0, exp: "Depends on height of tree." }
   ],
   graphs: [
-    { q: "BFS uses which data structure?", o: ["Queue", "Stack", "Array", "Heap"], a: 0, exp: "Breadth-First Search uses a Queue." },
-    { q: "DFS uses which data structure?", o: ["Stack/Recursion", "Queue", "Map", "Set"], a: 0, exp: "Depth-First Search uses a Stack or Recursion." },
-    { q: "Dijkstra's Algorithm finds?", o: ["Shortest Path", "MST", "Cycles", "Flow"], a: 0, exp: "Shortest path in weighted graphs." }
+    { q: "BFS uses which structure?", o: ["Queue", "Stack", "Heap", "Array"], a: 0, exp: "Queue is used for level-order traversal." },
+    { q: "Detect cycle in Directed Graph?", o: ["DFS + Recursion Stack", "BFS", "Union Find", "Prim's"], a: 0, exp: "If we encounter a node currently in the recursion stack, there is a cycle." },
+    { q: "Dijkstra's Algorithm fails for?", o: ["Negative Weight Edges", "Cycles", "Weighted Graphs", "Trees"], a: 0, exp: "Negative edges can cause infinite loops or incorrect shortest paths." }
   ],
   dp: [
-    { q: "Fibonacci Logic using DP?", o: ["Save previous results", "Re-calculate everything", "Random guess", "Greedy"], a: 0, exp: "Memoization/Tabulation stores results to avoid re-work." },
-    { q: "Knapsack Problem type?", o: ["Optimization", "Sorting", "Searching", "String"], a: 0, exp: "Finding max value within weight limit." },
-    { q: "Complexity of merge sort?", o: ["O(N log N)", "O(N^2)", "O(N)", "O(1)"], a: 0, exp: "Divide and conquer split is logN, merge is N." }
+    { q: "0/1 Knapsack Approach?", o: ["Dynamic Programming", "Greedy", "Divide & Conquer", "Backtracking"], a: 0, exp: "DP is required because Greedy fails for 0/1 constraints." },
+    { q: "Longest Common Subsequence (LCS) complexity?", o: ["O(N*M)", "O(N+M)", "O(N log M)", "O(2^N)"], a: 0, exp: "Using a 2D DP table of size N x M." },
+    { q: "Difference between DP and Memoization?", o: ["Bottom-up vs Top-down", "Fast vs Slow", "Hard vs Easy", "Same"], a: 0, exp: "DP (Tabulation) is iterative/bottom-up. Memoization is recursive/top-down." }
   ]
 };
 
 // ==========================================
-// 3. HARD MODE GENERATOR
+// 3. ADVANCED GENERATORS (High Difficulty)
 // ==========================================
 
-const generateLogicCode = (topic, level) => {
-  const complexity = Math.floor(level / 10); // Increases every 10 levels
-  
-  if (complexity < 2) {
-    // Simple Loop/If (Levels 1-19)
-    const val = Math.floor(Math.random() * 10) + 1;
+const generateLogicCode = (level) => {
+  // Level 1-20: Simple Puzzles
+  if (level <= 20) {
+    const a = Math.floor(Math.random() * 10);
+    const b = Math.floor(Math.random() * 10);
     return {
-      q: `What is the output?`,
-      code: `int x = ${val};\nif(x > 5) print(x*2);\nelse print(x+1);`,
-      o: [`${val > 5 ? val*2 : val+1}`, `${val}`, "Error", "0"],
-      a: 0,
-      exp: "Basic conditional check.",
-      cat: "Logic Trace"
+      q: "Trace the output:",
+      code: `int a=${a}, b=${b};\nif(a > b) a = a-b;\nelse b = b-a;\nprint(a+b);`,
+      o: [`${Math.abs(a-b) + (a>b?a-b:b-a) + (a>b?b:a)}`, // Trick option logic, just putting random
+          `${(a>b?a-b:a) + (a>b?b:b-a)}`, 
+          "0", "Error"],
+      a: 1, // Let's simplify: Correct calculation below
+      realAns: ((a>b?a-b:a) + (a>b?b:b-a)).toString(), // Actual logic
+      exp: "Trace the if/else logic carefully.",
+      cat: "Code Trace"
     };
-  } else {
-    // Nested Loops (Levels 20-50)
-    const limit = 3 + Math.floor(Math.random() * 3);
+  } 
+  // Level 21-50: Complexity & Recursion
+  else {
+    const depth = Math.floor(level / 10);
     return {
-      q: `How many times does 'Hi' print?`,
-      code: `for(int i=0; i<${limit}; i++) {\n  for(int j=0; j<${limit}; j++) {\n    print("Hi");\n  }\n}`,
-      o: [`${limit*limit}`, `${limit}`, `${limit+limit}`, "Infinite"],
+      q: "Estimate Time Complexity:",
+      code: `void solve(n) {\n  if(n<=1) return;\n  for(i=0; i<n; i++) print(i);\n  solve(n/2);\n}`,
+      o: ["O(N)", "O(N log N)", "O(log N)", "O(N^2)"],
       a: 0,
-      exp: `Nested loops run Outer x Inner times (${limit} * ${limit}).`,
-      cat: "Complexity Trace"
+      exp: "Recurrence: T(N) = T(N/2) + O(N). This is a Geometric Series summing to O(N).",
+      cat: "Big-O Analysis"
     };
   }
 };
@@ -124,36 +125,56 @@ export const getDSAQuestions = (levelId) => {
   const questions = [];
   const topicName = getTopicForLevel(levelId);
   
+  // Select Bank based on keyword matching
   let bank = BANKS.basics; 
-  if (topicName.includes("Array")) bank = BANKS.arrays;
-  if (topicName.includes("Strings")) bank = BANKS.strings;
+  if (topicName.includes("Pointers")) bank = BANKS.pointers;
+  if (topicName.includes("Array") || topicName.includes("Strings")) bank = BANKS.arrays;
+  if (topicName.includes("Recursion")) bank = BANKS.recursion;
   if (topicName.includes("Linked")) bank = BANKS.linkedlist;
-  if (topicName.includes("Stacks")) bank = BANKS.stacks;
-  if (topicName.includes("Trees")) bank = BANKS.trees;
+  if (topicName.includes("Trees") || topicName.includes("Heaps")) bank = BANKS.trees;
   if (topicName.includes("Graphs")) bank = BANKS.graphs;
   if (topicName.includes("Dynamic")) bank = BANKS.dp;
 
-  for (let i = 0; i < 25; i++) {
+  // Generate strictly 15 questions
+  for (let i = 0; i < 15; i++) {
     let qData;
+    const seed = Math.random();
     
-    // Mix 70% Static Topic Questions, 30% Dynamic Logic
-    if (i % 3 !== 0) {
+    // 30% Chance of Procedural Logic Question
+    if (seed > 0.7) {
+      qData = generateLogicCode(levelId);
+      // Fix options if generated dynamically
+      if (qData.realAns) {
+         qData.o = [qData.realAns, (parseInt(qData.realAns)+2).toString(), "0", "10"];
+         qData.a = 0;
+      }
+    } else {
+      // 70% Topic Specific
       const raw = bank[i % bank.length];
       qData = { ...raw }; 
-    } else {
-      // PASS levelId HERE FOR SCALING DIFFICULTY
-      qData = generateLogicCode(topicName, levelId); 
     }
 
     questions.push({
-      id: `dsa_${levelId}_${i}_${Date.now()}`,
+      id: `dsa_${levelId}_${i}_${Date.now()}_${Math.random().toString(36).substring(7)}`,
       category: topicName,
       question: qData.q,
       code: qData.code, 
-      options: qData.o,
-      correctAnswer: qData.a,
+      options: qData.o.sort(() => 0.5 - Math.random()),
+      correctAnswer: 0, // Options shuffled above, but logic requires tracking. 
+                        // Simplified: Since options shuffled, we need to find correct index.
+                        // For static, 'a' is index in original 'o'.
       explanation: qData.exp
     });
+    
+    // Fix correct Answer Index after shuffle
+    const correctOpt = qData.o[qData.a]; // The correct string from original
+    // Find where it moved to
+    questions[i].correctAnswer = questions[i].options.indexOf(correctOpt);
+    // Fallback if index lost (shouldn't happen)
+    if (questions[i].correctAnswer === -1) {
+        questions[i].options[0] = correctOpt;
+        questions[i].correctAnswer = 0;
+    }
   }
 
   return questions;

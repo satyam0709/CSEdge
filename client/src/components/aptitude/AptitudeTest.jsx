@@ -32,12 +32,11 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
 
   const handleSubmit = () => {
     setIsSubmitted(true);
-    let score = 0;
     let correctCount = 0;
 
     questions.forEach((q) => {
+      // Use loose equality (==) just in case types differ, but strict (===) is better if types match
       if (answers[q.id] === q.correctAnswer) {
-        score += 10; // 10 points per question
         correctCount++;
       }
     });
@@ -48,7 +47,7 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
     // Wait a moment then send data back
     setTimeout(() => {
       onComplete({
-        score,
+        score: correctCount * 10,
         correctCount,
         totalQuestions: questions.length,
         percentage,
@@ -59,6 +58,8 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
   };
 
   const currentQuestion = questions[currentIndex];
+
+  if (!currentQuestion) return <div>Loading...</div>;
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-lg border border-gray-200">

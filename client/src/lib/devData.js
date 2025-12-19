@@ -1,19 +1,19 @@
 // src/lib/devData.js
 
 // ==========================================
-// 1. SYLLABUS MAPPING
+// 1. SYLLABUS MAPPING & LEVELS
 // ==========================================
 const getTopicForLevel = (level) => {
   if (level <= 5) return "HTML5 & Semantics";
-  if (level <= 10) return "CSS3: Flexbox & Grid";
-  if (level <= 15) return "JS: Basics & ES6";
-  if (level <= 20) return "JS: Async & DOM";
-  if (level <= 25) return "React: Components & Props";
-  if (level <= 30) return "React: Hooks & Lifecycle";
-  if (level <= 35) return "State Management (Redux/Context)";
-  if (level <= 40) return "Node.js & Express";
-  if (level <= 45) return "Databases (SQL & Mongo)";
-  return "DevOps & System Design"; // 46-50
+  if (level <= 10) return "CSS3: Flexbox, Grid & Animations";
+  if (level <= 15) return "JS: Closures, prototypes & ES6+";
+  if (level <= 20) return "JS: Event Loop, Async/Await & DOM";
+  if (level <= 25) return "React: Fiber, Reconciliation & Hooks";
+  if (level <= 30) return "React: Context, Redux & Performance";
+  if (level <= 35) return "Node.js: Streams, Buffers & Event Emitter";
+  if (level <= 40) return "Backend: Auth (JWT/OAuth) & Security";
+  if (level <= 45) return "Database: Indexing, Normalization & ACID";
+  return "System Design: Scalability, Caching & Microservices"; // 46-50
 };
 
 export const DEV_LEVELS = Array.from({ length: 50 }, (_, i) => {
@@ -22,17 +22,17 @@ export const DEV_LEVELS = Array.from({ length: 50 }, (_, i) => {
   let difficulty = 'Junior';
   
   if (num > 15) difficulty = 'Intermediate';
-  if (num > 35) difficulty = 'Senior';
+  if (num > 30) difficulty = 'Senior';
   if (num > 45) difficulty = 'Architect';
 
   return {
     id: num,
-    name: `Dev Lvl ${num}`,
+    name: `Dev Level ${num}`,
     topic,
     difficulty,
-    requiredScore: 65,
-    questionsCount: 25,
-    timeLimit: 1200, // 20 mins
+    requiredScore: Math.min(60 + i, 85),
+    questionsCount: 15, // CHANGED TO 15
+    timeLimit: 900 + (num * 10), // Time scales with level
   };
 });
 
@@ -42,58 +42,69 @@ export const DEV_LEVELS = Array.from({ length: 50 }, (_, i) => {
 
 const BANKS = {
   html: [
-    { q: "Which tag is semantic for sidebar content?", code: "<div> vs <aside>", o: ["<aside>", "<section>", "<article>", "<footer>"], a: 0, exp: "<aside> defines content aside from the page content." },
-    { q: "Correct input type for email?", code: "<input type='?'>", o: ["email", "text", "mail", "input"], a: 0, exp: "type='email' provides validation and mobile keyboard support." },
-    { q: "Which attribute opens link in new tab?", code: "<a href='...'>", o: ["target='_blank'", "new='tab'", "target='new'", "window='new'"], a: 0, exp: "target='_blank' opens the linked document in a new window or tab." }
+    { q: "What is the primary purpose of the <main> tag?", code: "<body>...<main>...</main>...</body>", o: ["SEO ranking", "Encapsulate dominant content", "Styling wrapper", "Internet Explorer support"], a: 1, exp: "<main> specifies the main content of a document, unique to that page." },
+    { q: "Which attribute creates a tooltip on hover?", code: "<div ?>Tooltip text</div>", o: ["alt", "src", "title", "data-tip"], a: 2, exp: "The 'title' attribute displays text when hovering over the element." },
+    { q: "Difference between <script> 'defer' and 'async'?", o: ["Async blocks parsing, Defer waits for DOM", "Defer blocks parsing", "No difference", "Async guarantees order"], a: 0, exp: "Async downloads in parallel but executes immediately (blocking). Defer executes after HTML parsing." }
   ],
   css: [
-    { q: "Flex property to align items vertically?", code: ".container { display: flex; ... }", o: ["align-items", "justify-content", "text-align", "float"], a: 0, exp: "align-items controls cross-axis (vertical in row mode) alignment." },
-    { q: "Which selector has highest specificity?", o: ["#id", ".class", "tag", "*"], a: 0, exp: "IDs (#) have higher specificity (100) than classes (10)." },
-    { q: "Grid: How to span 2 columns?", code: "grid-column: ...", o: ["span 2", "2 / 3", "merge 2", "double"], a: 0, exp: "grid-column: span 2; tells the item to take up two tracks." }
+    { q: "In Grid, what does '1fr' represent?", o: ["1 frame", "1 fraction of free space", "1 fixed row", "100% width"], a: 1, exp: "fr unit distributes available space proportionally." },
+    { q: "Which property triggers hardware acceleration (GPU)?", code: ".anim { ? }", o: ["transform: translateZ(0)", "display: block", "position: absolute", "float: left"], a: 0, exp: "3D transforms force the browser to promote the element to a new compositor layer." },
+    { q: "How to target the LAST paragraph only?", code: "p:??? { color: red; }", o: ["last-child", "last-of-type", "nth-last(1)", "end-child"], a: 1, exp: ":last-of-type selects the last element of that specific tag type." }
   ],
   js: [
-    { q: "What is output?", code: "console.log(typeof NaN);", o: ["'number'", "'NaN'", "'undefined'", "'object'"], a: 0, exp: "Surprisingly, NaN (Not a Number) is technically of type 'number'." },
-    { q: "Output of equality?", code: "console.log(1 == '1');", o: ["true", "false", "error", "undefined"], a: 0, exp: "== performs type coercion. === would be false." },
-    { q: "How to declare block-scoped variable?", o: ["let", "var", "window.val", "global"], a: 0, exp: "let and const are block-scoped; var is function-scoped." }
+    { q: "Output of this IIFE?", code: "(function(){ var a = b = 3; })();\nconsole.log(typeof a, typeof b);", o: ["undefined, number", "number, number", "undefined, undefined", "error, error"], a: 0, exp: "'b = 3' becomes a global variable (without strict mode). 'var a' is local." },
+    { q: "What is the result of `[] + {}`?", o: ["'[object Object]'", "0", "undefined", "TypeError"], a: 0, exp: "Array converts to empty string, Object to '[object Object]'. String concat happens." },
+    { q: "Which method flattens an array of arrays?", code: "[[1], [2]].???()", o: ["flat()", "flatten()", "reduce()", "map()"], a: 0, exp: "Array.prototype.flat() was introduced in ES2019." }
   ],
   react: [
-    { q: "Which hook replaces componentDidMount?", o: ["useEffect", "useState", "useMemo", "useCallback"], a: 0, exp: "useEffect(() => {}, []) runs once on mount." },
-    { q: "State updates in React are?", o: ["Asynchronous", "Synchronous", "Immediate", "Global"], a: 0, exp: "React batches state updates for performance, making them async." },
-    { q: "Why use 'key' in lists?", o: ["Performance/Reconciliation", "Styling", "Sorting", "Required syntax"], a: 0, exp: "Keys help React identify which items have changed, added, or removed." }
+    { q: "What causes a React Infinite Loop?", code: "useEffect(() => { setCount(c => c+1) });", o: ["Missing dependency array", "Using useState", "Using functional updates", "React bug"], a: 0, exp: "Without dependency array [], useEffect runs after EVERY render, triggering state update -> render -> effect loop." },
+    { q: "Purpose of `useRef` besides DOM access?", o: ["Persist values without re-render", "State management", "Memoization", "Context replacement"], a: 0, exp: "useRef holds a mutable .current property that doesn't trigger a re-render when changed." },
+    { q: "Why use React.memo?", o: ["Prevent unnecessary re-renders", "Cache API calls", "Memoize functions", "Global state"], a: 0, exp: "It performs a shallow comparison of props and skips rendering if props haven't changed." }
   ],
   backend: [
-    { q: "HTTP status for 'Unauthorized'?", o: ["401", "403", "404", "500"], a: 0, exp: "401 is Unauthorized (login required); 403 is Forbidden (permissions)." },
-    { q: "Express: How to access URL params?", code: "/users/:id", o: ["req.params.id", "req.query.id", "req.body.id", "req.url"], a: 0, exp: "Route parameters are stored in req.params." },
-    { q: "Which is NOT a SQL command?", o: ["GET", "SELECT", "INSERT", "UPDATE"], a: 0, exp: "GET is an HTTP method, not SQL. SQL uses SELECT." }
+    { q: "Node.js is single-threaded. How does it handle concurrency?", o: ["Event Loop & Libuv", "Multiple processes", "Java Threads", "It doesn't"], a: 0, exp: "It uses an event-driven, non-blocking I/O model powered by the Event Loop and Libuv C++ library." },
+    { q: "Which JOIN returns all records from LEFT table?", code: "SELECT * FROM A ??? JOIN B ON A.id = B.id", o: ["LEFT JOIN", "INNER JOIN", "OUTER JOIN", "RIGHT JOIN"], a: 0, exp: "LEFT JOIN returns all rows from the left table, even if there are no matches in the right table." },
+    { q: "In System Design, what is 'Sharding'?", o: ["Partitioning DB horizontally", "Caching", "Load Balancing", "Replication"], a: 0, exp: "Splitting a large database across multiple machines based on a shard key." }
   ]
 };
 
 // ==========================================
-// 3. PROCEDURAL GENERATORS (Syntax Tracing)
+// 3. ADVANCED GENERATORS (High Difficulty)
 // ==========================================
 
-const generateCSSBoxModel = () => {
-  const w = Math.floor(Math.random() * 100) + 100;
-  const p = 10, b = 5, m = 20;
+const generateClosurePuzzle = (level) => {
+  const base = Math.floor(Math.random() * 5) + 1;
+  const mult = Math.floor(Math.random() * 3) + 2;
   return {
-    q: "Calculate total element width:",
-    code: `.box {\n  width: ${w}px;\n  padding: ${p}px;\n  border: ${b}px solid;\n  margin: ${m}px;\n  box-sizing: content-box;\n}`,
-    o: [`${w + 2*p + 2*b}px`, `${w}px`, `${w + 2*p}px`, `${w + 2*m}px`],
+    q: "Predict the output (Closure):",
+    code: `function create(x) {\n  return function(y) {\n    return x * y;\n  }\n}\nconst fn = create(${base});\nconsole.log(fn(${mult}));`,
+    o: [`${base * mult}`, `${base + mult}`, "undefined", "Error"],
     a: 0,
-    exp: "content-box adds padding and border to the width. Margin is outside.",
-    cat: "CSS Logic"
+    exp: `The inner function remembers 'x=${base}' from its lexical scope. Returns ${base} * ${mult}.`,
+    cat: "JS Scopes"
   };
 };
 
-const generateJSPromise = () => {
-  const ms = Math.floor(Math.random() * 500) + 100;
+const generateReactRender = () => {
   return {
-    q: "What logs first?",
-    code: `console.log('A');\nsetTimeout(() => console.log('B'), ${ms});\nPromise.resolve().then(() => console.log('C'));\nconsole.log('D');`,
-    o: ["A, D, C, B", "A, B, C, D", "A, C, D, B", "A, D, B, C"],
+    q: "In what order do these log?",
+    code: `useEffect(() => console.log('A'));\nuseLayoutEffect(() => console.log('B'));\nconsole.log('C');`,
+    o: ["C, B, A", "C, A, B", "B, A, C", "A, B, C"],
     a: 0,
-    exp: "Microtasks (Promises) run before Macrotasks (setTimeout), but synchronous code (A, D) runs first.",
-    cat: "Event Loop"
+    exp: "Render body (C) runs first. useLayoutEffect (B) runs synchronously after mutation. useEffect (A) runs asynchronously after paint.",
+    cat: "React Lifecycle"
+  };
+};
+
+const generateSQLScenario = () => {
+  const cost = (Math.floor(Math.random() * 10) + 1) * 1000;
+  return {
+    q: "You need to find the 2nd highest salary.",
+    code: `SELECT MAX(salary) FROM Emp WHERE salary < (\n  SELECT MAX(salary) FROM Emp\n)`,
+    o: ["Correct", "Syntax Error", "Returns Highest", "Returns Lowest"],
+    a: 0,
+    exp: "This subquery logic correctly identifies the maximum value that is strictly less than the absolute maximum.",
+    cat: "SQL Logic"
   };
 };
 
@@ -105,32 +116,39 @@ export const getDevQuestions = (levelId) => {
   const questions = [];
   const topic = getTopicForLevel(levelId);
   
-  // Select Bank
+  // Select Bank based on topic keywords
   let bank = BANKS.html;
   if (topic.includes("CSS")) bank = BANKS.css;
   if (topic.includes("JS")) bank = BANKS.js;
   if (topic.includes("React")) bank = BANKS.react;
-  if (topic.includes("Node") || topic.includes("Data")) bank = BANKS.backend;
+  if (topic.includes("Node") || topic.includes("Data") || topic.includes("System")) bank = BANKS.backend;
 
-  for (let i = 0; i < 25; i++) {
+  // Generate strictly 15 questions
+  for (let i = 0; i < 15; i++) {
     let qData;
     const seed = Math.random();
 
-    // Mix 20% Procedural Logic Questions
-    if (topic.includes("CSS") && seed > 0.8) {
-      qData = generateCSSBoxModel();
-    } else if (topic.includes("JS") && seed > 0.8) {
-      qData = generateJSPromise();
+    // 30% Chance of Procedural "Hard" Question for levels > 10
+    if (levelId > 10 && seed > 0.7) {
+        if (topic.includes("JS")) qData = generateClosurePuzzle(levelId);
+        else if (topic.includes("React")) qData = generateReactRender();
+        else if (topic.includes("Data")) qData = generateSQLScenario();
+        else {
+             // Fallback to Bank if generator doesn't match
+             const raw = bank[i % bank.length];
+             qData = { ...raw };
+        }
     } else {
+      // Standard Bank Question
       const raw = bank[i % bank.length];
       qData = { ...raw };
     }
 
     questions.push({
-      id: `dev_${levelId}_${i}_${Date.now()}`,
+      id: `dev_${levelId}_${i}_${Date.now()}_${Math.random().toString(36).substring(7)}`,
       category: topic,
       question: qData.q,
-      code: qData.code,
+      code: qData.code, // Can be undefined, component handles it
       options: qData.o,
       correctAnswer: qData.a,
       explanation: qData.exp
