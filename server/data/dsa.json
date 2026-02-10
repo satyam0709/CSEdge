@@ -1,0 +1,1802 @@
+[
+  {
+    "type": "dsa",
+    "level": 1,
+    "topic": "Arrays",
+    "question": "What is the time complexity of accessing an element in an array by index?",
+    "options": ["O(1)", "O(n)", "O(log n)", "O(n²)"],
+    "correctAnswer": "O(1)",
+    "explanation": "Arrays provide constant time O(1) access to elements by index because memory addresses are calculated directly."
+  },
+  {
+    "type": "dsa",
+    "level": 1,
+    "topic": "Arrays",
+    "question": "What is the output of finding the maximum element in an empty array?",
+    "options": ["0", "Undefined behavior or error", "-1", "null"],
+    "correctAnswer": "Undefined behavior or error",
+    "explanation": "An empty array has no elements, so finding a maximum is undefined and typically throws an error or returns a sentinel value."
+  },
+  {
+    "type": "dsa",
+    "level": 1,
+    "topic": "Strings",
+    "question": "What is the time complexity of concatenating two strings of length n and m?",
+    "options": ["O(1)", "O(n)", "O(n + m)", "O(n * m)"],
+    "correctAnswer": "O(n + m)",
+    "explanation": "String concatenation requires copying all characters from both strings, resulting in O(n + m) time complexity."
+  },
+  {
+    "type": "dsa",
+    "level": 1,
+    "topic": "Strings",
+    "question": "Which method is used to check if a string is a palindrome?",
+    "options": ["Compare first half with reversed second half", "Sort the string", "Use binary search", "Apply BFS"],
+    "correctAnswer": "Compare first half with reversed second half",
+    "explanation": "A palindrome reads the same forwards and backwards, so comparing characters from both ends is the standard approach."
+  },
+  {
+    "type": "dsa",
+    "level": 2,
+    "topic": "Arrays",
+    "question": "What is the space complexity of reversing an array in-place?",
+    "options": ["O(n)", "O(1)", "O(log n)", "O(n²)"],
+    "correctAnswer": "O(1)",
+    "explanation": "In-place reversal uses only a constant amount of extra space for swapping elements."
+  },
+  {
+    "type": "dsa",
+    "level": 2,
+    "topic": "Arrays",
+    "question": "What is the best approach to find a pair with a given sum in a sorted array?",
+    "options": ["Nested loops O(n²)", "Two pointers O(n)", "Binary search for each element O(n log n)", "Hashing O(n) with O(n) space"],
+    "correctAnswer": "Two pointers O(n)",
+    "explanation": "Two pointers from both ends of a sorted array can find the pair in O(n) time with O(1) space."
+  },
+  {
+    "type": "dsa",
+    "level": 2,
+    "topic": "Strings",
+    "question": "What is the time complexity of checking if two strings are anagrams using sorting?",
+    "options": ["O(n)", "O(n log n)", "O(n²)", "O(1)"],
+    "correctAnswer": "O(n log n)",
+    "explanation": "Sorting both strings takes O(n log n) time, after which comparison is O(n)."
+  },
+  {
+    "type": "dsa",
+    "level": 2,
+    "topic": "Strings",
+    "question": "Which data structure is most efficient for counting character frequencies in a string?",
+    "options": ["Array", "Hash Map", "Stack", "Queue"],
+    "correctAnswer": "Hash Map",
+    "explanation": "A hash map provides O(1) average time for insertions and lookups, ideal for frequency counting."
+  },
+  {
+    "type": "dsa",
+    "level": 3,
+    "topic": "Linked Lists",
+    "question": "What is the time complexity of inserting a node at the beginning of a singly linked list?",
+    "options": ["O(1)", "O(n)", "O(log n)", "O(n²)"],
+    "correctAnswer": "O(1)",
+    "explanation": "Insertion at the head only requires updating the head pointer and the new node's next pointer."
+  },
+  {
+    "type": "dsa",
+    "level": 3,
+    "topic": "Linked Lists",
+    "question": "What is the main advantage of a doubly linked list over a singly linked list?",
+    "options": ["Less memory usage", "Bidirectional traversal", "Faster search", "Better cache performance"],
+    "correctAnswer": "Bidirectional traversal",
+    "explanation": "Doubly linked lists have pointers to both next and previous nodes, enabling traversal in both directions."
+  },
+  {
+    "type": "dsa",
+    "level": 3,
+    "topic": "Linked Lists",
+    "question": "How do you detect a cycle in a linked list efficiently?",
+    "options": ["Use a hash set to store visited nodes", "Floyd's cycle detection algorithm", "Both A and B work", "Reverse the list"],
+    "correctAnswer": "Both A and B work",
+    "explanation": "Hash set uses O(n) space while Floyd's algorithm uses O(1) space with two pointers moving at different speeds."
+  },
+  {
+    "type": "dsa",
+    "level": 3,
+    "topic": "Linked Lists",
+    "question": "What is the time complexity of reversing a singly linked list?",
+    "options": ["O(n²)", "O(n)", "O(log n)", "O(1)"],
+    "correctAnswer": "O(n)",
+    "explanation": "Reversing requires visiting each node once to update pointers, resulting in O(n) time."
+  },
+  {
+    "type": "dsa",
+    "level": 4,
+    "topic": "Stacks & Queues",
+    "question": "Which data structure is used for implementing function call management in programming?",
+    "options": ["Queue", "Stack", "Heap", "Tree"],
+    "correctAnswer": "Stack",
+    "explanation": "The call stack uses LIFO (Last In First Out) to manage function calls and returns."
+  },
+  {
+    "type": "dsa",
+    "level": 4,
+    "topic": "Stacks & Queues",
+    "question": "What is the time complexity of push and pop operations in a stack implemented with an array?",
+    "options": ["O(n)", "O(1) amortized", "O(log n)", "O(n²)"],
+    "correctAnswer": "O(1) amortized",
+    "explanation": "Array-based stacks have O(1) push/pop except during resizing, which averages to O(1) amortized."
+  },
+  {
+    "type": "dsa",
+    "level": 4,
+    "topic": "Stacks & Queues",
+    "question": "How can you implement a queue using two stacks?",
+    "options": ["Push to one, pop from another after transferring", "Use both stacks for push", "Use both stacks for pop", "Not possible"],
+    "correctAnswer": "Push to one, pop from another after transferring",
+    "explanation": "Push to stack1, and for dequeue, transfer all elements to stack2 if empty, then pop from stack2."
+  },
+  {
+    "type": "dsa",
+    "level": 4,
+    "topic": "Stacks & Queues",
+    "question": "What is the application of a monotonic stack?",
+    "options": ["Sorting elements", "Finding next greater/smaller element", "Implementing recursion", "Graph traversal"],
+    "correctAnswer": "Finding next greater/smaller element",
+    "explanation": "A monotonic stack maintains elements in sorted order and efficiently finds next greater/smaller elements."
+  },
+  {
+    "type": "dsa",
+    "level": 5,
+    "topic": "Recursion & Backtracking",
+    "question": "What is the base case in computing factorial recursively?",
+    "options": ["n == 1", "n == 0 or n == 1", "n < 0", "n > 10"],
+    "correctAnswer": "n == 0 or n == 1",
+    "explanation": "Factorial of 0 and 1 is defined as 1, serving as the base case to stop recursion."
+  },
+  {
+    "type": "dsa",
+    "level": 5,
+    "topic": "Recursion & Backtracking",
+    "question": "What is the time complexity of generating all subsets of a set with n elements?",
+    "options": ["O(n)", "O(n²)", "O(2^n)", "O(n!)"],
+    "correctAnswer": "O(2^n)",
+    "explanation": "Each element can either be included or excluded, leading to 2^n possible subsets."
+  },
+  {
+    "type": "dsa",
+    "level": 5,
+    "topic": "Recursion & Backtracking",
+    "question": "In the N-Queens problem, what is the main constraint?",
+    "options": ["Queens must be in same row", "No two queens attack each other", "Queens must be adjacent", "All queens in one column"],
+    "correctAnswer": "No two queens attack each other",
+    "explanation": "Queens cannot share the same row, column, or diagonal to avoid attacking each other."
+  },
+  {
+    "type": "dsa",
+    "level": 5,
+    "topic": "Recursion & Backtracking",
+    "question": "What technique is used to avoid exploring invalid paths in backtracking?",
+    "options": ["Memoization", "Pruning", "Greedy selection", "Dynamic programming"],
+    "correctAnswer": "Pruning",
+    "explanation": "Pruning cuts off branches of the search tree that cannot lead to valid solutions."
+  },
+  {
+    "type": "dsa",
+    "level": 6,
+    "topic": "Binary Trees & BST",
+    "question": "What is the maximum number of nodes at level k in a binary tree?",
+    "options": ["k", "2k", "2^k", "k²"],
+    "correctAnswer": "2^k",
+    "explanation": "At level k (starting from 0), a binary tree can have at most 2^k nodes."
+  },
+  {
+    "type": "dsa",
+    "level": 6,
+    "topic": "Binary Trees & BST",
+    "question": "What is the time complexity of searching in a balanced BST?",
+    "options": ["O(n)", "O(log n)", "O(n log n)", "O(1)"],
+    "correctAnswer": "O(log n)",
+    "explanation": "A balanced BST halves the search space at each step, resulting in O(log n) time."
+  },
+  {
+    "type": "dsa",
+    "level": 6,
+    "topic": "Binary Trees & BST",
+    "question": "Which traversal of a BST gives elements in sorted order?",
+    "options": ["Preorder", "Postorder", "Inorder", "Level order"],
+    "correctAnswer": "Inorder",
+    "explanation": "Inorder traversal (left, root, right) visits nodes in ascending order in a BST."
+  },
+  {
+    "type": "dsa",
+    "level": 6,
+    "topic": "Binary Trees & BST",
+    "question": "What is the height of a complete binary tree with n nodes?",
+    "options": ["n", "log₂(n)", "floor(log₂(n))", "ceil(log₂(n+1))"],
+    "correctAnswer": "floor(log₂(n))",
+    "explanation": "A complete binary tree with n nodes has height floor(log₂(n))."
+  },
+  {
+    "type": "dsa",
+    "level": 7,
+    "topic": "Heaps",
+    "question": "What is the time complexity of inserting an element into a binary heap?",
+    "options": ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
+    "correctAnswer": "O(log n)",
+    "explanation": "Insertion requires bubbling up the element, which takes at most O(log n) operations."
+  },
+  {
+    "type": "dsa",
+    "level": 7,
+    "topic": "Heaps",
+    "question": "In a max-heap, where is the maximum element located?",
+    "options": ["Last position", "Root", "Any leaf node", "Middle of array"],
+    "correctAnswer": "Root",
+    "explanation": "In a max-heap, the root always contains the maximum element."
+  },
+  {
+    "type": "dsa",
+    "level": 7,
+    "topic": "Heaps",
+    "question": "What is the time complexity of building a heap from an unsorted array?",
+    "options": ["O(n log n)", "O(n)", "O(n²)", "O(log n)"],
+    "correctAnswer": "O(n)",
+    "explanation": "Bottom-up heap construction (heapify) takes O(n) time due to the mathematical properties of the heap."
+  },
+  {
+    "type": "dsa",
+    "level": 7,
+    "topic": "Heaps",
+    "question": "Which operation is NOT efficiently supported by a standard binary heap?",
+    "options": ["Find minimum/maximum", "Insert", "Delete arbitrary element", "Extract minimum/maximum"],
+    "correctAnswer": "Delete arbitrary element",
+    "explanation": "Deleting an arbitrary element requires first finding it (O(n)), making it inefficient."
+  },
+  {
+    "type": "dsa",
+    "level": 8,
+    "topic": "Graphs",
+    "question": "What is the time complexity of BFS on a graph with V vertices and E edges?",
+    "options": ["O(V)", "O(E)", "O(V + E)", "O(V * E)"],
+    "correctAnswer": "O(V + E)",
+    "explanation": "BFS visits each vertex once and explores each edge once, totaling O(V + E)."
+  },
+  {
+    "type": "dsa",
+    "level": 8,
+    "topic": "Graphs",
+    "question": "Which traversal is used to find the shortest path in an unweighted graph?",
+    "options": ["DFS", "BFS", "Dijkstra's", "Bellman-Ford"],
+    "correctAnswer": "BFS",
+    "explanation": "BFS explores nodes level by level, guaranteeing the shortest path in unweighted graphs."
+  },
+  {
+    "type": "dsa",
+    "level": 8,
+    "topic": "Graphs",
+    "question": "What data structure is used in DFS implementation?",
+    "options": ["Queue", "Stack", "Heap", "Hash Map"],
+    "correctAnswer": "Stack",
+    "explanation": "DFS uses a stack (explicit or via recursion) to explore as deep as possible before backtracking."
+  },
+  {
+    "type": "dsa",
+    "level": 8,
+    "topic": "Graphs",
+    "question": "How do you detect a cycle in a directed graph?",
+    "options": ["BFS only", "DFS with recursion stack", "Union-Find", "Topological sort"],
+    "correctAnswer": "DFS with recursion stack",
+    "explanation": "A back edge (edge to a node in the current recursion stack) indicates a cycle."
+  },
+  {
+    "type": "dsa",
+    "level": 9,
+    "topic": "Dynamic Programming",
+    "question": "What are the two main properties required for a problem to be solved using dynamic programming?",
+    "options": ["Greedy choice and sorting", "Optimal substructure and overlapping subproblems", "Divide and conquer", "Backtracking and pruning"],
+    "correctAnswer": "Optimal substructure and overlapping subproblems",
+    "explanation": "DP requires optimal substructure (solution from subproblem solutions) and overlapping subproblems (same subproblems solved multiple times)."
+  },
+  {
+    "type": "dsa",
+    "level": 9,
+    "topic": "Dynamic Programming",
+    "question": "What is the time complexity of the naive recursive Fibonacci algorithm?",
+    "options": ["O(n)", "O(n²)", "O(2^n)", "O(log n)"],
+    "correctAnswer": "O(2^n)",
+    "explanation": "Each call branches into two recursive calls, leading to exponential time complexity."
+  },
+  {
+    "type": "dsa",
+    "level": 9,
+    "topic": "Dynamic Programming",
+    "question": "What technique stores computed results to avoid redundant calculations?",
+    "options": ["Recursion", "Memoization", "Greedy", "Backtracking"],
+    "correctAnswer": "Memoization",
+    "explanation": "Memoization caches results of expensive function calls and returns the cached result when the same inputs occur again."
+  },
+  {
+    "type": "dsa",
+    "level": 9,
+    "topic": "Dynamic Programming",
+    "question": "What is the space complexity of computing Fibonacci using tabulation with optimization?",
+    "options": ["O(n)", "O(1)", "O(n²)", "O(log n)"],
+    "correctAnswer": "O(1)",
+    "explanation": "Only the last two values need to be stored, reducing space from O(n) to O(1)."
+  },
+  {
+    "type": "dsa",
+    "level": 10,
+    "topic": "Greedy Algorithms",
+    "question": "What is the main characteristic of a greedy algorithm?",
+    "options": ["Always finds optimal solution", "Makes locally optimal choices", "Uses dynamic programming", "Explores all possibilities"],
+    "correctAnswer": "Makes locally optimal choices",
+    "explanation": "Greedy algorithms make the best choice at each step without considering future consequences."
+  },
+  {
+    "type": "dsa",
+    "level": 10,
+    "topic": "Greedy Algorithms",
+    "question": "Which problem can be optimally solved using a greedy approach?",
+    "options": ["0/1 Knapsack", "Fractional Knapsack", "Longest Common Subsequence", "Matrix Chain Multiplication"],
+    "correctAnswer": "Fractional Knapsack",
+    "explanation": "Fractional Knapsack allows taking fractions of items, making greedy selection by value/weight ratio optimal."
+  },
+  {
+    "type": "dsa",
+    "level": 10,
+    "topic": "Greedy Algorithms",
+    "question": "What is the time complexity of the Activity Selection problem using greedy?",
+    "options": ["O(n²)", "O(n log n)", "O(n)", "O(2^n)"],
+    "correctAnswer": "O(n log n)",
+    "explanation": "Sorting activities takes O(n log n), and selection is O(n), giving O(n log n) overall."
+  },
+  {
+    "type": "dsa",
+    "level": 10,
+    "topic": "Greedy Algorithms",
+    "question": "Huffman coding is an example of which algorithmic paradigm?",
+    "options": ["Dynamic Programming", "Divide and Conquer", "Greedy", "Backtracking"],
+    "correctAnswer": "Greedy",
+    "explanation": "Huffman coding greedily combines the two lowest frequency nodes at each step."
+  },
+  {
+    "type": "dsa",
+    "level": 11,
+    "topic": "Bit Manipulation",
+    "question": "What is the result of n & (n-1)?",
+    "options": ["Clears all bits", "Clears the rightmost set bit", "Sets all bits", "Flips all bits"],
+    "correctAnswer": "Clears the rightmost set bit",
+    "explanation": "n-1 flips all bits after the rightmost set bit including it, so AND clears that bit."
+  },
+  {
+    "type": "dsa",
+    "level": 11,
+    "topic": "Bit Manipulation",
+    "question": "How do you check if a number is a power of 2?",
+    "options": ["n % 2 == 0", "n & (n-1) == 0 and n > 0", "n / 2 == integer", "n >> 1 == 0"],
+    "correctAnswer": "n & (n-1) == 0 and n > 0",
+    "explanation": "Powers of 2 have exactly one set bit; n & (n-1) clears it, leaving 0."
+  },
+  {
+    "type": "dsa",
+    "level": 11,
+    "topic": "Bit Manipulation",
+    "question": "What does XOR of a number with itself give?",
+    "options": ["The number", "0", "1", "Complement"],
+    "correctAnswer": "0",
+    "explanation": "XOR of identical bits is 0, so any number XORed with itself gives 0."
+  },
+  {
+    "type": "dsa",
+    "level": 11,
+    "topic": "Bit Manipulation",
+    "question": "How do you swap two numbers without a temporary variable?",
+    "options": ["Addition and subtraction", "XOR operations", "Both A and B work", "Not possible"],
+    "correctAnswer": "Both A and B work",
+    "explanation": "Both methods work: a=a+b, b=a-b, a=a-b or using XOR: a^=b, b^=a, a^=b."
+  },
+  {
+    "type": "dsa",
+    "level": 12,
+    "topic": "Sliding Window",
+    "question": "What is the time complexity of finding maximum sum subarray of size k using sliding window?",
+    "options": ["O(n*k)", "O(n)", "O(n²)", "O(k)"],
+    "correctAnswer": "O(n)",
+    "explanation": "Sliding window maintains the sum by adding the next element and removing the first, achieving O(n)."
+  },
+  {
+    "type": "dsa",
+    "level": 12,
+    "topic": "Sliding Window",
+    "question": "Which problem is best solved using a variable-size sliding window?",
+    "options": ["Maximum sum of k elements", "Longest substring without repeating characters", "Maximum of all subarrays of size k", "Array rotation"],
+    "correctAnswer": "Longest substring without repeating characters",
+    "explanation": "Variable-size window expands and contracts to find the longest valid substring."
+  },
+  {
+    "type": "dsa",
+    "level": 12,
+    "topic": "Two Pointers",
+    "question": "What is the time complexity of removing duplicates from a sorted array using two pointers?",
+    "options": ["O(n²)", "O(n log n)", "O(n)", "O(1)"],
+    "correctAnswer": "O(n)",
+    "explanation": "One pass with two pointers achieves O(n) time with O(1) extra space."
+  },
+  {
+    "type": "dsa",
+    "level": 12,
+    "topic": "Two Pointers",
+    "question": "The Container With Most Water problem uses which technique?",
+    "options": ["Dynamic Programming", "Two Pointers", "Greedy with sorting", "BFS"],
+    "correctAnswer": "Two Pointers",
+    "explanation": "Two pointers from both ends, moving the shorter line inward, finds the maximum area in O(n)."
+  },
+  {
+    "type": "dsa",
+    "level": 13,
+    "topic": "Arrays",
+    "question": "What is the time complexity of Kadane's algorithm for maximum subarray sum?",
+    "options": ["O(n²)", "O(n log n)", "O(n)", "O(1)"],
+    "correctAnswer": "O(n)",
+    "explanation": "Kadane's algorithm maintains a running sum, resetting when it becomes negative, in one pass."
+  },
+  {
+    "type": "dsa",
+    "level": 13,
+    "topic": "Arrays",
+    "question": "How do you find the majority element (appearing more than n/2 times) in O(n) time and O(1) space?",
+    "options": ["Sorting", "Hash Map", "Boyer-Moore Voting Algorithm", "Divide and Conquer"],
+    "correctAnswer": "Boyer-Moore Voting Algorithm",
+    "explanation": "Boyer-Moore maintains a candidate and count, incrementing/decrementing based on matches."
+  },
+  {
+    "type": "dsa",
+    "level": 13,
+    "topic": "Arrays",
+    "question": "What is the approach to find the kth largest element in O(n) average time?",
+    "options": ["Sort and index", "Min heap of size k", "QuickSelect", "All of the above but only C is O(n) average"],
+    "correctAnswer": "All of the above but only C is O(n) average",
+    "explanation": "QuickSelect partitions and recurses on one side, achieving O(n) average time."
+  },
+  {
+    "type": "dsa",
+    "level": 13,
+    "topic": "Arrays",
+    "question": "What technique is used to find all pairs with a given sum in an unsorted array?",
+    "options": ["Two pointers after sorting", "Hash set", "Both work with different trade-offs", "Binary search"],
+    "correctAnswer": "Both work with different trade-offs",
+    "explanation": "Hash set is O(n) time O(n) space; sorting + two pointers is O(n log n) time O(1) space."
+  },
+  {
+    "type": "dsa",
+    "level": 14,
+    "topic": "Strings",
+    "question": "What is the time complexity of the KMP pattern matching algorithm?",
+    "options": ["O(n*m)", "O(n+m)", "O(n log m)", "O(n)"],
+    "correctAnswer": "O(n+m)",
+    "explanation": "KMP preprocesses the pattern in O(m) and searches in O(n), totaling O(n+m)."
+  },
+  {
+    "type": "dsa",
+    "level": 14,
+    "topic": "Strings",
+    "question": "What is the purpose of the failure function in KMP algorithm?",
+    "options": ["To find pattern length", "To avoid re-scanning matched characters", "To count occurrences", "To reverse the pattern"],
+    "correctAnswer": "To avoid re-scanning matched characters",
+    "explanation": "The failure function indicates the next position to match without re-comparing known matches."
+  },
+  {
+    "type": "dsa",
+    "level": 14,
+    "topic": "Strings",
+    "question": "Which algorithm uses hashing for string pattern matching?",
+    "options": ["KMP", "Rabin-Karp", "Z-Algorithm", "Manacher's"],
+    "correctAnswer": "Rabin-Karp",
+    "explanation": "Rabin-Karp uses rolling hash to efficiently compare pattern hash with substring hashes."
+  },
+  {
+    "type": "dsa",
+    "level": 14,
+    "topic": "Strings",
+    "question": "What is the time complexity of Manacher's algorithm for finding the longest palindromic substring?",
+    "options": ["O(n²)", "O(n log n)", "O(n)", "O(n³)"],
+    "correctAnswer": "O(n)",
+    "explanation": "Manacher's algorithm exploits palindrome symmetry to find all palindromes in linear time."
+  },
+  {
+    "type": "dsa",
+    "level": 15,
+    "topic": "Binary Trees & BST",
+    "question": "What is the time complexity of finding the Lowest Common Ancestor in a BST?",
+    "options": ["O(n)", "O(log n)", "O(h) where h is height", "O(1)"],
+    "correctAnswer": "O(h) where h is height",
+    "explanation": "LCA in BST traverses from root, going left or right based on values, taking O(h) time."
+  },
+  {
+    "type": "dsa",
+    "level": 15,
+    "topic": "Binary Trees & BST",
+    "question": "What is the diameter of a binary tree?",
+    "options": ["Number of nodes", "Height of tree", "Longest path between any two nodes", "Number of leaf nodes"],
+    "correctAnswer": "Longest path between any two nodes",
+    "explanation": "Diameter is the number of edges on the longest path between any two nodes in the tree."
+  },
+  {
+    "type": "dsa",
+    "level": 15,
+    "topic": "Binary Trees & BST",
+    "question": "How do you serialize a binary tree?",
+    "options": ["Store only inorder", "Store preorder with null markers", "Store only level order", "Cannot be serialized"],
+    "correctAnswer": "Store preorder with null markers",
+    "explanation": "Preorder with null markers uniquely represents the tree structure for deserialization."
+  },
+  {
+    "type": "dsa",
+    "level": 15,
+    "topic": "Binary Trees & BST",
+    "question": "What is the time complexity of checking if a binary tree is balanced?",
+    "options": ["O(n²)", "O(n)", "O(n log n)", "O(log n)"],
+    "correctAnswer": "O(n)",
+    "explanation": "Optimized approach computes height while checking balance in a single pass."
+  },
+  {
+    "type": "dsa",
+    "level": 16,
+    "topic": "Graphs",
+    "question": "What is the time complexity of Dijkstra's algorithm with a binary heap?",
+    "options": ["O(V²)", "O(E log V)", "O((V+E) log V)", "O(V + E)"],
+    "correctAnswer": "O((V+E) log V)",
+    "explanation": "Each vertex is extracted once O(V log V) and each edge relaxation is O(log V), totaling O((V+E) log V)."
+  },
+  {
+    "type": "dsa",
+    "level": 16,
+    "topic": "Graphs",
+    "question": "Which algorithm handles negative edge weights?",
+    "options": ["Dijkstra's", "BFS", "Bellman-Ford", "A*"],
+    "correctAnswer": "Bellman-Ford",
+    "explanation": "Bellman-Ford relaxes all edges V-1 times and can detect negative cycles."
+  },
+  {
+    "type": "dsa",
+    "level": 16,
+    "topic": "Graphs",
+    "question": "What is the purpose of topological sorting?",
+    "options": ["Find shortest path", "Order tasks with dependencies", "Detect cycles", "Find strongly connected components"],
+    "correctAnswer": "Order tasks with dependencies",
+    "explanation": "Topological sort orders vertices so that for every edge (u,v), u comes before v."
+  },
+  {
+    "type": "dsa",
+    "level": 16,
+    "topic": "Graphs",
+    "question": "Which algorithm finds the minimum spanning tree?",
+    "options": ["Dijkstra's", "Floyd-Warshall", "Kruskal's or Prim's", "Bellman-Ford"],
+    "correctAnswer": "Kruskal's or Prim's",
+    "explanation": "Both Kruskal's and Prim's algorithms find MST using greedy approaches."
+  },
+  {
+    "type": "dsa",
+    "level": 17,
+    "topic": "Dynamic Programming",
+    "question": "What is the time complexity of the Longest Common Subsequence (LCS) using DP?",
+    "options": ["O(n+m)", "O(n*m)", "O(n²+m²)", "O(2^n)"],
+    "correctAnswer": "O(n*m)",
+    "explanation": "LCS fills an n×m DP table where each cell is computed in O(1)."
+  },
+  {
+    "type": "dsa",
+    "level": 17,
+    "topic": "Dynamic Programming",
+    "question": "The 0/1 Knapsack problem has what time complexity using DP?",
+    "options": ["O(n)", "O(W)", "O(n*W)", "O(2^n)"],
+    "correctAnswer": "O(n*W)",
+    "explanation": "DP table has n rows (items) and W columns (weights), filled in O(1) each."
+  },
+  {
+    "type": "dsa",
+    "level": 17,
+    "topic": "Dynamic Programming",
+    "question": "What is the recurrence for the Edit Distance problem?",
+    "options": ["dp[i][j] = max(dp[i-1][j], dp[i][j-1])", "dp[i][j] = dp[i-1][j-1] if match, else 1 + min of three options", "dp[i][j] = dp[i-1][j-1] + 1", "dp[i][j] = i + j"],
+    "correctAnswer": "dp[i][j] = dp[i-1][j-1] if match, else 1 + min of three options",
+    "explanation": "If characters match, no operation needed; else choose minimum of insert, delete, or replace."
+  },
+  {
+    "type": "dsa",
+    "level": 17,
+    "topic": "Dynamic Programming",
+    "question": "Which DP problem involves partitioning an array into two subsets with minimum difference?",
+    "options": ["Subset Sum", "Partition Equal Subset Sum", "Minimum Subset Sum Difference", "Coin Change"],
+    "correctAnswer": "Minimum Subset Sum Difference",
+    "explanation": "Find the subset with sum closest to total/2 to minimize the difference between partitions."
+  },
+  {
+    "type": "dsa",
+    "level": 18,
+    "topic": "Tries",
+    "question": "What is the time complexity of inserting a word of length m into a Trie?",
+    "options": ["O(1)", "O(m)", "O(n)", "O(m*n)"],
+    "correctAnswer": "O(m)",
+    "explanation": "Each character is processed once, giving O(m) time complexity."
+  },
+  {
+    "type": "dsa",
+    "level": 18,
+    "topic": "Tries",
+    "question": "What is the main advantage of Trie over hash table for string storage?",
+    "options": ["Less memory", "Faster lookup", "Prefix-based operations", "Simpler implementation"],
+    "correctAnswer": "Prefix-based operations",
+    "explanation": "Tries efficiently support prefix searches, autocomplete, and pattern matching."
+  },
+  {
+    "type": "dsa",
+    "level": 18,
+    "topic": "Tries",
+    "question": "How do you find all words with a given prefix in a Trie?",
+    "options": ["DFS from root", "Navigate to prefix node then DFS", "BFS from root", "Binary search"],
+    "correctAnswer": "Navigate to prefix node then DFS",
+    "explanation": "First traverse to the prefix end, then collect all words in that subtrie."
+  },
+  {
+    "type": "dsa",
+    "level": 18,
+    "topic": "Tries",
+    "question": "What is the space complexity of a Trie storing n words with average length m?",
+    "options": ["O(n)", "O(m)", "O(n*m)", "O(alphabet_size * total_characters)"],
+    "correctAnswer": "O(alphabet_size * total_characters)",
+    "explanation": "Each node can have up to alphabet_size children, leading to significant space usage."
+  },
+  {
+    "type": "dsa",
+    "level": 19,
+    "topic": "Segment Trees",
+    "question": "What is the time complexity of a range query in a segment tree?",
+    "options": ["O(n)", "O(1)", "O(log n)", "O(n log n)"],
+    "correctAnswer": "O(log n)",
+    "explanation": "Range queries traverse at most O(log n) nodes in the segment tree."
+  },
+  {
+    "type": "dsa",
+    "level": 19,
+    "topic": "Segment Trees",
+    "question": "What is the space complexity of a segment tree for an array of size n?",
+    "options": ["O(n)", "O(2n)", "O(4n)", "O(n log n)"],
+    "correctAnswer": "O(4n)",
+    "explanation": "A segment tree needs at most 4n space to handle all cases safely."
+  },
+  {
+    "type": "dsa",
+    "level": 19,
+    "topic": "Segment Trees",
+    "question": "What technique allows efficient range updates in segment trees?",
+    "options": ["Binary indexing", "Lazy propagation", "Memoization", "Path compression"],
+    "correctAnswer": "Lazy propagation",
+    "explanation": "Lazy propagation defers updates until needed, maintaining O(log n) complexity for range updates."
+  },
+  {
+    "type": "dsa",
+    "level": 19,
+    "topic": "Fenwick Trees",
+    "question": "What is another name for Fenwick Tree?",
+    "options": ["Segment Tree", "Binary Indexed Tree", "AVL Tree", "Red-Black Tree"],
+    "correctAnswer": "Binary Indexed Tree",
+    "explanation": "Fenwick Tree is also known as Binary Indexed Tree (BIT)."
+  },
+  {
+    "type": "dsa",
+    "level": 20,
+    "topic": "Fenwick Trees",
+    "question": "What is the time complexity of point update in a Fenwick Tree?",
+    "options": ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
+    "correctAnswer": "O(log n)",
+    "explanation": "Point updates propagate through O(log n) nodes using bit manipulation."
+  },
+  {
+    "type": "dsa",
+    "level": 20,
+    "topic": "Fenwick Trees",
+    "question": "What operation does i & (-i) perform in Fenwick Tree implementation?",
+    "options": ["Finds parent node", "Isolates the lowest set bit", "Calculates prefix sum", "Finds next sibling"],
+    "correctAnswer": "Isolates the lowest set bit",
+    "explanation": "i & (-i) gives the lowest set bit, used to navigate the tree structure."
+  },
+  {
+    "type": "dsa",
+    "level": 20,
+    "topic": "Graphs",
+    "question": "What is the time complexity of Floyd-Warshall algorithm?",
+    "options": ["O(V²)", "O(V³)", "O(V² log V)", "O(VE)"],
+    "correctAnswer": "O(V³)",
+    "explanation": "Three nested loops over all vertices result in O(V³) complexity."
+  },
+  {
+    "type": "dsa",
+    "level": 20,
+    "topic": "Graphs",
+    "question": "Floyd-Warshall solves which type of shortest path problem?",
+    "options": ["Single source", "Single destination", "All pairs", "Minimum spanning tree"],
+    "correctAnswer": "All pairs",
+    "explanation": "Floyd-Warshall computes shortest paths between all pairs of vertices."
+  },
+  {
+    "type": "dsa",
+    "level": 21,
+    "topic": "Dynamic Programming",
+    "question": "What is the state transition for Longest Increasing Subsequence (LIS) with binary search optimization?",
+    "options": ["O(n²) DP table", "Maintain sorted tail array with binary search", "Greedy selection", "Divide and conquer"],
+    "correctAnswer": "Maintain sorted tail array with binary search",
+    "explanation": "Replace the smallest tail element >= current, achieving O(n log n) complexity."
+  },
+  {
+    "type": "dsa",
+    "level": 21,
+    "topic": "Dynamic Programming",
+    "question": "What technique is used in Matrix Chain Multiplication DP?",
+    "options": ["Linear DP", "Interval DP", "Bitmask DP", "Digit DP"],
+    "correctAnswer": "Interval DP",
+    "explanation": "MCM uses interval DP, computing solutions for subchains of increasing length."
+  },
+  {
+    "type": "dsa",
+    "level": 21,
+    "topic": "Graphs",
+    "question": "What algorithm finds strongly connected components in a directed graph?",
+    "options": ["Dijkstra's", "Kosaraju's or Tarjan's", "Prim's", "Floyd-Warshall"],
+    "correctAnswer": "Kosaraju's or Tarjan's",
+    "explanation": "Both algorithms find SCCs in O(V+E) time using DFS."
+  },
+  {
+    "type": "dsa",
+    "level": 21,
+    "topic": "Graphs",
+    "question": "What is an articulation point in a graph?",
+    "options": ["Node with maximum degree", "Node whose removal disconnects the graph", "Node in a cycle", "Leaf node"],
+    "correctAnswer": "Node whose removal disconnects the graph",
+    "explanation": "Articulation points are critical vertices whose removal increases connected components."
+  },
+  {
+    "type": "dsa",
+    "level": 22,
+    "topic": "Graphs",
+    "question": "What algorithm efficiently finds bridges in a graph?",
+    "options": ["BFS", "Tarjan's algorithm", "Union-Find", "Dijkstra's"],
+    "correctAnswer": "Tarjan's algorithm",
+    "explanation": "Tarjan's algorithm uses discovery and low times to find bridges in O(V+E)."
+  },
+  {
+    "type": "dsa",
+    "level": 22,
+    "topic": "Graphs",
+    "question": "What is the time complexity of Union-Find with path compression and union by rank?",
+    "options": ["O(log n)", "O(n)", "O(α(n)) nearly constant", "O(1)"],
+    "correctAnswer": "O(α(n)) nearly constant",
+    "explanation": "The inverse Ackermann function α(n) grows extremely slowly, effectively constant for practical inputs."
+  },
+  {
+    "type": "dsa",
+    "level": 22,
+    "topic": "Dynamic Programming",
+    "question": "What is the approach for solving the Traveling Salesman Problem (TSP) using DP?",
+    "options": ["Linear DP", "Bitmask DP", "Interval DP", "Greedy"],
+    "correctAnswer": "Bitmask DP",
+    "explanation": "Bitmask DP tracks visited cities as bits, giving O(n² * 2^n) complexity."
+  },
+  {
+    "type": "dsa",
+    "level": 22,
+    "topic": "Dynamic Programming",
+    "question": "What is the space optimization for 2D DP problems where dp[i][j] depends only on row i-1?",
+    "options": ["Use 1D array of size n", "Use two 1D arrays", "Cannot be optimized", "Use recursion"],
+    "correctAnswer": "Use two 1D arrays",
+    "explanation": "Alternating between two rows reduces space from O(n*m) to O(m)."
+  },
+  {
+    "type": "dsa",
+    "level": 23,
+    "topic": "Advanced DP",
+    "question": "What is the time complexity of computing number of distinct subsequences of string T in S?",
+    "options": ["O(n)", "O(n*m)", "O(n+m)", "O(2^n)"],
+    "correctAnswer": "O(n*m)",
+    "explanation": "DP table of size n×m where each cell is computed in O(1)."
+  },
+  {
+    "type": "dsa",
+    "level": 23,
+    "topic": "Advanced DP",
+    "question": "In the Burst Balloons problem, what is the key insight for the DP formulation?",
+    "options": ["Track which balloons are burst", "Consider last balloon burst in a range", "Use greedy selection", "Sort balloons first"],
+    "correctAnswer": "Consider last balloon burst in a range",
+    "explanation": "Think of i as the last balloon burst in range, making subproblems independent."
+  },
+  {
+    "type": "dsa",
+    "level": 23,
+    "topic": "Graphs",
+    "question": "What is the maximum flow minimum cut theorem?",
+    "options": ["Max flow equals min edge weight", "Max flow equals min cut capacity", "Max flow is always n-1", "Max flow equals graph diameter"],
+    "correctAnswer": "Max flow equals min cut capacity",
+    "explanation": "The maximum flow through a network equals the capacity of the minimum cut."
+  },
+  {
+    "type": "dsa",
+    "level": 23,
+    "topic": "Graphs",
+    "question": "What algorithm solves maximum flow problem?",
+    "options": ["Dijkstra's", "Ford-Fulkerson or Edmonds-Karp", "Bellman-Ford", "Prim's"],
+    "correctAnswer": "Ford-Fulkerson or Edmonds-Karp",
+    "explanation": "Ford-Fulkerson uses augmenting paths; Edmonds-Karp uses BFS for O(VE²) guarantee."
+  },
+  {
+    "type": "dsa",
+    "level": 24,
+    "topic": "Segment Trees",
+    "question": "How do you handle range minimum query with range update (add value to range)?",
+    "options": ["Rebuild tree on each update", "Lazy propagation", "Use Fenwick Tree instead", "Convert to point queries"],
+    "correctAnswer": "Lazy propagation",
+    "explanation": "Lazy propagation delays updates, maintaining O(log n) for both queries and updates."
+  },
+  {
+    "type": "dsa",
+    "level": 24,
+    "topic": "Segment Trees",
+    "question": "What is a merge sort tree?",
+    "options": ["AVL tree with merge operation", "Segment tree with sorted vectors at nodes", "Tree used in merge sort", "Binary search tree variant"],
+    "correctAnswer": "Segment tree with sorted vectors at nodes",
+    "explanation": "Each segment tree node stores sorted elements of its range, enabling order statistic queries."
+  },
+  {
+    "type": "dsa",
+    "level": 24,
+    "topic": "Advanced Algorithms",
+    "question": "What is the time complexity of Heavy-Light Decomposition for path queries?",
+    "options": ["O(n)", "O(log n)", "O(log² n)", "O(sqrt(n))"],
+    "correctAnswer": "O(log² n)",
+    "explanation": "HLD decomposes into O(log n) chains, each queried in O(log n) with segment tree."
+  },
+  {
+    "type": "dsa",
+    "level": 24,
+    "topic": "Advanced Algorithms",
+    "question": "What is Mo's algorithm used for?",
+    "options": ["Shortest path queries", "Offline range queries", "String matching", "Graph coloring"],
+    "correctAnswer": "Offline range queries",
+    "explanation": "Mo's algorithm answers offline range queries in O((N+Q)√N) by clever query ordering."
+  },
+  {
+    "type": "dsa",
+    "level": 25,
+    "topic": "Advanced DP",
+    "question": "What is the Convex Hull Trick optimization for DP?",
+    "options": ["Use geometry for path finding", "Optimize transitions of form dp[i] = min(dp[j] + cost[j]*something[i])", "Build convex hull of points", "Reduce space complexity"],
+    "correctAnswer": "Optimize transitions of form dp[i] = min(dp[j] + cost[j]*something[i])",
+    "explanation": "When transitions have linear form, maintain a set of lines for O(log n) query."
+  },
+  {
+    "type": "dsa",
+    "level": 25,
+    "topic": "Advanced DP",
+    "question": "What is Divide and Conquer DP optimization?",
+    "options": ["Always use D&C for DP", "When optimal j for dp[i] is monotonic across i", "Split array in half", "Use binary search"],
+    "correctAnswer": "When optimal j for dp[i] is monotonic across i",
+    "explanation": "If opt(i) ≤ opt(i+1), solve for middle, then recurse on halves with bounded j."
+  },
+  {
+    "type": "dsa",
+    "level": 25,
+    "topic": "Strings",
+    "question": "What is the Z-algorithm used for?",
+    "options": ["Sorting strings", "Computing Z-array for pattern matching", "Finding longest palindrome", "String compression"],
+    "correctAnswer": "Computing Z-array for pattern matching",
+    "explanation": "Z[i] gives length of longest substring starting at i that matches prefix."
+  },
+  {
+    "type": "dsa",
+    "level": 25,
+    "topic": "Strings",
+    "question": "What is a suffix array?",
+    "options": ["Array of suffixes in alphabetical order", "Array storing suffix lengths", "Hash values of suffixes", "Tree of suffixes"],
+    "correctAnswer": "Array of suffixes in alphabetical order",
+    "explanation": "Suffix array stores starting indices of all suffixes sorted lexicographically."
+  },
+  {
+    "type": "dsa",
+    "level": 26,
+    "topic": "Strings",
+    "question": "What is the time complexity of building a suffix array using the DC3 algorithm?",
+    "options": ["O(n²)", "O(n log n)", "O(n)", "O(n log² n)"],
+    "correctAnswer": "O(n)",
+    "explanation": "DC3 (Difference Cover) algorithm builds suffix array in linear time."
+  },
+  {
+    "type": "dsa",
+    "level": 26,
+    "topic": "Strings",
+    "question": "What is the LCP array and how is it related to suffix array?",
+    "options": ["Longest common prefix between all pairs", "LCP between adjacent suffix array entries", "Length of each suffix", "Number of common characters"],
+    "correctAnswer": "LCP between adjacent suffix array entries",
+    "explanation": "LCP[i] = length of longest common prefix between SA[i] and SA[i-1] sorted suffixes."
+  },
+  {
+    "type": "dsa",
+    "level": 26,
+    "topic": "Advanced Trees",
+    "question": "What is a Splay Tree?",
+    "options": ["Always balanced BST", "Self-adjusting BST with amortized O(log n)", "Tree with lazy propagation", "Multi-way search tree"],
+    "correctAnswer": "Self-adjusting BST with amortized O(log n)",
+    "explanation": "Splay trees move accessed nodes to root via rotations, achieving amortized O(log n)."
+  },
+  {
+    "type": "dsa",
+    "level": 26,
+    "topic": "Advanced Trees",
+    "question": "What is a Treap?",
+    "options": ["Tree with heap property", "BST with random priorities maintaining heap property", "Binary heap stored as tree", "Ternary search tree"],
+    "correctAnswer": "BST with random priorities maintaining heap property",
+    "explanation": "Treap combines BST (keys) and heap (random priorities) for expected O(log n) operations."
+  },
+  {
+    "type": "dsa",
+    "level": 27,
+    "topic": "Advanced Data Structures",
+    "question": "What is a Link-Cut Tree used for?",
+    "options": ["Cutting arrays", "Dynamic tree connectivity and path queries", "Linked list operations", "Graph cutting"],
+    "correctAnswer": "Dynamic tree connectivity and path queries",
+    "explanation": "Link-Cut Trees support link, cut, and path operations in amortized O(log n)."
+  },
+  {
+    "type": "dsa",
+    "level": 27,
+    "topic": "Advanced Data Structures",
+    "question": "What is the purpose of centroid decomposition?",
+    "options": ["Find tree center", "Decompose tree for efficient path queries", "Balance the tree", "Sort tree nodes"],
+    "correctAnswer": "Decompose tree for efficient path queries",
+    "explanation": "Centroid decomposition creates log n levels, enabling O(n log n) solutions for path problems."
+  },
+  {
+    "type": "dsa",
+    "level": 27,
+    "topic": "Graphs",
+    "question": "What is the 2-SAT problem?",
+    "options": ["Finding 2 satisfying assignments", "Boolean satisfiability with clauses of 2 literals", "SAT with 2 variables", "Quadratic SAT"],
+    "correctAnswer": "Boolean satisfiability with clauses of 2 literals",
+    "explanation": "2-SAT has clauses like (a OR b) with 2 literals; solvable in O(n+m) using implication graph."
+  },
+  {
+    "type": "dsa",
+    "level": 27,
+    "topic": "Graphs",
+    "question": "How do you solve 2-SAT efficiently?",
+    "options": ["Brute force", "Find SCCs in implication graph", "Dynamic programming", "Greedy"],
+    "correctAnswer": "Find SCCs in implication graph",
+    "explanation": "Build implication graph, find SCCs; satisfiable iff no variable and its negation are in same SCC."
+  },
+  {
+    "type": "dsa",
+    "level": 28,
+    "topic": "Advanced Graphs",
+    "question": "What is the time complexity of finding maximum bipartite matching using Hopcroft-Karp?",
+    "options": ["O(VE)", "O(E√V)", "O(V²E)", "O(V³)"],
+    "correctAnswer": "O(E√V)",
+    "explanation": "Hopcroft-Karp uses BFS to find maximal set of shortest augmenting paths in each phase."
+  },
+  {
+    "type": "dsa",
+    "level": 28,
+    "topic": "Advanced Graphs",
+    "question": "What is the Hungarian Algorithm used for?",
+    "options": ["Shortest path", "Minimum cost perfect matching", "Maximum flow", "Minimum spanning tree"],
+    "correctAnswer": "Minimum cost perfect matching",
+    "explanation": "Hungarian algorithm finds minimum cost assignment in bipartite graphs in O(n³)."
+  },
+  {
+    "type": "dsa",
+    "level": 28,
+    "topic": "Number Theory",
+    "question": "What is the time complexity of finding GCD using Euclidean algorithm?",
+    "options": ["O(n)", "O(log(min(a,b)))", "O(√n)", "O(n²)"],
+    "correctAnswer": "O(log(min(a,b)))",
+    "explanation": "Each step reduces the larger number by at least half, giving logarithmic complexity."
+  },
+  {
+    "type": "dsa",
+    "level": 28,
+    "topic": "Number Theory",
+    "question": "What does Extended Euclidean Algorithm compute?",
+    "options": ["Just GCD", "GCD and coefficients for Bezout's identity", "LCM", "Prime factorization"],
+    "correctAnswer": "GCD and coefficients for Bezout's identity",
+    "explanation": "Extended GCD finds x, y such that ax + by = gcd(a,b)."
+  },
+  {
+    "type": "dsa",
+    "level": 29,
+    "topic": "Number Theory",
+    "question": "What is modular multiplicative inverse of a modulo m?",
+    "options": ["a * m", "x such that (a * x) mod m = 1", "m / a", "a mod m"],
+    "correctAnswer": "x such that (a * x) mod m = 1",
+    "explanation": "Modular inverse exists iff gcd(a,m) = 1; can be found using Extended Euclidean or Fermat's little theorem."
+  },
+  {
+    "type": "dsa",
+    "level": 29,
+    "topic": "Number Theory",
+    "question": "How do you compute a^b mod m efficiently?",
+    "options": ["Multiply a, b times", "Binary exponentiation", "Use logarithms", "Fermat's theorem only"],
+    "correctAnswer": "Binary exponentiation",
+    "explanation": "Binary exponentiation computes a^b in O(log b) by squaring and multiplying for set bits."
+  },
+  {
+    "type": "dsa",
+    "level": 29,
+    "topic": "Advanced DP",
+    "question": "What is the Knuth's optimization for DP?",
+    "options": ["Memoization technique", "When opt[i][j-1] ≤ opt[i][j] ≤ opt[i+1][j], compute in O(n²)", "Use divide and conquer", "Matrix exponentiation"],
+    "correctAnswer": "When opt[i][j-1] ≤ opt[i][j] ≤ opt[i+1][j], compute in O(n²)",
+    "explanation": "Knuth's optimization bounds the search space using monotonicity of optimal splits."
+  },
+  {
+    "type": "dsa",
+    "level": 29,
+    "topic": "Advanced DP",
+    "question": "What is the Aliens Trick (WQS Binary Search)?",
+    "options": ["Search for aliens in array", "Binary search on Lagrange multiplier to convert constrained to unconstrained DP", "Divide array into alien segments", "Search optimization"],
+    "correctAnswer": "Binary search on Lagrange multiplier to convert constrained to unconstrained DP",
+    "explanation": "Add penalty λ for each segment/operation, binary search λ to achieve desired count."
+  },
+  {
+    "type": "dsa",
+    "level": 30,
+    "topic": "Computational Geometry",
+    "question": "What is the time complexity of finding convex hull using Graham Scan?",
+    "options": ["O(n)", "O(n log n)", "O(n²)", "O(n³)"],
+    "correctAnswer": "O(n log n)",
+    "explanation": "Sorting takes O(n log n), then scan is O(n), giving O(n log n) overall."
+  },
+  {
+    "type": "dsa",
+    "level": 30,
+    "topic": "Computational Geometry",
+    "question": "How do you determine if three points are collinear?",
+    "options": ["Check distances", "Cross product equals zero", "Dot product equals zero", "Sum of coordinates"],
+    "correctAnswer": "Cross product equals zero",
+    "explanation": "If cross product of vectors (p2-p1) and (p3-p1) is zero, points are collinear."
+  },
+  {
+    "type": "dsa",
+    "level": 30,
+    "topic": "Computational Geometry",
+    "question": "What algorithm finds the closest pair of points in O(n log n)?",
+    "options": ["Brute force", "Divide and conquer", "Sweep line", "Both B and C work"],
+    "correctAnswer": "Both B and C work",
+    "explanation": "Both divide and conquer and sweep line algorithms achieve O(n log n)."
+  },
+  {
+    "type": "dsa",
+    "level": 30,
+    "topic": "Advanced Trees",
+    "question": "What is an Euler Tour of a tree used for?",
+    "options": ["Finding Eulerian path", "Converting tree to array for range queries", "Topological sorting", "Finding cycles"],
+    "correctAnswer": "Converting tree to array for range queries",
+    "explanation": "Euler tour flattens tree to array, enabling subtree queries with segment tree."
+  },
+  {
+    "type": "dsa",
+    "level": 31,
+    "topic": "Advanced Algorithms",
+    "question": "What is the Aho-Corasick algorithm used for?",
+    "options": ["Single pattern matching", "Multiple pattern matching", "Longest common substring", "String sorting"],
+    "correctAnswer": "Multiple pattern matching",
+    "explanation": "Aho-Corasick builds automaton for multiple patterns, matching all in O(n + m + z) where z is matches."
+  },
+  {
+    "type": "dsa",
+    "level": 31,
+    "topic": "Advanced Algorithms",
+    "question": "What is a suffix automaton?",
+    "options": ["Automaton accepting all substrings", "Automaton for suffix matching", "Deterministic suffix tree", "All of the above"],
+    "correctAnswer": "Automaton accepting all substrings",
+    "explanation": "Suffix automaton is the minimal DFA accepting all substrings, built in O(n)."
+  },
+  {
+    "type": "dsa",
+    "level": 31,
+    "topic": "Advanced DP",
+    "question": "What is the SOS (Sum over Subsets) DP technique?",
+    "options": ["Subset sum problem", "Compute sum over all subsets in O(3^n)", "Compute f[mask] = sum of g[submask] in O(n * 2^n)", "Dynamic programming on sorted sets"],
+    "correctAnswer": "Compute f[mask] = sum of g[submask] in O(n * 2^n)",
+    "explanation": "SOS DP iterates over bits, computing contributions from subsets efficiently."
+  },
+  {
+    "type": "dsa",
+    "level": 31,
+    "topic": "Advanced DP",
+    "question": "What is profile DP (broken profile DP)?",
+    "options": ["DP on profiles/pictures", "DP where state is a bitmask of column configuration", "Optimization for tall matrices", "Graph profile analysis"],
+    "correctAnswer": "DP where state is a bitmask of column configuration",
+    "explanation": "Profile DP processes grid row by row, tracking which cells are 'open' using bitmask."
+  },
+  {
+    "type": "dsa",
+    "level": 32,
+    "topic": "Advanced Graphs",
+    "question": "What is the time complexity of Dinic's algorithm for maximum flow?",
+    "options": ["O(VE)", "O(V²E)", "O(E²)", "O(V³)"],
+    "correctAnswer": "O(V²E)",
+    "explanation": "Dinic's uses blocking flows in O(VE) per phase with at most O(V) phases."
+  },
+  {
+    "type": "dsa",
+    "level": 32,
+    "topic": "Advanced Graphs",
+    "question": "What is the push-relabel algorithm?",
+    "options": ["Graph traversal", "Maximum flow using preflows and height function", "Minimum cut algorithm", "Shortest path variant"],
+    "correctAnswer": "Maximum flow using preflows and height function",
+    "explanation": "Push-relabel maintains preflow, pushing excess flow and relabeling heights until flow is valid."
+  },
+  {
+    "type": "dsa",
+    "level": 32,
+    "topic": "Advanced Data Structures",
+    "question": "What is a Persistent Data Structure?",
+    "options": ["Data structure stored on disk", "Data structure preserving previous versions", "Thread-safe data structure", "Distributed data structure"],
+    "correctAnswer": "Data structure preserving previous versions",
+    "explanation": "Persistent structures allow access to all historical versions without full copying."
+  },
+  {
+    "type": "dsa",
+    "level": 32,
+    "topic": "Advanced Data Structures",
+    "question": "How is a Persistent Segment Tree implemented?",
+    "options": ["Copy entire tree on update", "Path copying - only copy modified nodes", "Use linked list of trees", "Store diffs only"],
+    "correctAnswer": "Path copying - only copy modified nodes",
+    "explanation": "Only O(log n) nodes change per update; others are shared between versions."
+  },
+  {
+    "type": "dsa",
+    "level": 33,
+    "topic": "Advanced Strings",
+    "question": "What is the Burrows-Wheeler Transform used for?",
+    "options": ["Encryption", "Data compression by grouping similar characters", "String matching", "Sorting strings"],
+    "correctAnswer": "Data compression by grouping similar characters",
+    "explanation": "BWT rearranges string to group repeated characters, improving compression ratios."
+  },
+  {
+    "type": "dsa",
+    "level": 33,
+    "topic": "Advanced Strings",
+    "question": "How can you find the number of distinct substrings using suffix array and LCP?",
+    "options": ["n² - sum(LCP)", "n*(n+1)/2 - sum(LCP)", "n - max(LCP)", "Count unique prefixes"],
+    "correctAnswer": "n*(n+1)/2 - sum(LCP)",
+    "explanation": "Total substrings minus overlaps (LCP values) gives distinct substring count."
+  },
+  {
+    "type": "dsa",
+    "level": 33,
+    "topic": "Randomized Algorithms",
+    "question": "What is the expected time complexity of randomized QuickSelect?",
+    "options": ["O(n log n)", "O(n²)", "O(n)", "O(log n)"],
+    "correctAnswer": "O(n)",
+    "explanation": "Random pivot choice gives expected O(n) as bad pivots are unlikely on average."
+  },
+  {
+    "type": "dsa",
+    "level": 33,
+    "topic": "Randomized Algorithms",
+    "question": "What is reservoir sampling used for?",
+    "options": ["Water flow simulation", "Selecting k random elements from stream of unknown size", "Sampling from reservoir", "Random graph generation"],
+    "correctAnswer": "Selecting k random elements from stream of unknown size",
+    "explanation": "Reservoir sampling maintains k random samples from a stream in single pass."
+  },
+  {
+    "type": "dsa",
+    "level": 34,
+    "topic": "Advanced Number Theory",
+    "question": "What is the Chinese Remainder Theorem used for?",
+    "options": ["Factoring numbers", "Solving system of modular equations", "Computing GCD", "Prime testing"],
+    "correctAnswer": "Solving system of modular equations",
+    "explanation": "CRT combines solutions modulo coprime numbers into unique solution modulo their product."
+  },
+  {
+    "type": "dsa",
+    "level": 34,
+    "topic": "Advanced Number Theory",
+    "question": "What is Miller-Rabin primality test?",
+    "options": ["Deterministic prime test", "Probabilistic primality test using witnesses", "Prime factorization", "Finding prime factors"],
+    "correctAnswer": "Probabilistic primality test using witnesses",
+    "explanation": "Miller-Rabin tests compositeness using Fermat's theorem; false positives are rare with multiple witnesses."
+  },
+  {
+    "type": "dsa",
+    "level": 34,
+    "topic": "Advanced Number Theory",
+    "question": "What is Pollard's rho algorithm used for?",
+    "options": ["Finding shortest path", "Integer factorization", "Prime generation", "GCD computation"],
+    "correctAnswer": "Integer factorization",
+    "explanation": "Pollard's rho finds factors using cycle detection with expected O(n^(1/4)) complexity."
+  },
+  {
+    "type": "dsa",
+    "level": 34,
+    "topic": "Matrix Operations",
+    "question": "How do you compute the n-th Fibonacci number in O(log n)?",
+    "options": ["Dynamic programming", "Matrix exponentiation", "Closed form only", "Divide and conquer"],
+    "correctAnswer": "Matrix exponentiation",
+    "explanation": "[[1,1],[1,0]]^n gives Fibonacci numbers; matrix power computed in O(log n)."
+  },
+  {
+    "type": "dsa",
+    "level": 35,
+    "topic": "Advanced DP",
+    "question": "What is the time complexity of optimal BST construction using DP?",
+    "options": ["O(n²)", "O(n³)", "O(n² log n)", "O(2^n)"],
+    "correctAnswer": "O(n³)",
+    "explanation": "Try each node as root for each subrange; O(n²) subproblems with O(n) choices each."
+  },
+  {
+    "type": "dsa",
+    "level": 35,
+    "topic": "Advanced DP",
+    "question": "How can optimal BST be computed in O(n²) with Knuth's optimization?",
+    "options": ["Cannot be done", "Use monotonicity of optimal root positions", "Use greedy selection", "Binary search on roots"],
+    "correctAnswer": "Use monotonicity of optimal root positions",
+    "explanation": "opt[i][j-1] ≤ opt[i][j] ≤ opt[i+1][j] bounds the search, giving O(n²)."
+  },
+  {
+    "type": "dsa",
+    "level": 35,
+    "topic": "Advanced Graphs",
+    "question": "What is the Minimum Cost Maximum Flow problem?",
+    "options": ["Find cheapest path", "Find maximum flow with minimum total cost", "Find minimum cut", "Find cheapest spanning tree"],
+    "correctAnswer": "Find maximum flow with minimum total cost",
+    "explanation": "Among all max flows, find one with minimum cost; solved with successive shortest paths or cycle-canceling."
+  },
+  {
+    "type": "dsa",
+    "level": 35,
+    "topic": "Advanced Graphs",
+    "question": "What algorithm solves Minimum Cost Maximum Flow efficiently?",
+    "options": ["Dijkstra's only", "SPFA-based successive shortest path", "BFS only", "DFS only"],
+    "correctAnswer": "SPFA-based successive shortest path",
+    "explanation": "Find shortest path in residual graph (using SPFA for negative edges), augment flow, repeat."
+  },
+  {
+    "type": "dsa",
+    "level": 36,
+    "topic": "Computational Geometry",
+    "question": "What is the rotating calipers technique?",
+    "options": ["Measure angles", "Find diameter/antipodal pairs of convex polygon in O(n)", "Rotate coordinate system", "Calibrate measurements"],
+    "correctAnswer": "Find diameter/antipodal pairs of convex polygon in O(n)",
+    "explanation": "Two parallel lines rotate around convex hull, finding farthest pairs in linear time."
+  },
+  {
+    "type": "dsa",
+    "level": 36,
+    "topic": "Computational Geometry",
+    "question": "What is a Voronoi diagram?",
+    "options": ["Polygon triangulation", "Partition of plane into regions closest to each point", "Convex hull variant", "Point-line duality"],
+    "correctAnswer": "Partition of plane into regions closest to each point",
+    "explanation": "Each region contains points closer to one site than any other; dual of Delaunay triangulation."
+  },
+  {
+    "type": "dsa",
+    "level": 36,
+    "topic": "Advanced Data Structures",
+    "question": "What is a K-D Tree used for?",
+    "options": ["1D range queries", "Multi-dimensional range queries and nearest neighbor", "Key-value storage", "Graph traversal"],
+    "correctAnswer": "Multi-dimensional range queries and nearest neighbor",
+    "explanation": "K-D trees partition k-dimensional space, supporting range and nearest neighbor queries."
+  },
+  {
+    "type": "dsa",
+    "level": 36,
+    "topic": "Advanced Data Structures",
+    "question": "What is the time complexity of nearest neighbor query in a balanced K-D Tree?",
+    "options": ["O(1)", "O(log n) expected", "O(n)", "O(k log n)"],
+    "correctAnswer": "O(log n) expected",
+    "explanation": "With good balance and distribution, queries are O(log n) on average; worst case O(n)."
+  },
+  {
+    "type": "dsa",
+    "level": 37,
+    "topic": "Advanced DP",
+    "question": "What is the DP formulation for counting number of tilings of m×n grid with dominoes?",
+    "options": ["Simple recursion", "Profile/plug DP with bitmask", "Greedy placement", "Matrix exponentiation only"],
+    "correctAnswer": "Profile/plug DP with bitmask",
+    "explanation": "Track which cells protrude into next column using bitmask; transition by placing dominoes."
+  },
+  {
+    "type": "dsa",
+    "level": 37,
+    "topic": "Advanced DP",
+    "question": "What is the connection DP technique for Hamiltonian path counting?",
+    "options": ["Floyd-Warshall variant", "Track which endpoints are connected in current subproblem", "Use adjacency matrix powers", "BFS-based DP"],
+    "correctAnswer": "Track which endpoints are connected in current subproblem",
+    "explanation": "State tracks partition of vertices into paths; merging paths when adding edges."
+  },
+  {
+    "type": "dsa",
+    "level": 37,
+    "topic": "FFT",
+    "question": "What is the time complexity of polynomial multiplication using FFT?",
+    "options": ["O(n²)", "O(n log n)", "O(n log² n)", "O(n)"],
+    "correctAnswer": "O(n log n)",
+    "explanation": "FFT converts to point-value form in O(n log n), multiply pointwise O(n), inverse FFT O(n log n)."
+  },
+  {
+    "type": "dsa",
+    "level": 37,
+    "topic": "FFT",
+    "question": "What is the NTT (Number Theoretic Transform)?",
+    "options": ["FFT for integers using prime modulus", "Transform for number theory", "Numbering scheme", "Integer multiplication"],
+    "correctAnswer": "FFT for integers using prime modulus",
+    "explanation": "NTT uses primitive roots instead of complex numbers, avoiding floating point errors."
+  },
+  {
+    "type": "dsa",
+    "level": 38,
+    "topic": "Advanced Algorithms",
+    "question": "What is the time complexity of computing the determinant of an n×n matrix?",
+    "options": ["O(n!)", "O(n³)", "O(n²)", "O(n⁴)"],
+    "correctAnswer": "O(n³)",
+    "explanation": "Gaussian elimination reduces to triangular form in O(n³); determinant is product of diagonal."
+  },
+  {
+    "type": "dsa",
+    "level": 38,
+    "topic": "Advanced Algorithms",
+    "question": "What is Gaussian elimination used for?",
+    "options": ["Sorting matrices", "Solving linear systems, finding rank, inverse", "Matrix multiplication", "Eigenvalue computation"],
+    "correctAnswer": "Solving linear systems, finding rank, inverse",
+    "explanation": "Row operations reduce matrix to echelon form for solving Ax=b, finding rank and inverse."
+  },
+  {
+    "type": "dsa",
+    "level": 38,
+    "topic": "Game Theory",
+    "question": "What is the Sprague-Grundy theorem?",
+    "options": ["Winning strategy for all games", "Every impartial game is equivalent to a Nim heap", "Optimal play in zero-sum games", "Nash equilibrium"],
+    "correctAnswer": "Every impartial game is equivalent to a Nim heap",
+    "explanation": "Grundy numbers characterize game states; XOR of Grundy numbers determines winner."
+  },
+  {
+    "type": "dsa",
+    "level": 38,
+    "topic": "Game Theory",
+    "question": "How do you compute the Grundy number for a game state?",
+    "options": ["Sum of children Grundy", "MEX of children Grundy numbers", "Maximum of children", "XOR of children"],
+    "correctAnswer": "MEX of children Grundy numbers",
+    "explanation": "Grundy(state) = MEX{Grundy(child) for all children}, where MEX is minimum excludant."
+  },
+  {
+    "type": "dsa",
+    "level": 39,
+    "topic": "Advanced DP",
+    "question": "What is the time complexity of tree DP for counting independent sets?",
+    "options": ["O(n²)", "O(n)", "O(2^n)", "O(n log n)"],
+    "correctAnswer": "O(n)",
+    "explanation": "Bottom-up DP on tree: each node computed from children in O(degree), totaling O(n)."
+  },
+  {
+    "type": "dsa",
+    "level": 39,
+    "topic": "Advanced DP",
+    "question": "What is rerooting technique in tree DP?",
+    "options": ["Change root physically", "Compute answer for all roots in O(n) after initial DP", "Root at centroid", "Binary lifting on roots"],
+    "correctAnswer": "Compute answer for all roots in O(n) after initial DP",
+    "explanation": "After computing for one root, efficiently recalculate for adjacent root using precomputed values."
+  },
+  {
+    "type": "dsa",
+    "level": 39,
+    "topic": "Sqrt Decomposition",
+    "question": "What is the time complexity of Mo's algorithm with updates?",
+    "options": ["O(n√n)", "O((n+q)√n)", "O(n^(5/3))", "O(n² log n)"],
+    "correctAnswer": "O(n^(5/3))",
+    "explanation": "Mo's with updates uses 3D decomposition: time axis adds another dimension."
+  },
+  {
+    "type": "dsa",
+    "level": 39,
+    "topic": "Sqrt Decomposition",
+    "question": "What is the key idea behind sqrt decomposition?",
+    "options": ["Use square root of values", "Divide array into √n blocks for O(√n) queries/updates", "Reduce problem size by square root", "Apply square root function"],
+    "correctAnswer": "Divide array into √n blocks for O(√n) queries/updates",
+    "explanation": "Precompute block answers; query combines O(√n) full blocks and O(√n) individual elements."
+  },
+  {
+    "type": "dsa",
+    "level": 40,
+    "topic": "Advanced Graphs",
+    "question": "What is a Gomory-Hu tree?",
+    "options": ["Minimum spanning tree", "Tree representing all s-t min cuts in undirected graph", "Maximum flow tree", "BFS tree"],
+    "correctAnswer": "Tree representing all s-t min cuts in undirected graph",
+    "explanation": "Edge weights in Gomory-Hu tree give min s-t cut for all pairs using O(n) max-flow computations."
+  },
+  {
+    "type": "dsa",
+    "level": 40,
+    "topic": "Advanced Graphs",
+    "question": "What is the Stoer-Wagner algorithm?",
+    "options": ["Maximum flow", "Global minimum cut in undirected graph", "All-pairs shortest path", "Maximum matching"],
+    "correctAnswer": "Global minimum cut in undirected graph",
+    "explanation": "Stoer-Wagner finds global min cut without source/sink in O(VE + V² log V)."
+  },
+  {
+    "type": "dsa",
+    "level": 40,
+    "topic": "Advanced Data Structures",
+    "question": "What is a Wavelet Tree?",
+    "options": ["Signal processing tree", "Structure for rank/select/quantile queries on sequences", "Compression tree", "Balanced BST"],
+    "correctAnswer": "Structure for rank/select/quantile queries on sequences",
+    "explanation": "Wavelet tree answers count of symbol in range, k-th smallest, etc., in O(log σ) per query."
+  },
+  {
+    "type": "dsa",
+    "level": 40,
+    "topic": "Advanced Data Structures",
+    "question": "What is a Rope data structure?",
+    "options": ["String for rope simulation", "Balanced binary tree for efficient string operations", "Linked list variant", "Queue for rope problems"],
+    "correctAnswer": "Balanced binary tree for efficient string operations",
+    "explanation": "Rope stores strings in leaves of balanced tree, enabling O(log n) concat, split, index."
+  },
+  {
+    "type": "dsa",
+    "level": 41,
+    "topic": "Extremely Hard DP",
+    "question": "What is the Held-Karp algorithm for TSP?",
+    "options": ["Greedy approximation", "DP with bitmask in O(n² 2^n)", "Branch and bound", "Genetic algorithm"],
+    "correctAnswer": "DP with bitmask in O(n² 2^n)",
+    "explanation": "dp[mask][i] = min cost to visit cities in mask ending at i; O(n² 2^n) time and O(n 2^n) space."
+  },
+  {
+    "type": "dsa",
+    "level": 41,
+    "topic": "Extremely Hard DP",
+    "question": "What is the Steiner Tree problem?",
+    "options": ["Minimum spanning tree", "Minimum tree connecting given terminal vertices", "Shortest path tree", "Maximum flow tree"],
+    "correctAnswer": "Minimum tree connecting given terminal vertices",
+    "explanation": "Find minimum weight tree connecting terminals; DP with O(3^k * n²) where k = terminals."
+  },
+  {
+    "type": "dsa",
+    "level": 41,
+    "topic": "Advanced Strings",
+    "question": "What is palindromic tree (Eertree)?",
+    "options": ["Tree of all palindromes", "Structure storing all distinct palindromic substrings in O(n)", "Suffix tree for palindromes", "Balanced tree of strings"],
+    "correctAnswer": "Structure storing all distinct palindromic substrings in O(n)",
+    "explanation": "Eertree has at most n+1 nodes representing distinct palindromes, built in linear time."
+  },
+  {
+    "type": "dsa",
+    "level": 41,
+    "topic": "Advanced Strings",
+    "question": "How many distinct palindromic substrings can a string of length n have?",
+    "options": ["O(n²)", "O(n)", "O(2^n)", "O(n log n)"],
+    "correctAnswer": "O(n)",
+    "explanation": "Each position can add at most one new palindrome; total is at most n."
+  },
+  {
+    "type": "dsa",
+    "level": 42,
+    "topic": "Extremely Hard Graphs",
+    "question": "What is the chromatic number of a graph?",
+    "options": ["Number of edges", "Minimum colors to color vertices so adjacent differ", "Maximum degree", "Number of components"],
+    "correctAnswer": "Minimum colors to color vertices so adjacent differ",
+    "explanation": "Computing chromatic number is NP-hard; exact algorithms are exponential."
+  },
+  {
+    "type": "dsa",
+    "level": 42,
+    "topic": "Extremely Hard Graphs",
+    "question": "What is the inclusion-exclusion principle for computing chromatic polynomial?",
+    "options": ["Count valid colorings directly", "Sum over all edge subsets with alternating signs", "Use DP on graph structure", "Brute force all colors"],
+    "correctAnswer": "Sum over all edge subsets with alternating signs",
+    "explanation": "P(G,k) = Σ (-1)^|S| * k^c(S) where S is edge subset and c(S) is components in subgraph."
+  },
+  {
+    "type": "dsa",
+    "level": 42,
+    "topic": "Extremely Hard DP",
+    "question": "What is the DP approach for counting Hamiltonian paths in a graph?",
+    "options": ["Floyd-Warshall modification", "Bitmask DP: dp[mask][v] = paths ending at v visiting mask", "DFS with memoization", "Matrix exponentiation"],
+    "correctAnswer": "Bitmask DP: dp[mask][v] = paths ending at v visiting mask",
+    "explanation": "O(2^n * n²) DP where mask represents visited vertices and v is current endpoint."
+  },
+  {
+    "type": "dsa",
+    "level": 42,
+    "topic": "Advanced Randomization",
+    "question": "What is the birthday paradox application in hashing?",
+    "options": ["Generating birthdays", "Collision probability is high with √hash_space elements", "Birthday encoding", "Random sampling"],
+    "correctAnswer": "Collision probability is high with √hash_space elements",
+    "explanation": "With √N elements, collision probability approaches 50% in hash space of N."
+  },
+  {
+    "type": "dsa",
+    "level": 43,
+    "topic": "Extremely Hard Algorithms",
+    "question": "What is the meet-in-the-middle technique?",
+    "options": ["Binary search variant", "Split problem in half, solve each, combine in O(2^(n/2))", "Divide and conquer", "Two pointers in middle"],
+    "correctAnswer": "Split problem in half, solve each, combine in O(2^(n/2))",
+    "explanation": "Reduces exponential 2^n to 2^(n/2) by solving halves and matching solutions."
+  },
+  {
+    "type": "dsa",
+    "level": 43,
+    "topic": "Extremely Hard Algorithms",
+    "question": "What is the 4-Russians speedup technique?",
+    "options": ["Russian algorithm", "Precompute all possible inputs of size log n for O(n²/log n)", "Four parallel processors", "Optimization from Russia"],
+    "correctAnswer": "Precompute all possible inputs of size log n for O(n²/log n)",
+    "explanation": "Partition matrix into (log n)×(log n) blocks, precompute all 2^(2 log n) = n² results."
+  },
+  {
+    "type": "dsa",
+    "level": 43,
+    "topic": "Advanced Number Theory",
+    "question": "What is the discrete logarithm problem?",
+    "options": ["Finding log of integer", "Given g, h, p, find x such that g^x ≡ h (mod p)", "Logarithm in finite field", "Computing natural log modulo p"],
+    "correctAnswer": "Given g, h, p, find x such that g^x ≡ h (mod p)",
+    "explanation": "Baby-step giant-step solves in O(√p); believed hard for large p (crypto applications)."
+  },
+  {
+    "type": "dsa",
+    "level": 43,
+    "topic": "Advanced Number Theory",
+    "question": "What is the baby-step giant-step algorithm complexity?",
+    "options": ["O(n)", "O(√n) time and space", "O(log n)", "O(n log n)"],
+    "correctAnswer": "O(√n) time and space",
+    "explanation": "Compute √n baby steps and √n giant steps; find collision in hash table."
+  },
+  {
+    "type": "dsa",
+    "level": 44,
+    "topic": "Extremely Hard Geometry",
+    "question": "What is the half-plane intersection algorithm complexity?",
+    "options": ["O(n)", "O(n log n)", "O(n²)", "O(n² log n)"],
+    "correctAnswer": "O(n log n)",
+    "explanation": "Sort half-planes by angle, maintain deque of boundary; each plane added/removed once."
+  },
+  {
+    "type": "dsa",
+    "level": 44,
+    "topic": "Extremely Hard Geometry",
+    "question": "What is the Minkowski sum of two convex polygons?",
+    "options": ["Union of polygons", "Set of all pairwise sums of points from each polygon", "Intersection", "Symmetric difference"],
+    "correctAnswer": "Set of all pairwise sums of points from each polygon",
+    "explanation": "For convex polygons P and Q: P⊕Q = {p+q : p∈P, q∈Q}; computed in O(n+m)."
+  },
+  {
+    "type": "dsa",
+    "level": 44,
+    "topic": "Extremely Hard Data Structures",
+    "question": "What is a van Emde Boas tree?",
+    "options": ["Self-balancing BST", "Structure for integers [0,U) with O(log log U) operations", "Spatial data structure", "String data structure"],
+    "correctAnswer": "Structure for integers [0,U) with O(log log U) operations",
+    "explanation": "vEB tree achieves O(log log U) for predecessor, successor, insert, delete in universe [0,U)."
+  },
+  {
+    "type": "dsa",
+    "level": 44,
+    "topic": "Extremely Hard Data Structures",
+    "question": "What is a y-fast trie?",
+    "options": ["Fast trie implementation", "O(log log U) structure using O(n) space", "Trie for Y coordinates", "Compressed trie"],
+    "correctAnswer": "O(log log U) structure using O(n) space",
+    "explanation": "Combines x-fast trie with balanced BSTs for O(n) space and O(log log U) operations."
+  },
+  {
+    "type": "dsa",
+    "level": 45,
+    "topic": "Extremely Hard DP",
+    "question": "What is the Hirschberg's algorithm for LCS?",
+    "options": ["O(nm) time O(nm) space", "O(nm) time O(n+m) space using divide and conquer", "O(n+m) time", "O(nm log nm) time"],
+    "correctAnswer": "O(nm) time O(n+m) space using divide and conquer",
+    "explanation": "Hirschberg combines D&C with linear space DP to reconstruct LCS in O(n+m) space."
+  },
+  {
+    "type": "dsa",
+    "level": 45,
+    "topic": "Extremely Hard DP",
+    "question": "What is the DP optimization when cost satisfies quadrangle inequality?",
+    "options": ["Convex hull trick", "Divide and conquer optimization or Knuth's", "No optimization possible", "Binary search on answer"],
+    "correctAnswer": "Divide and conquer optimization or Knuth's",
+    "explanation": "Quadrangle inequality ensures monotonicity of optimal splits, enabling faster DP."
+  },
+  {
+    "type": "dsa",
+    "level": 45,
+    "topic": "Extremely Hard Strings",
+    "question": "What is the time complexity of building a suffix tree?",
+    "options": ["O(n²)", "O(n log n)", "O(n)", "O(n log² n)"],
+    "correctAnswer": "O(n)",
+    "explanation": "Ukkonen's algorithm builds suffix tree in O(n) using suffix links and implicit suffixes."
+  },
+  {
+    "type": "dsa",
+    "level": 45,
+    "topic": "Extremely Hard Strings",
+    "question": "What can suffix tree solve in O(n+m)?",
+    "options": ["Longest repeated substring only", "Exact pattern matching, LRS, LCS of two strings, all substring queries", "Only pattern matching", "Only LCS"],
+    "correctAnswer": "Exact pattern matching, LRS, LCS of two strings, all substring queries",
+    "explanation": "Suffix tree is extremely versatile for string problems after O(n) construction."
+  },
+  {
+    "type": "dsa",
+    "level": 46,
+    "topic": "Extremely Hard Graphs",
+    "question": "What is the time complexity of computing maximum independent set in a tree?",
+    "options": ["NP-hard", "O(n)", "O(n²)", "O(n log n)"],
+    "correctAnswer": "O(n)",
+    "explanation": "Tree DP: dp[v][0/1] = max including/excluding v; each node processed once."
+  },
+  {
+    "type": "dsa",
+    "level": 46,
+    "topic": "Extremely Hard Graphs",
+    "question": "What is the FPT algorithm for Vertex Cover parameterized by k?",
+    "options": ["O(n^k)", "O(2^k * n)", "O(k! * n)", "O(n * k²)"],
+    "correctAnswer": "O(2^k * n)",
+    "explanation": "For each edge, branch on which endpoint to include; at most 2^k branches with k budget."
+  },
+  {
+    "type": "dsa",
+    "level": 46,
+    "topic": "Extremely Hard DP",
+    "question": "What is the connected component DP for graphs?",
+    "options": ["DP on connected components", "Track connectivity as subset partition, use Stirling numbers", "BFS-based DP", "Simple graph DP"],
+    "correctAnswer": "Track connectivity as subset partition, use Stirling numbers",
+    "explanation": "State is partition of 'boundary' into connected groups; transitions merge groups."
+  },
+  {
+    "type": "dsa",
+    "level": 46,
+    "topic": "System Design",
+    "question": "What is consistent hashing?",
+    "options": ["Hash function that always returns same value", "Distributed hashing with minimal redistribution on node changes", "Collision-free hashing", "Cryptographic hash"],
+    "correctAnswer": "Distributed hashing with minimal redistribution on node changes",
+    "explanation": "Consistent hashing places nodes on ring; key goes to next node clockwise. Adding/removing affects only neighbors."
+  },
+  {
+    "type": "dsa",
+    "level": 47,
+    "topic": "Extremely Hard Algorithms",
+    "question": "What is the time complexity of Strassen's matrix multiplication?",
+    "options": ["O(n³)", "O(n^2.81)", "O(n²)", "O(n^3 log n)"],
+    "correctAnswer": "O(n^2.81)",
+    "explanation": "Strassen reduces 8 multiplications to 7, giving O(n^log₂7) ≈ O(n^2.81)."
+  },
+  {
+    "type": "dsa",
+    "level": 47,
+    "topic": "Extremely Hard Algorithms",
+    "question": "What is the current best known matrix multiplication exponent?",
+    "options": ["3", "2.81 (Strassen)", "Around 2.37", "2"],
+    "correctAnswer": "Around 2.37",
+    "explanation": "Current best is around O(n^2.37); lower bound of Ω(n²) and ω=2 is conjectured."
+  },
+  {
+    "type": "dsa",
+    "level": 47,
+    "topic": "Approximation Algorithms",
+    "question": "What is the approximation ratio of the greedy algorithm for Set Cover?",
+    "options": ["Constant", "O(log n)", "O(n)", "O(√n)"],
+    "correctAnswer": "O(log n)",
+    "explanation": "Greedy set cover achieves H_n ≈ ln(n) + 1 approximation, which is optimal unless P=NP."
+  },
+  {
+    "type": "dsa",
+    "level": 47,
+    "topic": "Approximation Algorithms",
+    "question": "What is a PTAS (Polynomial Time Approximation Scheme)?",
+    "options": ["Exact polynomial algorithm", "Algorithm giving (1+ε) approximation in poly(n) for fixed ε", "Probabilistic algorithm", "Pseudo-polynomial algorithm"],
+    "correctAnswer": "Algorithm giving (1+ε) approximation in poly(n) for fixed ε",
+    "explanation": "PTAS runs in n^f(1/ε) for some function f; FPTAS runs in poly(n, 1/ε)."
+  },
+  {
+    "type": "dsa",
+    "level": 48,
+    "topic": "Extremely Hard Online Algorithms",
+    "question": "What is the competitive ratio of the LRU cache for paging?",
+    "options": ["1", "k (cache size)", "log k", "2"],
+    "correctAnswer": "k (cache size)",
+    "explanation": "LRU has competitive ratio k against optimal offline algorithm (Bélády's)."
+  },
+  {
+    "type": "dsa",
+    "level": 48,
+    "topic": "Extremely Hard Online Algorithms",
+    "question": "What is the ski rental problem's optimal online strategy?",
+    "options": ["Always buy", "Always rent", "Rent for (buy_cost/rent_cost - 1) days then buy", "Random choice"],
+    "correctAnswer": "Rent for (buy_cost/rent_cost - 1) days then buy",
+    "explanation": "Renting until total equals buy cost gives competitive ratio of 2."
+  },
+  {
+    "type": "dsa",
+    "level": 48,
+    "topic": "Extremely Hard Randomization",
+    "question": "What is a Bloom filter?",
+    "options": ["Sorting algorithm", "Probabilistic set with false positives but no false negatives", "Compression filter", "Graph filter"],
+    "correctAnswer": "Probabilistic set with false positives but no false negatives",
+    "explanation": "k hash functions set k bits per element; query returns true if all k bits set."
+  },
+  {
+    "type": "dsa",
+    "level": 48,
+    "topic": "Extremely Hard Randomization",
+    "question": "What is Count-Min Sketch used for?",
+    "options": ["Counting exactly", "Estimating frequencies with bounded overestimate", "Finding mode", "Sorting elements"],
+    "correctAnswer": "Estimating frequencies with bounded overestimate",
+    "explanation": "Hash to multiple rows, increment counters; frequency estimate is minimum across rows."
+  },
+  {
+    "type": "dsa",
+    "level": 49,
+    "topic": "Extremely Hard Linear Algebra",
+    "question": "How do you count spanning trees of a graph?",
+    "options": ["DFS and count", "Kirchhoff's theorem (determinant of Laplacian minor)", "BFS enumeration", "Dynamic programming"],
+    "correctAnswer": "Kirchhoff's theorem (determinant of Laplacian minor)",
+    "explanation": "Number of spanning trees = det of any cofactor of Laplacian matrix."
+  },
+  {
+    "type": "dsa",
+    "level": 49,
+    "topic": "Extremely Hard Linear Algebra",
+    "question": "What is the application of linear algebra over GF(2)?",
+    "options": ["Graphics", "XOR-basis, linear independence of bit vectors", "Numerical analysis", "Statistics"],
+    "correctAnswer": "XOR-basis, linear independence of bit vectors",
+    "explanation": "Gaussian elimination over GF(2) finds XOR-basis; useful for XOR-related problems."
+  },
+  {
+    "type": "dsa",
+    "level": 49,
+    "topic": "Extremely Hard Combinatorics",
+    "question": "What is the Lindström-Gessel-Viennot lemma?",
+    "options": ["Graph coloring result", "Determinant counts non-intersecting lattice paths", "Tree counting formula", "Partition function"],
+    "correctAnswer": "Determinant counts non-intersecting lattice paths",
+    "explanation": "det(M) where M[i][j] = paths from source i to sink j counts signed non-crossing path families."
+  },
+  {
+    "type": "dsa",
+    "level": 49,
+    "topic": "Extremely Hard Combinatorics",
+    "question": "What is the Burnside's lemma used for?",
+    "options": ["Counting subsets", "Counting distinct objects under group action (symmetry)", "Graph isomorphism", "Permutation cycles"],
+    "correctAnswer": "Counting distinct objects under group action (symmetry)",
+    "explanation": "|orbits| = (1/|G|) Σ |fix(g)|; counts distinct colorings accounting for symmetry."
+  },
+  {
+    "type": "dsa",
+    "level": 50,
+    "topic": "Extremely Hard - Expert Level",
+    "question": "What is the complexity of testing graph isomorphism for bounded-degree graphs?",
+    "options": ["NP-complete", "Polynomial (due to Babai's breakthrough)", "Unknown", "Exponential only"],
+    "correctAnswer": "Polynomial (due to Babai's breakthrough)",
+    "explanation": "Babai showed graph isomorphism is in quasipolynomial time 2^(polylog n); polynomial for bounded degree."
+  },
+  {
+    "type": "dsa",
+    "level": 50,
+    "topic": "Extremely Hard - Expert Level",
+    "question": "What is the Permanent of a matrix and why is it hard?",
+    "options": ["Same as determinant", "Sum over permutations without signs; #P-complete to compute", "Product of diagonal", "Trace of matrix power"],
+    "correctAnswer": "Sum over permutations without signs; #P-complete to compute",
+    "explanation": "perm(A) = Σ Π A[i][π(i)]; unlike determinant (alternating signs), permanent is #P-complete."
+  },
+  {
+    "type": "dsa",
+    "level": 50,
+    "topic": "Extremely Hard - Expert Level",
+    "question": "What is the FKT algorithm?",
+    "options": ["Shortest path variant", "Computing perfect matching count in planar graphs in polynomial time", "Flow algorithm", "Tree algorithm"],
+    "correctAnswer": "Computing perfect matching count in planar graphs in polynomial time",
+    "explanation": "FKT (Fisher-Kasteleyn-Temperley) uses Pfaffian orientation to compute perfect matching count as determinant."
+  },
+  {
+    "type": "dsa",
+    "level": 50,
+    "topic": "Extremely Hard - Expert Level",
+    "question": "What is the relationship between SAT and NP-completeness?",
+    "options": ["SAT is in P", "SAT is the first proven NP-complete problem (Cook-Levin)", "SAT is not in NP", "SAT is P-complete"],
+    "correctAnswer": "SAT is the first proven NP-complete problem (Cook-Levin)",
+    "explanation": "Cook-Levin theorem: any NP problem can be reduced to SAT in polynomial time."
+  }
+]

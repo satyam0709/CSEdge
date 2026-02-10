@@ -1,79 +1,55 @@
 import express from "express";
 import cors from "cors";
-import "dotenv/config";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Load environment variables FIRST
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '.env') });
+
 import connectDB from "./configs/mongodb.js";
 import connectCloudinary from "./configs/cloudinary.js";
-import { clerkMiddleware } from "@clerk/express";
+
+import adminRoutes from "./routes/app-admin-routes.js";
+import courseRoutes from "./routes/app-course-routes.js";
+import educatorRoutes from "./routes/app-educator-routes.js";
+import testRoutes from "./routes/app-test-routes.js";
+import userRoutes from "./routes/app-user-routes.js";
+import companyArticleRoutes from "./routes/app-company-articles-routes.js";
 import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
-import educatorRouter from "./routes/app-educator-routes.js";
-import courseRouter from "./routes/app-course-routes.js";
-import userRouter from "./routes/app-user-routes.js";
 
 const app = express();
 
-// Connect DB + cloud
-await connectDB();
-await connectCloudinary();
+// IMPORTANT: raw body for webhooks
+app.post("/api/webhooks/stripe", express.raw({ type: "application/json" }), stripeWebhooks);
+app.post("/api/webhooks/clerk", express.raw({ type: "application/json" }), clerkWebhooks);
 
-const allowedOrigins = process.env.CLIENT_ORIGIN 
-  ? process.env.CLIENT_ORIGIN.split(',')
-  : ["http://localhost:5173", "http://localhost:5174"];
-
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  })
-);
-
-// Stripe webhook
-app.post(
-  "/webhooks/stripe",
-  express.raw({ type: "application/json" }),
-  stripeWebhooks
-);
-
-// Clerk webhook
-app.post(
-  "/webhooks/clerk",
-  express.raw({ type: "application/json" }),
-  clerkWebhooks
-);
-
-// ---------------------------------------------------------
-// GLOBAL MIDDLEWARE (Applies to API routes below)
-// ---------------------------------------------------------
-
-// JSON body parsers
+// Normal middleware AFTER webhooks
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+  optionsSuccessStatus: 200
+}));
 
-// Clerk auth middleware
-app.use(clerkMiddleware());
+connectDB();
+connectCloudinary();
 
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path}`);
-  next();
-});
+// API ROUTES
+app.use("/api/admin", adminRoutes);
+app.use("/api/course", courseRoutes);
+app.use("/api/educator", educatorRoutes);
+app.use("/api/test", testRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/company-articles", companyArticleRoutes);
 
-// API routes
-app.use("/api/educator", educatorRouter);
-app.use("/api/course", courseRouter);
-app.use("/api/user", userRouter);
+app.get("/", (_, res) => res.send("LMS API Running"));
 
-// 404
-app.use((req, res) => {
-  res.status(404).json({ success: false, message: "Route not found" });
-});
-
-// Global error handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ success: false, message: err.message });
-});
-
-// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`✅ Server running on port ${PORT}`);
 });
+
+export default app;

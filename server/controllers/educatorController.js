@@ -3,6 +3,7 @@ import Course from '../models/course.js'
 import { v2 as cloudinary } from 'cloudinary'
 import { Purchase } from '../models/Purchase.js';
 import User from '../models/user.js';
+import ExternalProblem from '../models/ExternalProblem.js';
 
 export const updateRoleToEducator = async (req, res) => {
     try {
@@ -145,3 +146,40 @@ export const getEnrolledStudentData = async (req, res) => {
         res.json({ success: false, message: error.message });
     }
 }
+
+export const getExternalProblemsForEducator = async (req, res) => {
+    try {
+        // Aggregate recent external problems across users for educator/admin view
+        // For now, return recent 100 entries and counts by type/source
+        const recent = await ExternalProblem.find({}).sort({ createdAt: -1 }).limit(100);
+
+        // Populate basic user info where possible
+        const userIds = [...new Set(recent.map(r => r.userId))];
+        const users = await User.find({ _id: { $in: userIds } }, 'name imageUrl');
+        const userMap = {};
+        users.forEach(u => userMap[u._id] = u);
+
+        const items = recent.map(r => ({
+            _id: r._id,
+            url: r.url,
+            title: r.title,
+            source: r.source,
+            type: r.type,
+            solved: r.solved,
+            createdAt: r.createdAt,
+            user: userMap[r.userId] || null
+        }));
+
+        const countsByType = {};
+        const countsBySource = {};
+        recent.forEach(r => {
+            countsByType[r.type] = (countsByType[r.type] || 0) + 1;
+            if (r.source) countsBySource[r.source] = (countsBySource[r.source] || 0) + 1;
+        });
+
+        res.json({ success: true, items, countsByType, countsBySource });
+    } catch (error) {
+        console.error('getExternalProblemsForEducator error', error);
+        res.json({ success: false, message: error.message });
+    }
+};

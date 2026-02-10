@@ -1,4 +1,6 @@
 import express from 'express'
+import { getUserDashboard } from "../controllers/userController.js";
+
 import { 
     addUserRating, 
     getUserCourseProgress, 
@@ -7,7 +9,11 @@ import {
     updateUserCourseProgress, 
     userEnrolledCourses,
     getUserPurchases,
-    verifyPurchase
+    verifyPurchase,
+    addExternalProblem,
+    listExternalProblems,
+    toggleExternalProblem,
+    deleteExternalProblem
 } from '../controllers/userController.js'
 import { checkPurchaseStatus, checkAllPendingPurchases } from '../controllers/webhooks.js'
 import { requireAuth } from "@clerk/express";
@@ -17,22 +23,28 @@ const userRouter = express.Router()
 // Apply auth middleware to all routes
 userRouter.use(requireAuth());
 
-// User data routes
-userRouter.get('/data', getUserData)
-userRouter.get('/enrolled-courses', userEnrolledCourses)
+// USER CORE
+userRouter.get("/data", getUserData);
+userRouter.get("/dashboard", getUserDashboard);
 
-// Purchase routes
-userRouter.post('/purchase', purchaseCourse)
-userRouter.get('/purchases', getUserPurchases)
-userRouter.post('/verify-purchase', verifyPurchase)
-userRouter.get('/purchase-status/:purchaseId', checkPurchaseStatus)
-userRouter.post('/check-pending-purchases', checkAllPendingPurchases)
+// COURSES
+userRouter.get("/enrolled-courses", userEnrolledCourses);
+userRouter.post("/update-course-progress", updateUserCourseProgress);
+userRouter.post("/get-course-progress", getUserCourseProgress);
+userRouter.post("/add-rating", addUserRating);
 
-// Course progress routes
-userRouter.post('/update-course-progress', updateUserCourseProgress)
-userRouter.post('/get-course-progress', getUserCourseProgress)
+// PAYMENTS
+userRouter.post("/purchase", purchaseCourse);
+userRouter.get("/purchases", getUserPurchases);
+userRouter.post("/verify-purchase", verifyPurchase);
+userRouter.get("/purchase-status/:purchaseId", checkPurchaseStatus);
+userRouter.post("/check-pending-purchases", checkAllPendingPurchases);
 
-// Rating route
-userRouter.post('/add-rating', addUserRating)
+// EXTERNAL PROBLEMS (User-tracked links)
+userRouter.post("/external-problem", addExternalProblem);
+userRouter.get("/external-problems", listExternalProblems);
+userRouter.put("/external-problem/:id", toggleExternalProblem);
+userRouter.delete("/external-problem/:id", deleteExternalProblem);
+
 
 export default userRouter

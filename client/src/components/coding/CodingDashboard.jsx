@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Terminal, Lock, Code2, Trophy, Star } from 'lucide-react';
-import { DSA_LEVELS, getDSAQuestions } from '../../lib/dsaData';
+import axios from '../../utils/axios';
+import { Link } from 'react-router-dom';
 import CodingTest from './CodingTest';
 
 const CodingDashboard = () => {
@@ -81,7 +82,8 @@ const isLevelLocked = (levelId) => false;
       <div className="min-h-screen bg-gray-50 py-6">
         <CodingTest 
           level={activeLevel} 
-          questions={getDSAQuestions(activeLevel.id)}
+          // fetch questions from backend for the DSA level
+          questions={activeLevel.questions || []}
           onComplete={handleLevelComplete}
           onExit={() => setView('dashboard')}
         />
@@ -93,7 +95,10 @@ const isLevelLocked = (levelId) => false;
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-10">
-        
+        <div className="flex justify-end">
+          <Link to="/" className="text-sm bg-gray-100 px-3 py-1 rounded">Home</Link>
+        </div>
+
         {/* Header Section */}
         <div className="text-center space-y-4">
           <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-1.5 rounded-full text-sm font-bold mb-2">
@@ -114,7 +119,7 @@ const isLevelLocked = (levelId) => false;
              <div key={topic} className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
                <div className="text-gray-500 text-xs font-bold uppercase tracking-wider">{topic}</div>
                <div className="text-gray-900 font-bold text-lg">
-                 {Object.values(progress).filter(p => p.passed && DSA_LEVELS[p.levelId-1]?.topic.includes(topic)).length} Cleared
+                 {Object.values(progress).filter(p => p.passed).length} Cleared
                </div>
              </div>
            ))}
@@ -122,7 +127,7 @@ const isLevelLocked = (levelId) => false;
 
         {/* Levels Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {DSA_LEVELS.map((level) => {
+          {Array.from({ length: 50 }, (_, i) => ({ id: i+1, name: `Level ${i+1}`, topic: 'General', difficulty: i+1 <=10 ? 'Easy' : i+1<=30 ? 'Medium' : 'Hard' })).map((level) => {
             const isLocked = isLevelLocked(level.id);
             const levelProgress = progress[level.id];
             
@@ -130,7 +135,16 @@ const isLevelLocked = (levelId) => false;
               <button
                 key={level.id}
                 disabled={isLocked}
-                onClick={() => { setActiveLevel(level); setView('test'); }}
+                onClick={async () => { 
+                  // fetch questions for this level
+                  try {
+                    const { data } = await axios.get('/api/test/questions', { params: { type: 'dsa', level: level.id, limit: 10 } });
+                    if (data.success) {
+                      level.questions = data.questions.map(q => ({ id: q._id, question: q.question, options: q.options }));
+                    }
+                  } catch (err) { console.error(err); }
+                  setActiveLevel(level); setView('test');
+                }}
                 className={`relative group p-6 rounded-2xl border text-left transition-all duration-300 ${
                   isLocked 
                     ? 'bg-gray-100 border-gray-200 opacity-60' 

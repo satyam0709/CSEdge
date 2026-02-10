@@ -4,7 +4,7 @@ import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
 import { AppContext } from '../../context/AppContext'
 import { toast } from 'react-toastify'
-import axios from 'axios'
+import axiosInstance from '../../utils/axios'
 
 const AddCourse = () => {
 

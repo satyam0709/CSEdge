@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Timer, Code2, ArrowRight, Check, X, AlertTriangle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Code2, ArrowRight, Check, X, AlertTriangle } from 'lucide-react';
 
 const DevTest = ({ level, questions, onComplete, onExit }) => {
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(level.timeLimit);
   const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    if (submitted || timeLeft <= 0) { if(timeLeft<=0) handleSubmit(); return; }
-    const t = setInterval(() => setTimeLeft(p => p - 1), 1000);
-    return () => clearInterval(t);
-  }, [timeLeft, submitted]);
 
   const handleSubmit = () => {
     setSubmitted(true);
@@ -30,9 +23,7 @@ const DevTest = ({ level, questions, onComplete, onExit }) => {
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
           <Code2 className="text-blue-400" /> {level.topic}
         </h2>
-        <div className="font-mono text-xl font-bold text-blue-400">
-          {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
-        </div>
+        <div />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

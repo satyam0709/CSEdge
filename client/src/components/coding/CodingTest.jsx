@@ -1,28 +1,11 @@
 // src/components/coding/CodingTest.jsx
-import React, { useState, useEffect } from 'react';
-import { Timer, Terminal, ArrowRight, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Terminal, ArrowRight, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 
 const CodingTest = ({ level, questions, onComplete, onExit }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(level.timeLimit);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  useEffect(() => {
-    if (isSubmitted) return;
-    if (timeLeft <= 0) {
-      handleSubmit();
-      return;
-    }
-    const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
-    return () => clearInterval(timer);
-  }, [timeLeft, isSubmitted]);
-
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-  };
 
   const handleOptionSelect = (optionIndex) => {
     if (isSubmitted) return;
@@ -71,10 +54,7 @@ const CodingTest = ({ level, questions, onComplete, onExit }) => {
             </span>
           </div>
         </div>
-        <div className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-lg font-bold ${timeLeft < 60 ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-700'}`}>
-          <Timer className="w-5 h-5" />
-          {formatTime(timeLeft)}
-        </div>
+        <div />
       </div>
 
       {/* DYNAMIC GRID: 2 Cols if Code, 1 Col if Theory */}

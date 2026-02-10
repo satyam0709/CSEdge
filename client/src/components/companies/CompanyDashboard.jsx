@@ -1,14 +1,14 @@
 // src/components/companies/CompanyDashboard.jsx
 import React, { useState } from 'react';
 import { Building2, ArrowRight } from 'lucide-react';
-import { COMPANIES, getCompanyQuestions } from '../../lib/companyData';
+import axios from '../../utils/axios';
 import CodingTest from '../coding/CodingTest'; // REUSING YOUR EXISTING COMPONENT
 
 const CompanyDashboard = () => {
   const [activeCompany, setActiveCompany] = useState(null);
+  const [questions, setQuestions] = useState([]);
 
   if (activeCompany) {
-    // Construct a "Fake Level" object so we can reuse CodingTest
     const mockLevel = {
       id: activeCompany.id,
       name: activeCompany.name,
@@ -28,7 +28,7 @@ const CompanyDashboard = () => {
         </button>
         <CodingTest 
           level={mockLevel}
-          questions={getCompanyQuestions(activeCompany.id)}
+          questions={questions}
           onComplete={(res) => alert(`You scored ${res.score} points!`)}
           onExit={() => setActiveCompany(null)}
         />
@@ -48,10 +48,20 @@ const CompanyDashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {COMPANIES.map((company) => (
+          {[
+            { id: 'google', name: 'Google', color: 'text-blue-600' },
+            { id: 'amazon', name: 'Amazon', color: 'text-orange-600' },
+            { id: 'microsoft', name: 'Microsoft', color: 'text-green-600' }
+          ].map((company) => (
             <div 
               key={company.id}
-              onClick={() => setActiveCompany(company)}
+              onClick={async () => {
+                try {
+                  const { data } = await axios.get('/api/test/questions', { params: { type: 'dev', level: 1, limit: 10 } });
+                  if (data.success) setQuestions(data.questions.map(q => ({ id: q._id, question: q.question, options: q.options })));
+                } catch (err) { console.error(err); }
+                setActiveCompany(company);
+              }}
               className="group relative bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1"
             >
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-600 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />

@@ -1,7 +1,8 @@
 // src/components/dev/DevDashboard.jsx
 import React, { useState, useEffect } from 'react';
 import { Database, Layout, Server, Code, Globe, Lock, Cpu } from 'lucide-react';
-import { DEV_LEVELS, getDevQuestions } from '../../lib/devData';
+import axios from '../../utils/axios';
+import { Link } from 'react-router-dom';
 import DevTest from './DevTest';
 
 const DevDashboard = () => {
@@ -37,7 +38,7 @@ const DevDashboard = () => {
   };
 
   if (view === 'test' && activeLevel) {
-    return <DevTest level={activeLevel} questions={getDevQuestions(activeLevel.id)} onComplete={handleComplete} onExit={() => setView('dashboard')} />;
+    return <DevTest level={activeLevel} questions={activeLevel.questions || []} onComplete={handleComplete} onExit={() => setView('dashboard')} />;
   }
 
   return (
@@ -50,9 +51,12 @@ const DevDashboard = () => {
           <h1 className="text-4xl font-extrabold text-white mb-2">Dev Skill Evaluation</h1>
           <p className="text-slate-400">Validate your stack expertise from Frontend to DevOps.</p>
         </div>
+        <div className="flex justify-end mb-4">
+          <Link to="/" className="text-sm bg-slate-700/20 text-slate-200 px-3 py-1 rounded">Home</Link>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {DEV_LEVELS.map((level) => {
+          {Array.from({ length: 30 }, (_, i) => ({ id: i+1, name: `Level ${i+1}`, topic: 'General', difficulty: i+1<=10 ? 'Junior' : i+1<=20 ? 'Intermediate' : 'Senior' })).map((level) => {
             // FORCE UNLOCK: Always set locked to false
             const locked = false; 
             const p = progress[level.id];
@@ -61,7 +65,13 @@ const DevDashboard = () => {
               <button
                 key={level.id}
                 disabled={locked}
-                onClick={() => { setActiveLevel(level); setView('test'); }}
+                onClick={async () => { 
+                  try {
+                    const { data } = await axios.get('/api/test/questions', { params: { type: 'dev', level: level.id, limit: 8 } });
+                    if (data.success) level.questions = data.questions.map(q => ({ id: q._id, question: q.question, options: q.options }));
+                  } catch (err) { console.error(err); }
+                  setActiveLevel(level); setView('test');
+                }}
                 className={`relative p-6 rounded-xl border text-left transition-all ${
                   locked 
                     ? 'bg-slate-900/50 border-slate-800 opacity-50' 

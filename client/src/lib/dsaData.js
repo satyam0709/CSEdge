@@ -1,23 +1,7 @@
-// src/lib/dsaData.js
+// Stubbed out - questions moved to backend. Keep minimal exports to avoid import errors.
+export const DSA_LEVELS = [];
+export const getDSAQuestions = (levelId) => [];
 
-// ==========================================
-// 1. TOPIC MAP (Syllabus)
-// ==========================================
-const getTopicForLevel = (level) => {
-  if (level <= 5) return "Basics: Loops, Conditions & Logic";
-  if (level <= 10) return "Pointers & Memory Management";
-  if (level <= 15) return "Arrays & Strings: Two Pointers";
-  if (level <= 20) return "Searching & Sorting Algorithms";
-  if (level <= 25) return "Recursion & Backtracking";
-  if (level <= 30) return "Linked Lists (Singly/Doubly)";
-  if (level <= 35) return "Stacks, Queues & Deque";
-  if (level <= 40) return "Trees, BST & Heaps";
-  if (level <= 45) return "Graphs: BFS, DFS & Shortest Path";
-  return "Dynamic Programming & Greedy"; // 46-50
-};
-
-export const DSA_LEVELS = Array.from({ length: 50 }, (_, i) => {
-  const num = i + 1;
   const topic = getTopicForLevel(num);
   let difficulty = 'Beginner';
   if (num > 10) difficulty = 'Easy';

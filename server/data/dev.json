@@ -1,0 +1,282 @@
+[
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "percentages",
+    "question": "What is 10% of 200?",
+    "options": [
+      "10",
+      "20",
+      "30",
+      "40"
+    ],
+    "correctAnswer": "20",
+    "explanation": "10% of 200 = (10/100) × 200 = 20"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "ratios",
+    "question": "Simplify ratio 4:8",
+    "options": [
+      "1:2",
+      "2:4",
+      "3:6",
+      "4:8"
+    ],
+    "correctAnswer": "1:2",
+    "explanation": "Divide both by 4: 4÷4=1, 8÷4=2"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "averages",
+    "question": "Average of 10, 20, 30",
+    "options": [
+      "15",
+      "20",
+      "25",
+      "30"
+    ],
+    "correctAnswer": "20",
+    "explanation": "(10+20+30)/3 = 60/3 = 20"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "simple interest",
+    "question": "SI on ₹1000 at 5% for 1 year",
+    "options": [
+      "₹40",
+      "₹50",
+      "₹60",
+      "₹70"
+    ],
+    "correctAnswer": "₹50",
+    "explanation": "SI = (1000×5×1)/100 = 50"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "profit loss",
+    "question": "CP=₹100, SP=₹120, profit%?",
+    "options": [
+      "10%",
+      "15%",
+      "20%",
+      "25%"
+    ],
+    "correctAnswer": "20%",
+    "explanation": "Profit=20, %=(20/100)×100=20%"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "time speed distance",
+    "question": "Speed=60km/h, Time=2h, Distance?",
+    "options": [
+      "100km",
+      "120km",
+      "140km",
+      "160km"
+    ],
+    "correctAnswer": "120km",
+    "explanation": "Distance=Speed×Time=60×2=120km"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "number series",
+    "question": "2, 4, 6, 8, ?",
+    "options": [
+      "9",
+      "10",
+      "11",
+      "12"
+    ],
+    "correctAnswer": "10",
+    "explanation": "Add 2: 2+2=4, 4+2=6, 6+2=8, 8+2=10"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "algebra",
+    "question": "Solve: x + 5 = 10",
+    "options": [
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "correctAnswer": "5",
+    "explanation": "x = 10 - 5 = 5"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "geometry",
+    "question": "Area of square side 5cm",
+    "options": [
+      "20",
+      "25",
+      "30",
+      "35"
+    ],
+    "correctAnswer": "25",
+    "explanation": "Area=side²=5²=25cm²"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "fractions",
+    "question": "1/2 + 1/4 = ?",
+    "options": [
+      "1/4",
+      "2/4",
+      "3/4",
+      "1"
+    ],
+    "correctAnswer": "3/4",
+    "explanation": "1/2=2/4, 2/4+1/4=3/4"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "decimals",
+    "question": "0.5 × 0.2 = ?",
+    "options": [
+      "0.1",
+      "0.01",
+      "1.0",
+      "0.001"
+    ],
+    "correctAnswer": "0.1",
+    "explanation": "0.5×0.2=0.10=0.1"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "simplification",
+    "question": "15 + 25 - 10 = ?",
+    "options": [
+      "20",
+      "25",
+      "30",
+      "35"
+    ],
+    "correctAnswer": "30",
+    "explanation": "15+25=40, 40-10=30"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "time work",
+    "question": "A completes work in 10 days. Daily work?",
+    "options": [
+      "1/5",
+      "1/10",
+      "1/15",
+      "1/20"
+    ],
+    "correctAnswer": "1/10",
+    "explanation": "Total work=1, Daily=1/10"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "mensuration",
+    "question": "Perimeter of square side 4cm",
+    "options": [
+      "12",
+      "16",
+      "20",
+      "24"
+    ],
+    "correctAnswer": "16",
+    "explanation": "Perimeter=4×side=4×4=16cm"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "probability",
+    "question": "Probability of head in coin toss",
+    "options": [
+      "0",
+      "0.25",
+      "0.5",
+      "1"
+    ],
+    "correctAnswer": "0.5",
+    "explanation": "P(head)=1/2=0.5"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "number system",
+    "question": "Smallest prime number",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "correctAnswer": "2",
+    "explanation": "2 is smallest prime"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "percentages",
+    "question": "25% of 400 = ?",
+    "options": [
+      "50",
+      "75",
+      "100",
+      "125"
+    ],
+    "correctAnswer": "100",
+    "explanation": "25% of 400=(25/100)×400=100"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "ratios",
+    "question": "Ratio 3:9 in simplest form",
+    "options": [
+      "1:3",
+      "2:6",
+      "3:9",
+      "4:12"
+    ],
+    "correctAnswer": "1:3",
+    "explanation": "Divide by 3: 3÷3=1, 9÷3=3"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "averages",
+    "question": "Average of 5, 10, 15, 20",
+    "options": [
+      "10",
+      "12.5",
+      "15",
+      "17.5"
+    ],
+    "correctAnswer": "12.5",
+    "explanation": "(5+10+15+20)/4=50/4=12.5"
+  },
+  {
+    "type": "aptitude",
+    "level": 1,
+    "topic": "time speed distance",
+    "question": "Distance=240km, Time=4h, Speed?",
+    "options": [
+      "50",
+      "55",
+      "60",
+      "65"
+    ],
+    "correctAnswer": "60",
+    "explanation": "Speed=Distance/Time=240/4=60km/h"
+  }
+  ]

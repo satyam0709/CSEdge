@@ -1,8 +1,9 @@
 // src/components/aptitude/AptitudeDashboard.jsx
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Trophy, Lock, Play, Star, TrendingUp, BookOpen } from 'lucide-react';
-import { LEVELS, getQuestionsForLevel } from '../../lib/aptitudeData';
+import axios from '../../utils/axios';
 import AptitudeTest from './AptitudeTest';
 
 const AptitudeDashboard = () => {
@@ -10,6 +11,7 @@ const AptitudeDashboard = () => {
   const [userProgress, setUserProgress] = useState({});
   const [view, setView] = useState('dashboard'); // 'dashboard' | 'test' | 'result'
   const [lastResult, setLastResult] = useState(null);
+  const [questionsForLevel, setQuestionsForLevel] = useState([]);
 
   // Load progress from local storage on mount
   useEffect(() => {
@@ -22,7 +24,22 @@ const AptitudeDashboard = () => {
   const startLevel = (level) => {
     if (isLevelLocked(level.id)) return;
     setActiveLevel(level);
-    setView('test');
+    // fetch questions from backend for this level
+    (async () => {
+      try {
+        const { data } = await axios.get('/api/test/questions', {
+          params: { type: 'aptitude', level: level.id, limit: level.questionsCount || 10 }
+        });
+        if (data.success) {
+          // map server fields to what AptitudeTest expects
+          const qlist = data.questions.map(q => ({ id: q._id, question: q.question, options: q.options, explanation: '' }));
+          setQuestionsForLevel(qlist);
+          setView('test');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    })();
   };
 
   const handleTestComplete = (result) => {
@@ -80,7 +97,7 @@ const isLevelLocked = (levelId) => false;
       <div className="min-h-screen bg-gray-50 py-8">
         <AptitudeTest 
           level={activeLevel} 
-          questions={getQuestionsForLevel(activeLevel.id)}
+          questions={questionsForLevel}
           onComplete={handleTestComplete}
           onExit={() => setView('dashboard')}
         />
@@ -136,6 +153,9 @@ const isLevelLocked = (levelId) => false;
             </h1>
             <p className="text-gray-500 mt-1">Master your skills across 50 progressive levels.</p>
           </div>
+          <div className="flex items-center gap-2">
+            <Link to="/" className="text-sm bg-gray-100 px-3 py-1 rounded">Home</Link>
+          </div>
           <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 flex items-center gap-3">
              <div className="flex items-center gap-2">
                <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
@@ -167,7 +187,12 @@ const isLevelLocked = (levelId) => false;
 
         {/* Levels Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {LEVELS.map((level) => {
+          {Array.from({ length: 50 }, (_, i) => ({
+            id: i + 1,
+            name: `Level ${i + 1}`,
+            difficulty: i + 1 <= 10 ? 'Beginner' : i + 1 <= 25 ? 'Intermediate' : i + 1 <= 40 ? 'Advanced' : 'Expert',
+            questionsCount: 10
+          })).map((level) => {
             const locked = isLevelLocked(level.id);
             const progress = userProgress[level.id];
             

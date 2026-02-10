@@ -1,5 +1,10 @@
 // src/lib/devData.js
 
+// Stubbed out - questions moved to backend. Keep minimal exports to avoid import errors.
+export const DEV_LEVELS = [];
+export const getDevQuestions = (levelId) => [];
+
+
 // ==========================================
 // 1. SYLLABUS MAPPING & LEVELS
 // ==========================================

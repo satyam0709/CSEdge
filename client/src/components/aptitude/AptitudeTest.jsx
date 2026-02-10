@@ -1,29 +1,16 @@
 // src/components/aptitude/AptitudeTest.jsx
 import React, { useState, useEffect } from 'react';
-import { Timer, AlertCircle, CheckCircle, XCircle, ArrowRight, ArrowLeft } from 'lucide-react';
+import { AlertCircle, CheckCircle, XCircle, ArrowRight, ArrowLeft } from 'lucide-react';
+import axios from '../../utils/axios';
 
 const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(level.timeLimit);
+  // timers removed
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Timer Logic
-  useEffect(() => {
-    if (isSubmitted) return;
-    if (timeLeft <= 0) {
-      handleSubmit();
-      return;
-    }
-    const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
-    return () => clearInterval(timer);
-  }, [timeLeft, isSubmitted]);
 
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-  };
+  // timers removed
 
   const handleOptionSelect = (optionIndex) => {
     if (isSubmitted) return;
@@ -32,29 +19,40 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
 
   const handleSubmit = () => {
     setIsSubmitted(true);
-    let correctCount = 0;
+    // Submit each answer to server to record attempts and get correctness
+    (async () => {
+      let correctCount = 0;
+      for (const q of questions) {
+        const selected = answers[q.id];
+        try {
+          const { data } = await axios.post('/api/test/submit', {
+            questionId: q.id,
+            selectedAnswer: selected,
+            type: 'aptitude'
+          });
 
-    questions.forEach((q) => {
-      // Use loose equality (==) just in case types differ, but strict (===) is better if types match
-      if (answers[q.id] === q.correctAnswer) {
-        correctCount++;
+          if (data.success && data.correct) correctCount++;
+          // optionally show explanation for last question
+          if (data.explanation && !q.explanation) q.explanation = data.explanation;
+        } catch (err) {
+          console.error('submit error', err);
+        }
       }
-    });
 
-    const percentage = (correctCount / questions.length) * 100;
-    const passed = percentage >= level.requiredScore;
+      const percentage = (correctCount / questions.length) * 100;
+      const passed = percentage >= (level.requiredScore || 50);
 
-    // Wait a moment then send data back
-    setTimeout(() => {
-      onComplete({
-        score: correctCount * 10,
-        correctCount,
-        totalQuestions: questions.length,
-        percentage,
-        passed,
-        levelId: level.id
-      });
-    }, 1500);
+      setTimeout(() => {
+        onComplete({
+          score: Math.round((percentage / 100) * 100),
+          correctCount,
+          totalQuestions: questions.length,
+          percentage,
+          passed,
+          levelId: level.id
+        });
+      }, 500);
+    })();
   };
 
   const currentQuestion = questions[currentIndex];
@@ -69,10 +67,7 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
           <h2 className="text-2xl font-bold text-gray-800">{level.name} Assessment</h2>
           <span className="text-sm text-gray-500">Question {currentIndex + 1} of {questions.length}</span>
         </div>
-        <div className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono ${timeLeft < 60 ? 'bg-red-100 text-red-600' : 'bg-blue-50 text-blue-600'}`}>
-          <Timer className="w-5 h-5" />
-          <span className="font-bold text-xl">{formatTime(timeLeft)}</span>
-        </div>
+        <div />
       </div>
 
       {/* Question Area */}

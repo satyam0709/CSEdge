@@ -4,8 +4,11 @@ import { Purchase } from "../models/Purchase.js"
 import User from "../models/user.js"
 import Stripe from "stripe"
 import { clerkClient } from '@clerk/express'
+import TestAttempt from "../models/TestAttempt.js";
+import TestProgress from "../models/TestProgress.js";
+import ExternalProblem from "../models/ExternalProblem.js";
 
-const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripeInstance = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 
 export const getUserData = async(req, res) => {
     try {
@@ -151,6 +154,13 @@ export const purchaseCourse = async(req, res) => {
         // Only add customer_email if we have a valid email
         if (userData.email && userData.email.trim() !== '') {
             sessionConfig.customer_email = userData.email;
+        }
+
+        if (!stripeInstance) {
+            return res.json({
+                success: false,
+                message: 'Stripe is not configured. Please add STRIPE_SECRET_KEY to environment variables.'
+            });
         }
 
         const session = await stripeInstance.checkout.sessions.create(sessionConfig);
@@ -347,6 +357,13 @@ export const verifyPurchase = async(req, res) => {
         }
 
         // Retrieve session from Stripe
+        if (!stripeInstance) {
+            return res.json({
+                success: false,
+                message: 'Stripe is not configured. Please add STRIPE_SECRET_KEY to environment variables.'
+            });
+        }
+
         const session = await stripeInstance.checkout.sessions.retrieve(sessionId);
 
         if (session.payment_status === 'paid') {
@@ -408,3 +425,173 @@ export const verifyPurchase = async(req, res) => {
         res.json({ success: false, message: error.message });
     }
 }
+
+
+export const getUserDashboard = async (req, res) => {
+  try {
+    let userId;
+    try {
+      userId = req.auth().userId;
+    } catch (authError) {
+      console.error("Auth error in dashboard:", authError);
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: " + authError.message
+      });
+    }
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: No user ID found"
+      });
+    }
+
+    // ---------------- TEST ANALYTICS ----------------
+    let attempts = [];
+    try {
+      attempts = await TestAttempt.find({ userId }).lean();
+    } catch (dbError) {
+      console.error("Error fetching test attempts:", dbError);
+      attempts = [];
+    }
+
+    const totalAttempts = attempts.length || 0;
+    const correctAttempts = attempts.filter(a => a.isCorrect).length || 0;
+
+    const accuracy = totalAttempts > 0
+      ? ((correctAttempts / totalAttempts) * 100).toFixed(2)
+      : 0;
+
+    const avgTime = totalAttempts > 0
+      ? (
+          attempts.reduce((sum, a) => sum + (a.timeTaken || 0), 0) /
+          totalAttempts
+        ).toFixed(2)
+      : 0;
+
+    const weakLevels = {};
+    attempts.forEach(a => {
+      if (!a.isCorrect && a.level) {
+        const key = `${a.type || 'unknown'}_${a.level}`;
+        if (!weakLevels[key]) {
+          weakLevels[key] = {
+            level: a.level,
+            type: a.type || 'unknown',
+            mistakes: 0
+          };
+        }
+        weakLevels[key].mistakes += 1;
+      }
+    });
+
+    // ---------------- COURSE PROGRESS ----------------
+    let completedCourses = 0;
+    let activeCourses = 0;
+    
+    try {
+      completedCourses = await CourseProgress.countDocuments({
+        userId,
+        completed: true
+      });
+
+      activeCourses = await CourseProgress.countDocuments({
+        userId,
+        completed: false
+      });
+    } catch (courseError) {
+      console.error("Error fetching course progress:", courseError);
+      completedCourses = 0;
+      activeCourses = 0;
+    }
+
+    // ---------------- DASHBOARD OBJECT ----------------
+    res.json({
+      success: true,
+      dashboard: {
+        tests: {
+          attempts: totalAttempts,
+          accuracy: String(accuracy),
+          avgTime: String(avgTime),
+          weakLevels: weakLevels
+        },
+        courses: {
+          completed: completedCourses,
+          active: activeCourses
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error("getUserDashboard error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Error loading dashboard"
+    });
+  }
+};
+
+/*
+=====================================
+EXTERNAL PROBLEMS (User-tracked links)
+=====================================
+*/
+export const addExternalProblem = async (req, res) => {
+    try {
+        const userId = req.auth().userId;
+        const { url, title, source, type } = req.body;
+
+        if (!url) return res.json({ success: false, message: 'URL required' });
+
+        const problem = await ExternalProblem.create({ userId, url, title: title || '', source: source || '', type: type || 'dsa' });
+        res.json({ success: true, problem });
+    } catch (error) {
+        console.error('addExternalProblem error', error);
+        res.json({ success: false, message: error.message });
+    }
+};
+
+export const listExternalProblems = async (req, res) => {
+    try {
+        const userId = req.auth().userId;
+        const { type } = req.query;
+        const filter = { userId };
+        if (type) filter.type = type;
+        const problems = await ExternalProblem.find(filter).sort({ createdAt: -1 });
+        res.json({ success: true, problems });
+    } catch (error) {
+        console.error('listExternalProblems error', error);
+        res.json({ success: false, message: error.message });
+    }
+};
+
+export const toggleExternalProblem = async (req, res) => {
+    try {
+        const userId = req.auth().userId;
+        const { id } = req.params;
+        const p = await ExternalProblem.findById(id);
+        if (!p) return res.json({ success: false, message: 'Not found' });
+        if (p.userId !== userId) return res.status(403).json({ success: false, message: 'Forbidden' });
+        p.solved = !p.solved;
+        await p.save();
+        res.json({ success: true, problem: p });
+    } catch (error) {
+        console.error('toggleExternalProblem error', error);
+        res.json({ success: false, message: error.message });
+    }
+};
+
+export const deleteExternalProblem = async (req, res) => {
+    try {
+        const userId = req.auth().userId;
+        const { id } = req.params;
+        const p = await ExternalProblem.findById(id);
+        if (!p) return res.json({ success: false, message: 'Not found' });
+        if (p.userId !== userId) return res.status(403).json({ success: false, message: 'Forbidden' });
+        await ExternalProblem.findByIdAndDelete(id);
+        res.json({ success: true });
+    } catch (error) {
+        console.error('deleteExternalProblem error', error);
+        res.json({ success: false, message: error.message });
+    }
+};

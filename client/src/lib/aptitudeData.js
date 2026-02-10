@@ -1,5 +1,10 @@
 // src/lib/aptitudeData.js
 
+// Stubbed out - questions moved to backend. Keep minimal exports to avoid import errors.
+export const LEVELS = [];
+export const getQuestionsForLevel = (levelId) => [];
+
+
 // --- CONFIGURATION ---
 export const LEVELS = Array.from({ length: 50 }, (_, i) => {
   const num = i + 1;

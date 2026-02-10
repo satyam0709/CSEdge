@@ -6,10 +6,11 @@ import { updateRoleToEducator, addCourse, getEducatorCourse , educatorDashboardD
 
 const educatorRouter = express.Router();
 
-educatorRouter.post('/update-role', requireAuth(), updateRoleToEducator);
-educatorRouter.post('/add-course', upload.single('image'), protectEducator, addCourse);
-educatorRouter.get('/courses' , protectEducator , getEducatorCourse)
-educatorRouter.get('/dashboard' , protectEducator , educatorDashboardData)
-educatorRouter.get('/enrolled-students' , protectEducator , getEnrolledStudentData)
+educatorRouter.post("/update-role", requireAuth(), updateRoleToEducator);
+educatorRouter.post("/add-course", requireAuth(), protectEducator, upload.single("image"), addCourse);
+educatorRouter.get("/courses", requireAuth(), protectEducator, getEducatorCourse);
+educatorRouter.get("/dashboard", requireAuth(), protectEducator, educatorDashboardData);
+educatorRouter.get("/enrolled-students", requireAuth(), protectEducator, getEnrolledStudentData);
+
 
 export default educatorRouter;

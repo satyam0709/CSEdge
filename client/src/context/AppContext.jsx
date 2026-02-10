@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import humanizeDuration from "humanize-duration";
 import {useAuth , useUser} from '@clerk/clerk-react';
-import axios from 'axios'
+import axiosInstance from '../utils/axios';
 import {toast} from 'react-toastify';
 
 
@@ -26,7 +26,7 @@ export const AppContextProvider = (props)=>{
     const fetchAllCourses = async()=>{
         try {
             
-            const {data} = await axios.get(backendUrl + '/api/course/all');
+            const {data} = await axiosInstance.get('/api/course/all');
 
             if(data.success){
                 setAllCourses(data.courses)
@@ -42,14 +42,14 @@ export const AppContextProvider = (props)=>{
 
     const fetchUserData = async ()=>{
 
-        if(user.publicMetadata.role === 'educator'){
+        if(user?.publicMetadata?.role === 'educator'){
             setIsEducator(true)
         }
 
         try {
             const token = await getToken();
             
-          const {data} =  await axios.get(backendUrl + '/api/user/data' , {headers: {Authorization: `Bearer ${token}`}}) ;
+          const {data} =  await axiosInstance.get('/api/user/data' , {headers: {Authorization: `Bearer ${token}`}}) ;
 
           if(data.success) {
             setUserData(data.user)
@@ -106,7 +106,7 @@ export const AppContextProvider = (props)=>{
 
         try {
             const token = await getToken();
-        const {data} = await axios.get(backendUrl + '/api/user/enrolled-courses', {headers: {Authorization: `Bearer ${token}`}})
+        const {data} = await axiosInstance.get('/api/user/enrolled-courses', {headers: {Authorization: `Bearer ${token}`}})
         
         if(data.success){
             setEnrolledCourses(data.enrolledCourses.reverse())

@@ -4,10 +4,7 @@ import Stripe from "stripe";
 import { Purchase } from "../models/Purchase.js";
 import Course from '../models/course.js';
 
-// Initialize Stripe instance
-const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-// ------------------------ CLERK WEBHOOK ------------------------
+const stripeInstance = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 export const clerkWebhooks = async (req, res) => {
     try {
         const payloadBuffer = Buffer.isBuffer(req.body)
@@ -65,9 +62,12 @@ export const clerkWebhooks = async (req, res) => {
     }
 };
 
-// ------------------------ STRIPE WEBHOOK ------------------------
 export const stripeWebhooks = async (req, res) => {
-    console.log('🎯 STRIPE WEBHOOK HANDLER CALLED');
+        if (!stripeInstance) {
+        console.log('⚠️ Stripe not configured, webhook ignored');
+        return res.status(200).json({ received: true, message: 'Stripe not configured' });
+    }
+    
     console.log('Request path:', req.originalUrl);
     console.log('Stripe signature present?', !!req.headers['stripe-signature']);
     
@@ -77,9 +77,7 @@ export const stripeWebhooks = async (req, res) => {
         console.error('❌ No Stripe signature in request');
         return res.status(400).send('No signature');
     }
-    
-    // Ensure raw body for signature verification
-    const rawBody = Buffer.isBuffer(req.body)
+        const rawBody = Buffer.isBuffer(req.body)
         ? req.body
         : Buffer.from(typeof req.body === "string" ? req.body : JSON.stringify(req.body));
     
@@ -105,7 +103,6 @@ export const stripeWebhooks = async (req, res) => {
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
     
-    // ⚠️ THIS WAS MISSING - ACTUALLY PROCESS THE PAYMENT EVENTS!
     try {
         switch (event.type) {
             case "checkout.session.completed": {
