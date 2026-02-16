@@ -28,8 +28,25 @@ app.post("/api/webhooks/clerk", express.raw({ type: "application/json" }), clerk
 
 // Normal middleware AFTER webhooks
 app.use(express.json());
+// Configure CORS to allow local dev and production frontend origins.
+// Set CLIENT_URLS as a comma-separated list of allowed origins in the server env.
+const rawClientUrls = process.env.CLIENT_URLS || process.env.CLIENT_URL || '';
+const defaultLocal = 'http://localhost:5173';
+let allowedOrigins = [];
+if (rawClientUrls) {
+  allowedOrigins = rawClientUrls.split(",").map(u => u.trim()).filter(Boolean);
+}
+if (!allowedOrigins.includes(defaultLocal)) allowedOrigins.push(defaultLocal);
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: function(origin, callback) {
+    // Allow non-browser requests (e.g., server-to-server) with no origin
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    return callback(new Error('CORS: Origin not allowed'));
+  },
   credentials: true,
   optionsSuccessStatus: 200
 }));
