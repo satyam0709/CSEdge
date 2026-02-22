@@ -12,15 +12,17 @@ import {
 
 const router = express.Router();
 
-// All test routes must be protected
-router.use(requireAuth());
-
-router.get("/question", getNextQuestion);
-router.post("/submit", submitAnswer);
-router.post("/reset", resetTest);
-router.get("/analytics", getAnalytics);
-router.get("/recommendations", getRecommendations);
+// Only protect routes that require a user context. Public endpoints like
+// available levels and questions by level are exposed so the frontend can
+// display level lists without requiring authentication. Protected routes
+// still require Clerk auth.
 router.get("/levels", getAvailableLevels);
 router.get("/level-questions", getQuestionsByLevel);
+
+router.get("/question", requireAuth(), getNextQuestion);
+router.post("/submit", requireAuth(), submitAnswer);
+router.post("/reset", requireAuth(), resetTest);
+router.get("/analytics", requireAuth(), getAnalytics);
+router.get("/recommendations", requireAuth(), getRecommendations);
 
 export default router;
