@@ -1,9 +1,7 @@
 // src/lib/companyData.js
 
 // Stubbed out - questions moved to backend. Keep minimal exports to avoid import errors.
-export const COMPANIES = [];
-export const getCompanyQuestions = (companyId) => [];
-
+// src/lib/companyData.js
 
 export const COMPANIES = [
   { id: 'accenture', name: 'Accenture', color: 'text-purple-600' },
@@ -13,8 +11,5 @@ export const COMPANIES = [
   { id: 'paypal', name: 'PayPal', color: 'text-blue-800' }
 ];
 
-// If you aren't using the internal test anymore, you can leave this empty or keep the old data.
-// BUT DO NOT PUT HTML HERE.
-export const getCompanyQuestions = (companyId) => {
-  return []; 
-};
+// Questions are handled by the backend
+export const getCompanyQuestions = (companyId) => [];

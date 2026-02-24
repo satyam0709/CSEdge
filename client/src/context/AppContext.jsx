@@ -23,10 +23,14 @@ export const AppContextProvider = (props)=>{
     const [enrolledCourses , setEnrolledCourses] = useState([]);
     const [userData , setUserData] = useState(null);
 
-    const fetchAllCourses = async()=>{
+    const fetchAllCourses = async(searchTerm='')=>{
         try {
             
-            const {data} = await axiosInstance.get('/api/course/all');
+            const {data} = await axiosInstance.get('/api/course/all', {
+                params: searchTerm ? { search: searchTerm } : undefined
+            }, {
+                params: searchTerm ? { search: searchTerm } : undefined
+            });
 
             if(data.success){
                 setAllCourses(data.courses)

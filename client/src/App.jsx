@@ -17,40 +17,50 @@ import Educator from "./pages/educator/Educator";
 import MyCourses from "./pages/educator/MyCourses";
 import AddCourse from "./pages/educator/AddCourse";
 import StudentEnrolled from "./pages/educator/StudentEnrolled";
+import AdminCourses from "./admin/AdminCourses";
+import Player from "./pages/student/Player";
 
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
+        {/* Public */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Student Routes */}
+        {/* Student */}
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/courses" element={<CourseList />} />
+
+        {/* Course list — supports /course-list and /course-list/:input for search */}
+        <Route path="/course-list" element={<CourseList />} />
+        <Route path="/course-list/:input" element={<CourseList />} />
+
         <Route path="/course/:id" element={<CourseDetails />} />
         <Route path="/my-enrollments" element={<MyEnrollments />} />
+        <Route path="/player/:courseId" element={<Player />} />
 
-        {/* Practice Routes */}
+        {/* Practice */}
         <Route path="/practice/aptitude" element={<AptitudeTest />} />
         <Route path="/practice/dsa" element={<CodingTest />} />
         <Route path="/practice/dev" element={<DevTest />} />
         <Route path="/practice/companies" element={<CompanyInterview />} />
         <Route path="/company/:companyId" element={<CompanyDetail />} />
 
-        {/* Educator Routes */}
+        {/* Educator panel */}
         <Route path="/educator" element={<Educator />}>
           <Route index element={<EducatorDashboard />} />
           <Route path="dashboard" element={<EducatorDashboard />} />
           <Route path="my-courses" element={<MyCourses />} />
           <Route path="add-course" element={<AddCourse />} />
-          <Route path="students" element={<StudentEnrolled />} />
+          <Route path="student-enrolled" element={<StudentEnrolled />} />
+          {/* Admin course management — visible to educator/admin role */}
+          <Route path="admin-courses" element={<AdminCourses />} />
         </Route>
 
-        {/* 404 Fallback */}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        {/* 404 fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Youtube, GraduationCap, ChevronRight, ArrowLeft } from 'lucide-react';
 import axios from 'axios';
+import { assets } from '../../assets/assets';
 
-// Updated data with real YouTube Embed URLs
+// Updated data with real YouTube Embed URLs and images from assets
 const fallbackCoursesData = [
   {
     id: 'dsa',
     title: 'DSA Master Series',
     description: 'Complete Data Structures & Algorithms Roadmap',
+    image: assets.DSA1,
     resources: {
       blogs: [
         { title: 'Introduction to Algorithms', url: '#', author: 'GeeksforGeeks' },
@@ -18,13 +20,11 @@ const fallbackCoursesData = [
         { 
           title: 'Striver A2Z DSA Course', 
           channel: 'take U forward', 
-          // Converted to embed URL with list parameter
           embedUrl: 'https://www.youtube.com/embed/0bHoB32fuj0?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz' 
         },
         { 
           title: 'DSA Placement Course', 
           channel: 'Apna College', 
-          // Converted to embed URL with list parameter
           embedUrl: 'https://www.youtube.com/embed/VTLCoHnyACE?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt' 
         }
       ],
@@ -32,6 +32,55 @@ const fallbackCoursesData = [
         { title: 'Algorithms Specialization', platform: 'Coursera', url: '#' },
         { title: 'CS50 Introduction to CS', platform: 'edX', url: '#' },
         { title: 'LeetCode Premium', platform: 'LeetCode', url: '#' }
+      ]
+    }
+  },
+  {
+    id: 'webdev',
+    title: 'Full Stack Web Development',
+    description: 'Learn the complete web development stack from HTML to deployment',
+    image: assets.Fullstack,
+    resources: {
+      blogs: [
+        { title: 'MDN Web Docs', url: '#', author: 'Mozilla' },
+        { title: 'CSS-Tricks', url: '#', author: 'Chris Coyier' }
+      ],
+      youtube: [
+        {
+          title: 'Web Development Bootcamp',
+          channel: 'freeCodeCamp.org',
+          embedUrl: 'https://www.youtube.com/embed/Q33KBiDriJY?list=PLWKjhJtqVAbkFiqHnNaxpOPhh9tSWMXIF'
+        },
+        {
+          title: 'The Net Ninja - Full Stack',
+          channel: 'The Net Ninja',
+          embedUrl: 'https://www.youtube.com/embed/oR_fhqpCMU8?list=PL4cUxeGkcC9gRnXgWri8Z-Ll55BvCyKcM'
+        }
+      ],
+      courses: [
+        { title: 'The Web Developer Bootcamp 2023', platform: 'Udemy', url: '#' }
+      ]
+    }
+  },
+  {
+    id: 'devops',
+    title: 'Development Essentials',
+    description: 'Core developer skills and modern tooling',
+    image: assets.DEV1,
+    resources: {
+      blogs: [
+        { title: 'Dev.to', url: '#', author: 'Community' },
+        { title: 'Medium Programming', url: '#', author: 'Medium' }
+      ],
+      youtube: [
+        {
+          title: 'JavaScript Tutorial for Beginners',
+          channel: 'Programming with Mosh',
+          embedUrl: 'https://www.youtube.com/embed/DPnqb74Smug?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ'
+        }
+      ],
+      courses: [
+        { title: 'JavaScript Fundamentals', platform: 'Codecademy', url: '#' }
       ]
     }
   }
@@ -44,6 +93,8 @@ export default function CourseCard() {
   const [coursesData, setCoursesData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // control display of suggested courses vs full list
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     fetchCourses();
@@ -90,6 +141,12 @@ export default function CourseCard() {
   };
 
   const handleBack = () => {
+    // when on main page and 'show all' is active, go back to suggested courses
+    if (view === 'main' && showAll) {
+      setShowAll(false);
+      return;
+    }
+
     if (view === 'resources' && selectedCourse?.subcategories) {
       setView('subcategories');
       setSelectedSubcategory(null);
@@ -101,6 +158,8 @@ export default function CourseCard() {
   };
 
   const currentResources = selectedSubcategory?.resources || selectedCourse?.resources;
+
+  const suggestedCourses = coursesData.slice(0, 3); // first few for hero/recommendations
 
   if (loading) {
     return (
@@ -135,33 +194,110 @@ export default function CourseCard() {
         {/* MAIN VIEW */}
         {view === 'main' && (
           <>
-            <h1 className="text-5xl font-bold text-slate-800 mb-4 text-center">
-              Learn Smart. <span className="text-blue-600">Prepare Right.</span>
-              <br />
-              <span className="text-blue-600">Succeed Big</span>
-            </h1>
-            <p className="text-slate-600 text-center mb-12 text-lg max-w-2xl mx-auto">
-              Curated roadmaps and resources to help you master Data Structures, Algorithms, and System Design.
-            </p>
+            {/* hero / intro */}
+            {!showAll && (
+              <>
+                <h1 className="text-5xl font-bold text-slate-800 mb-4 text-center">
+                  Learn Smart. <span className="text-blue-600">Prepare Right.</span>
+                  <br />
+                  <span className="text-blue-600">Succeed Big</span>
+                </h1>
+                <p className="text-slate-600 text-center mb-8 text-lg max-w-2xl mx-auto">
+                  Curated roadmaps and resources to help you master Data Structures, Algorithms, and System
+                  Design.
+                </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {coursesData.map((course) => (
-                <div
-                  key={course._id || course.id}
-                  onClick={() => handleCourseClick(course)}
-                  className="bg-white rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all hover:-translate-y-1 border border-slate-200"
-                >
-                  <h2 className="text-2xl font-bold text-slate-800 mb-2">{course.title}</h2>
-                  <p className="text-slate-600 mb-4 line-clamp-2">{course.description}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-blue-600 font-medium">
-                      {course.subcategories ? `${course.subcategories.length} topics` : 'View resources'}
-                    </span>
-                    <ChevronRight className="text-blue-600" size={20} />
-                  </div>
+                <h2 className="text-3xl font-semibold text-slate-800 mb-4">
+                  Some Best Suggested Courses
+                </h2>
+                <p className="text-slate-600 mb-8">
+                  Explore our top recommended courses designed to enhance your skills and knowledge. Whether you're
+                  looking to advance your career or learn something new, these courses offer valuable insights and
+                  practical experience.
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                  {suggestedCourses.map((course) => (
+                    <div
+                      key={course._id || course.id}
+                      onClick={() => handleCourseClick(course)}
+                      className="bg-white rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all hover:-translate-y-1 border border-slate-200"
+                    >
+                      {(course.image || course.courseThumbnail) && (
+                        <div className="mb-4 h-40 overflow-hidden rounded-lg">
+                          <img
+                            src={course.image || course.courseThumbnail}
+                            alt={`${course.title} thumbnail`}
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+                      )}
+                      <h2 className="text-2xl font-bold text-slate-800 mb-2">{course.title}</h2>
+                      <p className="text-slate-600 mb-4 line-clamp-2">{course.description}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-blue-600 font-medium">
+                          {course.subcategories ? `${course.subcategories.length} topics` : 'View resources'}
+                        </span>
+                        <ChevronRight className="text-blue-600" size={20} />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+
+                <div className="text-center">
+                  <button
+                    onClick={() => setShowAll(true)}
+                    className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Show All Courses
+                  </button>
+                </div>
+              </>
+            )}
+
+            {/* full list view (showAll=true) */}
+            {showAll && (
+              <>
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-3xl font-semibold text-slate-800">All Courses</h2>
+                  <button
+                    onClick={() => setShowAll(false)}
+                    className="flex items-center gap-2 text-slate-700 hover:text-blue-600 transition-colors font-medium"
+                  >
+                    <ArrowLeft size={20} />
+                    Back
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {coursesData.map((course) => (
+                    <div
+                      key={course._id || course.id}
+                      onClick={() => handleCourseClick(course)}
+                      className="bg-white rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all hover:-translate-y-1 border border-slate-200"
+                    >
+                      {(course.image || course.courseThumbnail) && (
+                        <div className="mb-4 h-40 overflow-hidden rounded-lg">
+                          <img
+                            src={course.image || course.courseThumbnail}
+                            alt={`${course.title} thumbnail`}
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+                      )}
+                      <h2 className="text-2xl font-bold text-slate-800 mb-2">{course.title}</h2>
+                      <p className="text-slate-600 mb-4 line-clamp-2">{course.description}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-blue-600 font-medium">
+                          {course.subcategories ? `${course.subcategories.length} topics` : 'View resources'}
+                        </span>
+                        <ChevronRight className="text-blue-600" size={20} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </>
         )}
 

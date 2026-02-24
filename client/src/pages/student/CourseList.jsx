@@ -7,9 +7,18 @@ import { assets } from '../../assets/assets'
 import Footer from '../../components/student/Footer'
 
 const CourseList = () => {
-  const { navigate, allCourses } = useContext(AppContext)
+  const { navigate, allCourses, fetchAllCourses } = useContext(AppContext)
   const { input } = useParams()
   const [filteredCourses, setFilteredCourses] = useState([])
+
+  useEffect(() => {
+    // whenever the search term changes we can re-fetch using backend filter
+    if (input) {
+      fetchAllCourses(input);
+    } else {
+      fetchAllCourses();
+    }
+  }, [input]);
 
   useEffect(() => {
     if (allCourses && allCourses.length > 0) {

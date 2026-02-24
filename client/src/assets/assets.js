@@ -43,6 +43,14 @@ import profile_img2 from './profile_img2.png'
 import profile_img3 from './profile_img3.png'
 import lesson_icon from './lesson_icon.svg'
 
+// additional course thumbnails
+import DEV1 from './DEV1.png'
+import Fullstack from './Fullstack.png'
+import DSA1 from './DSA1.png'
+import DSA2 from './DSA2.png'
+import DSA3 from './DSA3.png'
+import DSA4 from './DSA4.png'
+
 
 export const assets = {
     logo,
@@ -88,7 +96,14 @@ export const assets = {
     profile_img3,
     play_icon,
     blue_tick_icon,
-    lesson_icon
+    lesson_icon,
+    // course thumbnails for curriculum listing
+    DEV1,
+    Fullstack,
+    DSA1,
+    DSA2,
+    DSA3,
+    DSA4
 }
 
 export const dummyEducatorData = {

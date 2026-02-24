@@ -2,7 +2,13 @@ import Course from '../models/course.js'
 
 export const getAllCourse = async(req,res)=>{
     try{
-        const courses = await Course.find({isPublished:true}).select([
+        const { search } = req.query;
+        const filter = { isPublished: true };
+        if (search) {
+            // case insensitive substring match on title
+            filter.courseTitle = { $regex: search, $options: 'i' };
+        }
+        const courses = await Course.find(filter).select([
             '-courseContent','-enrolledStudents'
         ]).populate({path : 'educator'})
 
@@ -10,6 +16,21 @@ export const getAllCourse = async(req,res)=>{
     }
     catch(error){
         res.json({success: false, message: error.message})
+    }
+}
+
+// admin list potentially include unpublished
+export const getAllCoursesAdmin = async(req,res)=>{
+    try{
+        const { search } = req.query;
+        const filter = {};
+        if (search) {
+            filter.courseTitle = { $regex: search, $options: 'i' };
+        }
+        const courses = await Course.find(filter).populate({path : 'educator'});
+        res.json({success:true, courses});
+    } catch(error) {
+        res.json({success:false, message:error.message});
     }
 }
 
@@ -35,6 +56,39 @@ export const getCourseId = async(req,res)=>{
         res.json({success: false, message: error.message})
     }
 }
+
+
+export const createCourse = async (req, res) => {
+    try {
+        const course = new Course(req.body);
+        const saved = await course.save();
+        res.json({ success: true, course: saved });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+};
+
+export const updateCourse = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updated = await Course.findByIdAndUpdate(id, req.body, { new: true });
+        if (!updated) return res.json({ success: false, message: 'Course not found' });
+        res.json({ success: true, course: updated });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+};
+
+export const deleteCourse = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const removed = await Course.findByIdAndDelete(id);
+        if (!removed) return res.json({ success: false, message: 'Course not found' });
+        res.json({ success: true, message: 'Course deleted' });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+};
 
 const sampleCourses = [
     {

@@ -595,3 +595,78 @@ export const deleteExternalProblem = async (req, res) => {
         res.json({ success: false, message: error.message });
     }
 };
+
+/*
+=====================================
+ENROLL FREE COURSE (no payment needed)
+POST /api/user/enroll-free
+=====================================
+*/
+export const enrollFreeCourse = async (req, res) => {
+    try {
+        const userId = req.auth().userId;
+        const { courseId } = req.body;
+
+        if (!courseId) {
+            return res.json({ success: false, message: 'courseId is required' });
+        }
+
+        // Load course
+        const courseData = await Course.findById(courseId);
+        if (!courseData) {
+            return res.json({ success: false, message: 'Course not found' });
+        }
+
+        // Verify it is actually free
+        const finalPrice = courseData.coursePrice - (courseData.discount * courseData.coursePrice / 100);
+        if (finalPrice > 0) {
+            return res.json({ success: false, message: 'This course requires payment. Use /api/user/purchase instead.' });
+        }
+
+        // Load / auto-create user
+        let userData = await User.findById(userId);
+        if (!userData) {
+            try {
+                const clerkUser = await clerkClient.users.getUser(userId);
+                userData = await User.create({
+                    _id: userId,
+                    email: clerkUser.email_addresses?.[0]?.email_address || '',
+                    name: `${clerkUser.first_name || ''} ${clerkUser.last_name || ''}`.trim() || 'User',
+                    imageUrl: clerkUser.image_url || ''
+                });
+            } catch (clerkError) {
+                return res.json({ success: false, message: 'User not found' });
+            }
+        }
+
+        // Already enrolled?
+        const alreadyEnrolled = userData.enrolledCourses.some(
+            (c) => c.toString() === courseId
+        );
+        if (alreadyEnrolled) {
+            return res.json({ success: true, message: 'Already enrolled', alreadyEnrolled: true });
+        }
+
+        // Enroll: add to user + add to course
+        await User.findByIdAndUpdate(userId, {
+            $addToSet: { enrolledCourses: courseData._id }
+        });
+        await Course.findByIdAndUpdate(courseId, {
+            $addToSet: { enrolledStudents: userId }
+        });
+
+        // Create a completed purchase record (amount = 0) for audit trail
+        await Purchase.create({
+            courseId: courseData._id,
+            userId,
+            amount: 0,
+            status: 'completed'
+        });
+
+        res.json({ success: true, message: 'Enrolled successfully!' });
+
+    } catch (error) {
+        console.error('enrollFreeCourse error:', error);
+        res.json({ success: false, message: error.message });
+    }
+};
