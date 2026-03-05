@@ -77,9 +77,9 @@ export default function CompanyDetail() {
   }, [companyId]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-20">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+      <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-6 py-6">
           <button
             onClick={() => navigate(-1)}
