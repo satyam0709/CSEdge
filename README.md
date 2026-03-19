@@ -22,7 +22,7 @@
 
 <br/>
 
-[🚀 Live Demo](#) &nbsp;•&nbsp; [📸 Screenshots](#-screenshots) &nbsp;•&nbsp; [⚙️ Setup](#-getting-started) &nbsp;•&nbsp; [🏗️ Architecture](#-architecture)
+[🚀 Live Demo](https://csedge-frontend.vercel.app/) &nbsp;•&nbsp; [📸 Screenshots](#-screenshots) &nbsp;•&nbsp; [⚙️ Setup](#-getting-started) &nbsp;•&nbsp; [🏗️ Architecture](#-architecture)
 
 </div>
 
