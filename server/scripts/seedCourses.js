@@ -806,14 +806,13 @@ const seed = async () => {
     await mongoose.connect(`${uri}/LMS`);
     console.log("✅ Connected");
 
-    // Remove old seeded courses (keep manually added ones)
     const deleted = await Course.deleteMany({ educator: "admin" });
-    console.log(`🗑️  Removed ${deleted.deletedCount} previously seeded courses`);
+    console.log(`${deleted.deletedCount}`);
 
     const courses = [striverA2Z, chaiAurReact, dsaCpp, webDevBootcamp];
     const inserted = await Course.insertMany(courses);
 
-    console.log(`\n🎉 Successfully seeded ${inserted.length} courses:\n`);
+    console.log(`${inserted.length}\n`);
     inserted.forEach((c, i) => {
       const totalLectures = c.courseContent.reduce(
         (sum, ch) => sum + ch.chapterContent.length, 0
@@ -822,7 +821,7 @@ const seed = async () => {
       console.log(`     Chapters: ${c.courseContent.length}  |  Total Lectures: ${totalLectures}`);
     });
 
-    console.log("\n✅ Seeding complete! Visit your platform to see the courses.");
+    console.log("\n✅ Seeding complete!");
     process.exit(0);
   } catch (err) {
     console.error("❌ Seeding failed:", err.message);
