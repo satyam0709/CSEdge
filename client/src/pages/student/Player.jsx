@@ -14,7 +14,6 @@ import { ChevronLeft, ChevronRight, CheckCircle, Circle } from 'lucide-react'
 // Extract YouTube video ID from any YouTube URL format
 const extractVideoId = (url) => {
   if (!url) return null
-  // Already a video ID (11 chars, no slashes)
   if (url.length === 11 && !url.includes('/')) return url
   // Embed URL: https://www.youtube.com/embed/VIDEO_ID
   const embedMatch = url.match(/youtube\.com\/embed\/([^?&/]+)/)
