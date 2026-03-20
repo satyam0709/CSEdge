@@ -38,7 +38,7 @@
 
 | Practice Tests | Company Interview Prep |
 |---------------|----------------------|
-| ![Practice](client/screenshots/practice.png) | ![Companies](client/screenshots/companies.png) |
+| ![Practice](client/screenshots/practice.png) | ![Companies](client/screenshots/interview.png) |
 
 | Educator Dashboard | Student Enrollments |
 |-------------------|-------------------|
