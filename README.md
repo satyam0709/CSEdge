@@ -34,15 +34,15 @@
 
 | Home Page | Course Player |
 |-----------|--------------|
-| ![Home](./screenshots/home.png) | ![Player](./screenshots/player.png) |
+| ![Home](client/screenshots/companies.png) | ![Player](client/screenshots/player.png) |
 
 | Practice Tests | Company Interview Prep |
 |---------------|----------------------|
-| ![Practice](./screenshots/practice.png) | ![Companies](./screenshots/companies.png) |
+| ![Practice](client/screenshots/practice.png) | ![Companies](client/screenshots/companies.png) |
 
 | Educator Dashboard | Student Enrollments |
 |-------------------|-------------------|
-| ![Educator](./screenshots/educator.png) | ![Enrollments](./screenshots/enrollments.png) |
+| ![Educator](client/screenshots/educator.png) | ![Enrollments](./screenshots/enrollments.png) |
 
 ---
 
