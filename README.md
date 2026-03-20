@@ -42,7 +42,7 @@
 
 | Educator Dashboard | Student Enrollments |
 |-------------------|-------------------|
-| ![Educator](./screenshots/educator.png) | ![Enrollments](./screenshots/enrollments.png) |
+| ![Educator](client/screenshots/educator.png) | ![Enrollments](./screenshots/enrollments.png) |
 
 ---
 
