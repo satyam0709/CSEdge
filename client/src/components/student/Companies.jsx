@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 export const Companies = () => {
-  // Navigation State: 'categories' | 'companies'
   const [view, setView] = useState('categories');
   const [activeSection, setActiveSection] = useState(null);
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -139,9 +138,7 @@ export const Companies = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // --- Render Views ---
 
-  // 1. Categories View (Home)
   const renderCategories = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
       {sections.map((section) => (
@@ -151,7 +148,6 @@ export const Companies = () => {
           className="group cursor-pointer bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-2 relative overflow-hidden"
         >
           <div className={`absolute inset-0 bg-gradient-to-r ${section.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
-          
           <div className="relative">
             <div className="flex items-start justify-between mb-4">
               <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${section.gradient} flex items-center justify-center text-3xl shadow-lg`}>
@@ -163,15 +159,12 @@ export const Companies = () => {
                 </svg>
               </div>
             </div>
-            
             <h3 className="text-2xl font-black text-gray-900 mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-gray-900 group-hover:to-gray-700 transition-all">
               {section.title}
             </h3>
-            
             <p className="text-gray-500 mb-6 leading-relaxed">
               {section.description}
             </p>
-            
             <div className="flex items-center justify-between">
               <span className={`text-sm font-bold ${section.textColor} px-4 py-2 rounded-full ${section.bgLight}`}>
                 {section.companies.length} Companies

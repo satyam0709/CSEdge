@@ -18,6 +18,7 @@ import educatorRoutes from "./routes/app-educator-routes.js";
 import testRoutes from "./routes/app-test-routes.js";
 import userRoutes from "./routes/app-user-routes.js";
 import companyArticleRoutes from "./routes/app-company-articles-routes.js";
+import contestRoutes from "./routes/app-contest-routes.js";
 import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
 
 const app = express();
@@ -61,6 +62,7 @@ app.use("/api/educator", educatorRoutes);
 app.use("/api/test", testRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/company-articles", companyArticleRoutes);
+app.use("/api/contest", contestRoutes);
 
 app.get("/", (_, res) => res.send("LMS API Running"));
 
@@ -68,5 +70,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);
 });
-
 export default app;
