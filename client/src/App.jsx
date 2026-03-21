@@ -52,7 +52,6 @@ function App() {
         <Route path="/practice/companies" element={<CompanyInterview />} />
         <Route path="/company/:companyId" element={<CompanyDetail />} />
 
-        {/* Educator */}
         <Route path="/educator" element={<Educator />}>
           <Route index element={<EducatorDashboard />} />
           <Route path="dashboard" element={<EducatorDashboard />} />
