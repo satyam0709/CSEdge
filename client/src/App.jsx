@@ -23,7 +23,6 @@ import Player from "./pages/student/Player";
 function App() {
   const { pathname } = useLocation();
 
-  // Hide student Navbar on educator routes — Educator layout has its own
   const isEducatorRoute = pathname.startsWith("/educator");
 
   return (
@@ -31,11 +30,8 @@ function App() {
       {!isEducatorRoute && <Navbar />}
 
       <Routes>
-        {/* Public */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-
-        {/* Student */}
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/home" element={<Home />} />
         <Route path="/course-list" element={<CourseList />} />
@@ -44,11 +40,9 @@ function App() {
         <Route path="/course/:id" element={<CourseDetails />} />
         <Route path="/my-enrollments" element={<MyEnrollments />} />
         <Route path="/player/:courseId" element={<Player />} />
-
         <Route path="/practice/aptitude" element={<AptitudeTest />} />
         <Route path="/practice/dsa" element={<CodingTest />} />
         <Route path="/practice/dev" element={<DevTest />} />
-
         <Route path="/practice/companies" element={<CompanyInterview />} />
         <Route path="/company/:companyId" element={<CompanyDetail />} />
 
@@ -62,7 +56,6 @@ function App() {
           <Route path="admin-courses" element={<AdminCourses />} />
         </Route>
 
-        {/* 404 */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
