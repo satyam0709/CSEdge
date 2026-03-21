@@ -45,12 +45,10 @@ function App() {
         <Route path="/my-enrollments" element={<MyEnrollments />} />
         <Route path="/player/:courseId" element={<Player />} />
 
-        {/* Practice */}
         <Route path="/practice/aptitude" element={<AptitudeTest />} />
         <Route path="/practice/dsa" element={<CodingTest />} />
         <Route path="/practice/dev" element={<DevTest />} />
 
-        {/* Company — CompanyInterview handles category switching internally via useState */}
         <Route path="/practice/companies" element={<CompanyInterview />} />
         <Route path="/company/:companyId" element={<CompanyDetail />} />
 
