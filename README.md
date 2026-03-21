@@ -30,15 +30,13 @@
 
 ## 📸 Screenshots
 
-> Add your actual screenshots in a `/screenshots` folder and update the paths below.
-
 | Home Page | Course Player |
 |-----------|--------------|
-| ![Home](client/screenshots/companies.png) | ![Player](client/screenshots/player.png) |
+| ![Home](client/screenshots/home.png) | ![Player](client/screenshots/player.png) |
 
 | Practice Tests | Company Interview Prep |
 |---------------|----------------------|
-| ![Practice](client/screenshots/practice.png) | ![Companies](client/screenshots/companies.png) |
+| ![Practice](client/screenshots/practice.png) | ![Companies](client/screenshots/interview.png) |
 
 | Educator Dashboard | Student Enrollments |
 |-------------------|-------------------|
