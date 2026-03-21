@@ -32,7 +32,7 @@
 
 | Home Page | Course Player |
 |-----------|--------------|
-| ![Home](client/screenshots/companies.png) | ![Player](client/screenshots/player.png) |
+| ![Home](client/screenshots/home.png) | ![Player](client/screenshots/player.png) |
 
 | Practice Tests | Company Interview Prep |
 |---------------|----------------------|
