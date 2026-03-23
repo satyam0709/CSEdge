@@ -405,8 +405,8 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 **Satyam Kumar**
 
-[![GitHub](https://img.shields.io/badge/GitHub-@yourusername-181717?style=flat-square&logo=github)](https://github.com/yourusername)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin)](https://linkedin.com/in/yourusername)
+[![GitHub](https://img.shields.io/badge/GitHub-@satyam0709-181717?style=flat-square&logo=github)](https://github.com/satyam0709)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/satyam-kumar-3b33a9253/)
 
 ---
 
