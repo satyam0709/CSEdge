@@ -103,7 +103,7 @@ const MyEnrollments = () => {
                 </td>
                 <td className="px-4 py-3">
                   <button
-                    className={`px-3 py-1 text-sm rounded-full pointer-events-auto ${
+                    className={`px-3 py-1 cursor-pointer text-sm rounded-full pointer-events-auto ${
                       progressArray[index] &&
                       progressArray[index].lectureCompleted ===
                         progressArray[index].totalLectures

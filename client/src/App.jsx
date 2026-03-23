@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useUser } from "@clerk/clerk-react";
 import Navbar from "./components/Navbar";
+
+// ─── Pages (all files that DEFINITELY exist in your project) ──────────────────
 import UserDashboard from "./dashboard/UserDashboard";
 import AptitudeTest from "./pages/AptitudeTest";
 import CodingTest from "./pages/CodingTest";
@@ -12,6 +13,7 @@ import MyEnrollments from "./pages/student/MyEnrollments";
 import CourseList from "./pages/student/CourseList";
 import Home from "./pages/student/Home";
 import Login from "./pages/Login";
+import Loading from "./components/student/Loading";
 import EducatorDashboard from "./pages/educator/Dashboard";
 import Educator from "./pages/educator/Educator";
 import MyCourses from "./pages/educator/MyCourses";
@@ -19,19 +21,21 @@ import AddCourse from "./pages/educator/AddCourse";
 import StudentEnrolled from "./pages/educator/StudentEnrolled";
 import AdminCourses from "./admin/AdminCourses";
 import Player from "./pages/student/Player";
-import ContestPage from "./pages/ContestPage";
 
 function App() {
   const { pathname } = useLocation();
-  const { isSignedIn } = useUser();
   const isEducatorRoute = pathname.startsWith("/educator");
-  const showTicker = isSignedIn && !isEducatorRoute;
+
   return (
     <>
       {!isEducatorRoute && <Navbar />}
+
       <Routes>
+        {/* Public */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+
+        {/* Student */}
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/home" element={<Home />} />
         <Route path="/course-list" element={<CourseList />} />
@@ -40,12 +44,18 @@ function App() {
         <Route path="/course/:id" element={<CourseDetails />} />
         <Route path="/my-enrollments" element={<MyEnrollments />} />
         <Route path="/player/:courseId" element={<Player />} />
-        <Route path="/contests" element={<ContestPage />} />
+
+        {/* ✅ Stripe redirects here after payment — was MISSING causing homepage redirect */}
+        <Route path="/loading/:path" element={<Loading />} />
+
+        {/* Practice */}
         <Route path="/practice/aptitude" element={<AptitudeTest />} />
         <Route path="/practice/dsa" element={<CodingTest />} />
         <Route path="/practice/dev" element={<DevTest />} />
         <Route path="/practice/companies" element={<CompanyInterview />} />
         <Route path="/company/:companyId" element={<CompanyDetail />} />
+
+        {/* Educator */}
         <Route path="/educator" element={<Educator />}>
           <Route index element={<EducatorDashboard />} />
           <Route path="dashboard" element={<EducatorDashboard />} />
@@ -55,6 +65,8 @@ function App() {
           <Route path="students" element={<StudentEnrolled />} />
           <Route path="admin-courses" element={<AdminCourses />} />
         </Route>
+
+        {/* 404 */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

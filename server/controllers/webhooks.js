@@ -4,7 +4,26 @@ import Stripe from "stripe";
 import { Purchase } from "../models/Purchase.js";
 import Course from '../models/course.js';
 
-const stripeInstance = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
+// FIX: Lazy init so dotenv loads before Stripe initializes
+let _stripe = null;
+const stripeInstance = {
+    get webhooks() { return _getStripe().webhooks; },
+    checkout: { 
+        sessions: {
+            retrieve: (...args) => _getStripe().checkout.sessions.retrieve(...args),
+            list: (...args) => _getStripe().checkout.sessions.list(...args),
+            create: (...args) => _getStripe().checkout.sessions.create(...args),
+        }
+    }
+};
+function _getStripe() {
+    if (!_stripe) {
+        const key = process.env.STRIPE_SECRET_KEY;
+        if (!key) throw new Error('STRIPE_SECRET_KEY not set');
+        _stripe = new Stripe(key);
+    }
+    return _stripe;
+}
 export const clerkWebhooks = async (req, res) => {
     try {
         const payloadBuffer = Buffer.isBuffer(req.body)
@@ -388,7 +407,6 @@ export const checkAllPendingPurchases = async (req, res) => {
                     const course = await Course.findById(purchase.courseId);
                     
                     if (user && course) {
-                        // Update enrollments
                         if (!course.enrolledStudents.includes(user._id)) {
                             course.enrolledStudents.push(user._id);
                             await course.save();

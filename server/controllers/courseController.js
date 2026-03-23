@@ -5,7 +5,6 @@ export const getAllCourse = async(req,res)=>{
         const { search } = req.query;
         const filter = { isPublished: true };
         if (search) {
-            // case insensitive substring match on title
             filter.courseTitle = { $regex: search, $options: 'i' };
         }
         const courses = await Course.find(filter).select([
@@ -19,7 +18,6 @@ export const getAllCourse = async(req,res)=>{
     }
 }
 
-// admin list potentially include unpublished
 export const getAllCoursesAdmin = async(req,res)=>{
     try{
         const { search } = req.query;

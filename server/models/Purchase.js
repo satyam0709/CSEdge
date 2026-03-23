@@ -36,7 +36,6 @@ const PurchaseSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Add index for faster queries
 PurchaseSchema.index({ userId: 1, courseId: 1 });
 PurchaseSchema.index({ stripeSessionId: 1 });
 PurchaseSchema.index({ status: 1 });

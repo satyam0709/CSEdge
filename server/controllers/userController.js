@@ -8,7 +8,15 @@ import TestAttempt from "../models/TestAttempt.js";
 import TestProgress from "../models/TestProgress.js";
 import ExternalProblem from "../models/ExternalProblem.js";
 
-const stripeInstance = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
+// FIX: Lazy init — called inside functions so dotenv has already loaded by then
+const getStripe = () => {
+    const key = process.env.STRIPE_SECRET_KEY;
+    if (!key) {
+        console.error('STRIPE_SECRET_KEY missing from environment');
+        return null;
+    }
+    return new Stripe(key);
+};
 
 export const getUserData = async(req, res) => {
     try {
@@ -100,7 +108,7 @@ export const purchaseCourse = async(req, res) => {
         }
 
         // Check if already enrolled
-        if (userData.enrolledCourses.includes(courseId)) {
+        if (userData.enrolledCourses.map(id => id.toString()).includes(courseId)) {
             return res.json({ 
                 success: false, 
                 message: 'Already enrolled in this course' 
@@ -129,8 +137,8 @@ export const purchaseCourse = async(req, res) => {
                 currency,
                 product_data: {
                     name: courseData.courseTitle,
-                    description: courseData.courseDescription || `Enrollment for ${courseData.courseTitle}`,
-                    images: courseData.courseImage ? [courseData.courseImage] : []
+                    description: (courseData.courseDescription || '').replace(/<[^>]*>/g, '').slice(0, 500) || `Enrollment for ${courseData.courseTitle}`,
+                    images: courseData.courseThumbnail ? [courseData.courseThumbnail] : []
                 },
                 unit_amount: Math.round(parseFloat(finalAmount) * 100) // Convert to cents
             },
@@ -156,6 +164,7 @@ export const purchaseCourse = async(req, res) => {
             sessionConfig.customer_email = userData.email;
         }
 
+        const stripeInstance = getStripe();
         if (!stripeInstance) {
             return res.json({
                 success: false,
@@ -181,6 +190,7 @@ export const purchaseCourse = async(req, res) => {
 
     } catch (error) {
         console.error('Purchase course error:', error);
+        console.error('Stripe error details:', error?.raw || error?.message);
         res.json({ success: false, message: error.message });
     }
 }
@@ -357,6 +367,7 @@ export const verifyPurchase = async(req, res) => {
         }
 
         // Retrieve session from Stripe
+        const stripeInstance = getStripe();
         if (!stripeInstance) {
             return res.json({
                 success: false,

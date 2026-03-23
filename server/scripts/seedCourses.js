@@ -60,7 +60,6 @@ const striverA2Z = {
   courseRatings: [],
   courseContent: [
  
-    // ── STEP 1: Learn the Basics ──────────────────────────────────────────
     {
       chapterId: "ch_str_01",
       chapterOrder: 1,
@@ -77,9 +76,7 @@ const striverA2Z = {
         lec("yVdKa8dnKiE",  "1.9 – Basic Hashing — Count frequencies, map, array hashing", 30),
       ],
     },
- 
-    // ── STEP 2: Sorting Techniques ────────────────────────────────────────
-    {
+     {
       chapterId: "ch_str_02",
       chapterOrder: 2,
       chapterTitle: "Step 2 – Sorting Techniques (Selection, Bubble, Insertion, Merge, Quick, Recursive)",
@@ -94,7 +91,6 @@ const striverA2Z = {
       ],
     },
  
-    // ── STEP 3: Arrays ────────────────────────────────────────────────────
     {
       chapterId: "ch_str_03",
       chapterOrder: 3,
@@ -140,7 +136,6 @@ const striverA2Z = {
       ],
     },
  
-    // ── STEP 4: Binary Search ─────────────────────────────────────────────
     {
       chapterId: "ch_str_04",
       chapterOrder: 4,
@@ -177,7 +172,6 @@ const striverA2Z = {
       ],
     },
  
-    // ── STEP 5: Strings ───────────────────────────────────────────────────
     {
       chapterId: "ch_str_05",
       chapterOrder: 5,
@@ -201,7 +195,6 @@ const striverA2Z = {
       ],
     },
  
-    // ── STEP 6: Linked List ───────────────────────────────────────────────
     {
       chapterId: "ch_str_06",
       chapterOrder: 6,
@@ -737,10 +730,8 @@ const dsaCpp = {
   ],
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
 // COURSE 4: Web Dev Bootcamp
-// Playlist: PLDzeHZWIZsTo0wSBcg4-NMIbC0L8evLrD
-// ─────────────────────────────────────────────────────────────────────────────
+
 globalLectureOrder = 1;
 const webDevBootcamp = {
   courseTitle: "Full Stack Web Development Bootcamp",
@@ -748,7 +739,7 @@ const webDevBootcamp = {
     "<p>A comprehensive full stack web development course covering HTML, CSS, JavaScript, React, Node.js, Express and MongoDB. Build real-world projects from scratch.</p><p><strong>What you'll learn:</strong></p><ul><li>HTML5 & CSS3 fundamentals</li><li>JavaScript ES6+ & DOM Manipulation</li><li>React.js frontend development</li><li>Node.js & Express backend</li><li>MongoDB & Mongoose</li><li>Full stack project deployment</li></ul>",
   courseThumbnail:
     "https://img.youtube.com/vi/Vi9bxu-M-ag/maxresdefault.jpg",
-  coursePrice: 0,
+  coursePrice: 500,
   isPublished: true,
   discount: 0,
   educator: "admin",
@@ -794,9 +785,7 @@ const webDevBootcamp = {
   ],
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// RUN SEED
-// ─────────────────────────────────────────────────────────────────────────────
+
 const seed = async () => {
   try {
     const uri = process.env.MONGODB_URI;
