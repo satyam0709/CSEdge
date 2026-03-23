@@ -4,27 +4,19 @@ import humanizeDuration from "humanize-duration";
 import { useAuth, useUser } from '@clerk/clerk-react';
 import axiosInstance from '../utils/axios';
 import { toast } from 'react-toastify';
-
 export const AppContext = createContext();
-
 export const AppContextProvider = (props) => {
-
   const backendUrl = import.meta.env.VITE_API_URL || 'https://csedge-backend.onrender.com';
   const currency = import.meta.env.VITE_CURRENCY;
-
   const { getToken } = useAuth();
   const { user } = useUser();
   const navigate = useNavigate();
-
   const [allCourses, setAllCourses] = useState([]);
   const [isEducator, setIsEducator] = useState(false);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [userData, setUserData] = useState(null);
-
-  // ── Courses ────────────────────────────────────────────────────────────────
   const fetchAllCourses = async (searchTerm = '') => {
     try {
-      // FIX: axios.get(url, config) — only ONE config object, no duplicate params
       const { data } = await axiosInstance.get('/api/course/all', {
         params: searchTerm ? { search: searchTerm } : undefined,
       });
