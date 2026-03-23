@@ -30,13 +30,10 @@ export const AppContextProvider = (props) => {
       toast.error(error.message);
     }
   };
-
-  // ── User data ──────────────────────────────────────────────────────────────
   const fetchUserData = async () => {
     if (user?.publicMetadata?.role === 'educator') {
       setIsEducator(true);
     }
-
     try {
       const token = await getToken();
       const { data } = await axiosInstance.get('/api/user/data', {
@@ -53,7 +50,6 @@ export const AppContextProvider = (props) => {
     }
   };
 
-  // ── Enrolled courses ───────────────────────────────────────────────────────
   const fetchUserEnrolledCourses = async () => {
     try {
       const token = await getToken();
@@ -71,7 +67,6 @@ export const AppContextProvider = (props) => {
     }
   };
 
-  // ── Calculation helpers ────────────────────────────────────────────────────
   const calculateRating = (course) => {
     if (!course.courseRatings?.length) return 0;
     const total = course.courseRatings.reduce((sum, r) => sum + r.rating, 0);
@@ -91,7 +86,6 @@ export const AppContextProvider = (props) => {
     return humanizeDuration(time * 60 * 1000, { units: ['h', 'm'] });
   };
 
-  // Alias used by MyEnrollments
   const calculateCourseDuration = (course) => calculateCourseTime(course);
 
   const calculateNumberOfLectures = (course) => {
@@ -100,14 +94,10 @@ export const AppContextProvider = (props) => {
     }, 0);
   };
 
-  // ── Effects ────────────────────────────────────────────────────────────────
-  // Load all courses on mount
   useEffect(() => {
     fetchAllCourses();
   }, []);
 
-  // FIX: Only one useEffect for user — fetch user data AND enrolled courses together.
-  // Previously two useEffects both called fetchUserEnrolledCourses causing double API calls.
   useEffect(() => {
     if (user) {
       fetchUserData();
@@ -115,7 +105,6 @@ export const AppContextProvider = (props) => {
     }
   }, [user]);
 
-  // ── Context value ──────────────────────────────────────────────────────────
   const value = {
     currency,
     allCourses,
