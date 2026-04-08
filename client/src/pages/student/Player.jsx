@@ -9,6 +9,8 @@ import { Rating } from 'react-simple-star-rating'
 import axiosInstance from '../../utils/axios'
 import { toast } from 'react-toastify'
 import Loading from '../../components/student/Loading.jsx'
+import LectureNotesPanel from '../../components/student/LectureNotesPanel.jsx'
+import LectureChatAssistant from '../../components/student/LectureChatAssistant.jsx'
 import { ChevronLeft, ChevronRight, CheckCircle, Circle } from 'lucide-react'
 
 // Extract YouTube video ID from any YouTube URL format
@@ -404,6 +406,21 @@ const Player = () => {
                   </button>
                 </div>
               </div>
+
+              <LectureNotesPanel
+                courseId={String(courseId)}
+                lectureId={String(playerData.lectureId)}
+                getToken={getToken}
+              />
+
+              <LectureChatAssistant
+                courseId={String(courseId)}
+                courseTitle={courseData.courseTitle}
+                lectureId={String(playerData.lectureId)}
+                lectureTitle={playerData.lectureTitle}
+                chapterTitle={playerData.chapterTitle}
+                getToken={getToken}
+              />
 
               {/* Upcoming lecture preview */}
               {canGoNext && (

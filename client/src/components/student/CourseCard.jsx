@@ -18,14 +18,18 @@ const CourseCard = ({ course }) => {
       ? (course.coursePrice - (course.discount * course.coursePrice) / 100).toFixed(2)
       : '0.00'
 
+  const isFree =
+    Number(discountedPrice) <= 0 ||
+    (course.discount >= 100 && course.coursePrice > 0)
+
   return (
     <Link
       to={'/course/' + course._id}
       onClick={() => scrollTo(0, 0)}
-      className='border border-gray-200 pb-4 overflow-hidden rounded-xl hover:shadow-md transition-shadow duration-300 flex flex-col'
+      className='border border-gray-200 pb-4 overflow-hidden rounded-xl hover:shadow-md hover:border-blue-200/80 transition-all duration-300 flex flex-col h-full bg-white'
     >
       {/* Thumbnail */}
-      <div className='w-full h-44 overflow-hidden bg-gray-100'>
+      <div className='w-full h-44 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-50 relative'>
         <img
           className='w-full h-full object-cover'
           src={course.courseThumbnail || '/placeholder.png'}
@@ -34,11 +38,16 @@ const CourseCard = ({ course }) => {
             e.target.src = '/placeholder.png'
           }}
         />
+        {isFree && (
+          <span className='absolute left-2 top-2 rounded-md bg-emerald-600 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white shadow-sm'>
+            Free
+          </span>
+        )}
       </div>
 
       {/* Info */}
       <div className='p-4 flex flex-col gap-1 flex-1'>
-        <h3 className='text-base font-semibold text-gray-800 line-clamp-2'>
+        <h3 className='text-base font-semibold text-gray-800 line-clamp-2 min-h-[2.75rem]'>
           {course.courseTitle}
         </h3>
         <p className='text-sm text-gray-500'>
@@ -64,21 +73,36 @@ const CourseCard = ({ course }) => {
         </div>
 
         {/* Price */}
-        <div className='flex items-center gap-2 mt-2'>
-          <p className='text-base font-bold text-gray-900'>
-            {currency}
-            {discountedPrice}
+        <div className='flex flex-wrap items-center gap-2 mt-auto pt-2'>
+          <p className={`text-base font-bold ${isFree ? 'text-emerald-700' : 'text-gray-900'}`}>
+            {isFree ? (
+              <>
+                {currency}0.00
+                {course.coursePrice > 0 && course.discount >= 100 && (
+                  <span className='ml-2 text-xs font-normal text-gray-500'>
+                    (was {currency}
+                    {course.coursePrice?.toFixed(2)})
+                  </span>
+                )}
+              </>
+            ) : (
+              <>
+                {currency}
+                {discountedPrice}
+              </>
+            )}
           </p>
-          {course.discount > 0 && (
+          {course.discount > 0 && course.discount < 100 && (
             <>
               <p className='text-sm text-gray-400 line-through'>
                 {currency}
                 {course.coursePrice?.toFixed(2)}
               </p>
-              <span className='text-xs text-green-600 font-semibold'>
-                {course.discount}% off
-              </span>
+              <span className='text-xs text-green-600 font-semibold'>{course.discount}% off</span>
             </>
+          )}
+          {course.discount >= 100 && course.coursePrice > 0 && (
+            <span className='text-xs font-semibold text-emerald-600'>100% off · YouTube</span>
           )}
         </div>
       </div>

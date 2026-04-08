@@ -73,10 +73,10 @@ const CourseList = () => {
           </p>
         )}
 
-        {/* Course Grid */}
-        <div className='grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6 my-10'>
-          {filteredCourses.map(course => (
-            <CourseCard key={course.id} course={course} />
+        {/* Course Grid — responsive for many catalog items */}
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6 my-10'>
+          {filteredCourses.map((course) => (
+            <CourseCard key={course._id} course={course} />
           ))}
         </div>
       </div>

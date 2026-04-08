@@ -7,6 +7,7 @@ import { clerkClient } from '@clerk/express'
 import TestAttempt from "../models/TestAttempt.js";
 import TestProgress from "../models/TestProgress.js";
 import ExternalProblem from "../models/ExternalProblem.js";
+import LectureNote from "../models/LectureNote.js";
 
 // FIX: Lazy init — called inside functions so dotenv has already loaded by then
 const getStripe = () => {
@@ -18,28 +19,42 @@ const getStripe = () => {
     return new Stripe(key);
 };
 
+/**
+ * Ensure a MongoDB User row exists for this Clerk user (signup / first API call).
+ * Handles concurrent requests after signup (duplicate key → re-fetch).
+ */
+async function ensureUserDocumentForClerk(userId) {
+    let user = await User.findById(userId);
+    if (user) return user;
+
+    const clerkUser = await clerkClient.users.getUser(userId);
+    try {
+        user = await User.create({
+            _id: userId,
+            email: clerkUser.email_addresses?.[0]?.email_address || "",
+            name: `${clerkUser.first_name || ""} ${clerkUser.last_name || ""}`.trim() || "User",
+            imageUrl: clerkUser.image_url || ""
+        });
+        console.log("User created in DB:", user._id);
+        return user;
+    } catch (err) {
+        if (err.code === 11000) {
+            return await User.findById(userId);
+        }
+        throw err;
+    }
+}
+
 export const getUserData = async(req, res) => {
     try {
         const userId = req.auth().userId;
 
-        // First try to find user in our database
-        let user = await User.findById(userId);
-
-        // If user doesn't exist in our DB, create them from Clerk data
-        if (!user) {
-            try {
-                const clerkUser = await clerkClient.users.getUser(userId);
-                user = await User.create({
-                    _id: userId,
-                    email: clerkUser.email_addresses?.[0]?.email_address || "",
-                    name: `${clerkUser.first_name || ""} ${clerkUser.last_name || ""}`.trim() || "User",
-                    imageUrl: clerkUser.image_url || ""
-                });
-                console.log("User created in DB:", user._id);
-            } catch (clerkError) {
-                console.error("Error fetching from Clerk:", clerkError);
-                return res.json({ success: false, message: 'User Not found' });
-            }
+        let user;
+        try {
+            user = await ensureUserDocumentForClerk(userId);
+        } catch (clerkError) {
+            console.error("Error ensuring user from Clerk:", clerkError);
+            return res.json({ success: false, message: 'User Not found' });
         }
 
         res.json({ success: true, user });
@@ -53,13 +68,19 @@ export const getUserData = async(req, res) => {
 export const userEnrolledCourses = async(req, res) => {
     try {
         const userId = req.auth().userId;
-        const userData = await User.findById(userId).populate('enrolledCourses');
 
+        try {
+            await ensureUserDocumentForClerk(userId);
+        } catch (e) {
+            console.error("ensureUser before enrolled courses:", e);
+            return res.json({ success: false, message: 'User not found' });
+        }
+
+        const userData = await User.findById(userId).populate('enrolledCourses');
         if (!userData) {
             return res.json({ success: false, message: 'User not found' });
         }
 
-        // Filter out any null courses (in case courses were deleted but still referenced)
         const enrolledCourses = userData.enrolledCourses.filter(course => course !== null);
 
         res.json({ success: true, enrolledCourses });
@@ -78,24 +99,12 @@ export const purchaseCourse = async(req, res) => {
 
         console.log("Purchase initiated - User:", userId, "Course:", courseId);
 
-        // Validate user and course
-        let userData = await User.findById(userId);
-
-        // If user doesn't exist in our DB, create them from Clerk data
-        if (!userData) {
-            try {
-                const clerkUser = await clerkClient.users.getUser(userId);
-                userData = await User.create({
-                    _id: userId,
-                    email: clerkUser.email_addresses?.[0]?.email_address || "",
-                    name: `${clerkUser.first_name || ""} ${clerkUser.last_name || ""}`.trim() || "User",
-                    imageUrl: clerkUser.image_url || ""
-                });
-                console.log("User created in DB during purchase:", userData._id);
-            } catch (clerkError) {
-                console.error("Error creating user during purchase:", clerkError);
-                return res.json({ success: false, message: 'User Not found' });
-            }
+        let userData;
+        try {
+            userData = await ensureUserDocumentForClerk(userId);
+        } catch (clerkError) {
+            console.error("Error ensuring user during purchase:", clerkError);
+            return res.json({ success: false, message: 'User Not found' });
         }
 
         const courseData = await Course.findById(courseId);
@@ -604,6 +613,90 @@ export const deleteExternalProblem = async (req, res) => {
     } catch (error) {
         console.error('deleteExternalProblem error', error);
         res.json({ success: false, message: error.message });
+    }
+};
+
+/*
+=====================================
+LECTURE NOTES (per user, per lecture — persisted in MongoDB)
+=====================================
+*/
+async function assertUserEnrolledInCourse(userId, courseId) {
+    const user = await User.findById(userId);
+    if (!user) {
+        return { ok: false, message: "User not found" };
+    }
+    const enrolled = user.enrolledCourses.some(
+        (id) => id.toString() === courseId
+    );
+    if (!enrolled) {
+        return { ok: false, message: "Not enrolled in this course" };
+    }
+    return { ok: true };
+}
+
+export const getLectureNote = async (req, res) => {
+    try {
+        const userId = req.auth().userId;
+        const { courseId, lectureId } = req.query;
+        if (!courseId || !lectureId) {
+            return res.json({
+                success: false,
+                message: "courseId and lectureId are required",
+            });
+        }
+        const en = await assertUserEnrolledInCourse(userId, courseId);
+        if (!en.ok) {
+            return res.json({ success: false, message: en.message });
+        }
+        const doc = await LectureNote.findOne({
+            userId,
+            courseId,
+            lectureId,
+        }).lean();
+        return res.json({
+            success: true,
+            note: doc
+                ? { content: doc.content || "", updatedAt: doc.updatedAt }
+                : { content: "", updatedAt: null },
+        });
+    } catch (error) {
+        console.error("getLectureNote error:", error);
+        return res.json({ success: false, message: error.message });
+    }
+};
+
+export const upsertLectureNote = async (req, res) => {
+    try {
+        const userId = req.auth().userId;
+        const { courseId, lectureId, content } = req.body;
+        if (!courseId || !lectureId) {
+            return res.json({
+                success: false,
+                message: "courseId and lectureId are required",
+            });
+        }
+        const en = await assertUserEnrolledInCourse(userId, courseId);
+        if (!en.ok) {
+            return res.json({ success: false, message: en.message });
+        }
+        const text =
+            typeof content === "string" ? content.slice(0, 50000) : "";
+        const doc = await LectureNote.findOneAndUpdate(
+            { userId, courseId, lectureId },
+            { $set: { content: text } },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
+        return res.json({
+            success: true,
+            note: {
+                content: doc.content,
+                updatedAt: doc.updatedAt,
+            },
+        });
+    } catch (error) {
+        console.error("upsertLectureNote error:", error);
+        return res.json({ success: false, message: error.message });
     }
 };
 

@@ -1,21 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { SignIn } from "@clerk/clerk-react";
+import { SignUp } from "@clerk/clerk-react";
 
-const Login = () => {
+const SignUpPage = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4 py-10">
       <div className="w-full max-w-md">
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold text-gray-900">Log in</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Create account</h1>
           <p className="mt-1 text-sm text-gray-500">
-            Enter your email and password to continue.
+            Sign up with your email to get started.
           </p>
         </div>
 
         <div className="rounded-lg bg-white p-6 shadow-md">
-          <SignIn
-            path="/login"
+          <SignUp
+            path="/sign-up"
             routing="path"
             signInUrl="/login"
             signUpUrl="/sign-up"
@@ -23,20 +23,17 @@ const Login = () => {
         </div>
 
         <p className="mt-6 text-center text-sm text-gray-600">
-          Don&apos;t have an account?{" "}
+          Already have an account?{" "}
           <Link
-            to="/sign-up"
+            to="/login"
             className="font-semibold text-blue-600 hover:text-blue-700 hover:underline"
           >
-            Sign up
+            Log in
           </Link>
-        </p>
-        <p className="mt-2 text-center text-xs text-gray-400">
-          New users: use Sign up to create an account, then you can log in anytime.
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SignUpPage;

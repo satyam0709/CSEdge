@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import Course from "../models/course.js";
+import { getCuratedYoutubeCourses } from "./curatedYoutubeCourses.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -844,7 +845,8 @@ const seed = async () => {
     const deleted = await Course.deleteMany({ educator: "admin" });
     console.log(`${deleted.deletedCount}`);
 
-    const courses = [striverA2Z, chaiAurReact, dsaCpp, webDevBootcamp];
+    const curated = getCuratedYoutubeCourses(yt);
+    const courses = [striverA2Z, chaiAurReact, dsaCpp, webDevBootcamp, ...curated];
     const inserted = await Course.insertMany(courses);
 
     console.log(`${inserted.length}\n`);

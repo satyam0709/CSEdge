@@ -93,7 +93,7 @@ const Hero = () => {
           className={`
             absolute ${p.animation}
             flex flex-col items-center justify-center gap-1.5
-            w-20 h-20 rounded-2xl border-2
+            w-20 h-20 cursor-pointer rounded-2xl border-2
             ${p.bg} ${p.border} shadow-lg ${p.shadow}
             hover:scale-110 hover:shadow-xl
             transition-transform duration-200 z-10

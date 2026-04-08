@@ -18,6 +18,8 @@ import testRoutes from "./routes/app-test-routes.js";
 import userRoutes from "./routes/app-user-routes.js";
 import companyArticleRoutes from "./routes/app-company-articles-routes.js";
 import contestRoutes from "./routes/app-contest-routes.js";
+import testimonialRoutes from "./routes/app-testimonial-routes.js";
+import chatRoutes from "./routes/app-chat-routes.js";
 import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
 
 const app = express();
@@ -56,6 +58,8 @@ app.use("/api/test", testRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/company-articles", companyArticleRoutes);
 app.use("/api/contest", contestRoutes);
+app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.get("/", (_, res) => res.send("LMS API Running"));
 

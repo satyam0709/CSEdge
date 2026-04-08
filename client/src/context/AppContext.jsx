@@ -99,10 +99,15 @@ export const AppContextProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      fetchUserData();
-      fetchUserEnrolledCourses();
-    }
+    if (!user) return;
+    let cancelled = false;
+    (async () => {
+      await fetchUserData();
+      if (!cancelled) await fetchUserEnrolledCourses();
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [user]);
 
   const value = {

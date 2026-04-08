@@ -14,6 +14,8 @@ import {
     toggleExternalProblem,
     deleteExternalProblem,
     enrollFreeCourse,   // ← NEW
+    getLectureNote,
+    upsertLectureNote,
 } from '../controllers/userController.js'
 import { checkPurchaseStatus, checkAllPendingPurchases } from '../controllers/webhooks.js'
 import { requireAuth } from "@clerk/express";
@@ -36,6 +38,8 @@ userRouter.post("/add-rating", addUserRating);
 // PAYMENTS
 userRouter.post("/purchase", purchaseCourse);
 userRouter.post("/enroll-free", enrollFreeCourse);    // ← NEW: free course direct enroll
+userRouter.get("/lecture-note", getLectureNote);
+userRouter.put("/lecture-note", upsertLectureNote);
 userRouter.get("/purchases", getUserPurchases);
 userRouter.post("/verify-purchase", verifyPurchase);
 userRouter.get("/purchase-status/:purchaseId", checkPurchaseStatus);

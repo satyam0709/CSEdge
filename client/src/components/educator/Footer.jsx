@@ -9,7 +9,7 @@ const Footer = () => {
         {/* Left Section - Logo & Text */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <div className="flex items-center gap-2 mb-2">
-            <img src={assets.logo} alt="CSEdge logo" className="w-10 h-10" />
+            <img src={assets.logo_dark} alt="CSEdge logo" className="h-8 w-auto" />
             <h2 className="text-xl font-semibold text-white">CSEdge</h2>
           </div>
           <p className="text-sm text-gray-400">
