@@ -6,6 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import Course from "../models/course.js";
 import { getCuratedYoutubeCourses } from "./curatedYoutubeCourses.js";
+import { getUserPlaylistCourses } from "./userPlaylistCourses.generated.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -846,7 +847,15 @@ const seed = async () => {
     console.log(`${deleted.deletedCount}`);
 
     const curated = getCuratedYoutubeCourses(yt);
-    const courses = [striverA2Z, chaiAurReact, dsaCpp, webDevBootcamp, ...curated];
+    const userPlaylists = getUserPlaylistCourses(yt);
+    const courses = [
+      striverA2Z,
+      chaiAurReact,
+      dsaCpp,
+      webDevBootcamp,
+      ...curated,
+      ...userPlaylists,
+    ];
     const inserted = await Course.insertMany(courses);
 
     console.log(`${inserted.length}\n`);

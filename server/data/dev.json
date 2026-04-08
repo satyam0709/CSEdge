@@ -1,282 +1,4202 @@
 [
   {
-    "type": "aptitude",
+    "type": "dev",
     "level": 1,
-    "topic": "percentages",
-    "question": "What is 10% of 200?",
+    "topic": "HTML5 & Semantics",
+    "question": "What does the <main> element represent in HTML5?",
     "options": [
-      "10",
-      "20",
-      "30",
-      "40"
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
     ],
-    "correctAnswer": "20",
-    "explanation": "10% of 200 = (10/100) × 200 = 20"
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
   },
   {
-    "type": "aptitude",
+    "type": "dev",
     "level": 1,
-    "topic": "ratios",
-    "question": "Simplify ratio 4:8",
+    "topic": "HTML5 & Semantics",
+    "question": "Which HTTP method is idempotent and safe for reads?",
     "options": [
-      "1:2",
-      "2:4",
-      "3:6",
-      "4:8"
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
     ],
-    "correctAnswer": "1:2",
-    "explanation": "Divide both by 4: 4÷4=1, 8÷4=2"
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
   },
   {
-    "type": "aptitude",
+    "type": "dev",
     "level": 1,
-    "topic": "averages",
-    "question": "Average of 10, 20, 30",
+    "topic": "HTML5 & Semantics",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
     "options": [
-      "15",
-      "20",
-      "25",
-      "30"
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
     ],
-    "correctAnswer": "20",
-    "explanation": "(10+20+30)/3 = 60/3 = 20"
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
   },
   {
-    "type": "aptitude",
+    "type": "dev",
     "level": 1,
-    "topic": "simple interest",
-    "question": "SI on ₹1000 at 5% for 1 year",
+    "topic": "HTML5 & Semantics",
+    "question": "What is the purpose of the alt attribute on <img>?",
     "options": [
-      "₹40",
-      "₹50",
-      "₹60",
-      "₹70"
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
     ],
-    "correctAnswer": "₹50",
-    "explanation": "SI = (1000×5×1)/100 = 50"
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
   },
   {
-    "type": "aptitude",
+    "type": "dev",
     "level": 1,
-    "topic": "profit loss",
-    "question": "CP=₹100, SP=₹120, profit%?",
+    "topic": "HTML5 & Semantics",
+    "question": "Which CSS unit is relative to the root element font size?",
     "options": [
-      "10%",
-      "15%",
-      "20%",
-      "25%"
+      "em",
+      "rem",
+      "vh",
+      "px"
     ],
-    "correctAnswer": "20%",
-    "explanation": "Profit=20, %=(20/100)×100=20%"
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
   },
   {
-    "type": "aptitude",
+    "type": "dev",
     "level": 1,
-    "topic": "time speed distance",
-    "question": "Speed=60km/h, Time=2h, Distance?",
+    "topic": "HTML5 & Semantics",
+    "question": "What does typeof null return in JavaScript?",
     "options": [
-      "100km",
-      "120km",
-      "140km",
-      "160km"
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
     ],
-    "correctAnswer": "120km",
-    "explanation": "Distance=Speed×Time=60×2=120km"
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
   },
   {
-    "type": "aptitude",
+    "type": "dev",
     "level": 1,
-    "topic": "number series",
-    "question": "2, 4, 6, 8, ?",
+    "topic": "HTML5 & Semantics",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
     "options": [
-      "9",
-      "10",
-      "11",
-      "12"
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
     ],
-    "correctAnswer": "10",
-    "explanation": "Add 2: 2+2=4, 4+2=6, 6+2=8, 8+2=10"
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
   },
   {
-    "type": "aptitude",
+    "type": "dev",
     "level": 1,
-    "topic": "algebra",
-    "question": "Solve: x + 5 = 10",
+    "topic": "HTML5 & Semantics",
+    "question": "What is JSX?",
     "options": [
-      "3",
-      "4",
-      "5",
-      "6"
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
     ],
-    "correctAnswer": "5",
-    "explanation": "x = 10 - 5 = 5"
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
   },
   {
-    "type": "aptitude",
+    "type": "dev",
     "level": 1,
-    "topic": "geometry",
-    "question": "Area of square side 5cm",
+    "topic": "HTML5 & Semantics",
+    "question": "What is JWT often used for?",
     "options": [
-      "20",
-      "25",
-      "30",
-      "35"
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
     ],
-    "correctAnswer": "25",
-    "explanation": "Area=side²=5²=25cm²"
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
   },
   {
-    "type": "aptitude",
+    "type": "dev",
     "level": 1,
-    "topic": "fractions",
-    "question": "1/2 + 1/4 = ?",
+    "topic": "HTML5 & Semantics",
+    "question": "What is CORS?",
     "options": [
-      "1/4",
-      "2/4",
-      "3/4",
-      "1"
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
     ],
-    "correctAnswer": "3/4",
-    "explanation": "1/2=2/4, 2/4+1/4=3/4"
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
   },
   {
-    "type": "aptitude",
-    "level": 1,
-    "topic": "decimals",
-    "question": "0.5 × 0.2 = ?",
+    "type": "dev",
+    "level": 2,
+    "topic": "HTML5 & Semantics",
+    "question": "What is the purpose of the alt attribute on <img>?",
     "options": [
-      "0.1",
-      "0.01",
-      "1.0",
-      "0.001"
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
     ],
-    "correctAnswer": "0.1",
-    "explanation": "0.5×0.2=0.10=0.1"
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
   },
   {
-    "type": "aptitude",
-    "level": 1,
-    "topic": "simplification",
-    "question": "15 + 25 - 10 = ?",
+    "type": "dev",
+    "level": 2,
+    "topic": "HTML5 & Semantics",
+    "question": "Which CSS unit is relative to the root element font size?",
     "options": [
-      "20",
-      "25",
-      "30",
-      "35"
+      "em",
+      "rem",
+      "vh",
+      "px"
     ],
-    "correctAnswer": "30",
-    "explanation": "15+25=40, 40-10=30"
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
   },
   {
-    "type": "aptitude",
-    "level": 1,
-    "topic": "time work",
-    "question": "A completes work in 10 days. Daily work?",
+    "type": "dev",
+    "level": 2,
+    "topic": "HTML5 & Semantics",
+    "question": "What does typeof null return in JavaScript?",
     "options": [
-      "1/5",
-      "1/10",
-      "1/15",
-      "1/20"
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
     ],
-    "correctAnswer": "1/10",
-    "explanation": "Total work=1, Daily=1/10"
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
   },
   {
-    "type": "aptitude",
-    "level": 1,
-    "topic": "mensuration",
-    "question": "Perimeter of square side 4cm",
+    "type": "dev",
+    "level": 2,
+    "topic": "HTML5 & Semantics",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
     "options": [
-      "12",
-      "16",
-      "20",
-      "24"
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
     ],
-    "correctAnswer": "16",
-    "explanation": "Perimeter=4×side=4×4=16cm"
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
   },
   {
-    "type": "aptitude",
-    "level": 1,
-    "topic": "probability",
-    "question": "Probability of head in coin toss",
+    "type": "dev",
+    "level": 2,
+    "topic": "HTML5 & Semantics",
+    "question": "What is a closure in JavaScript?",
     "options": [
-      "0",
-      "0.25",
-      "0.5",
-      "1"
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
     ],
-    "correctAnswer": "0.5",
-    "explanation": "P(head)=1/2=0.5"
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
   },
   {
-    "type": "aptitude",
-    "level": 1,
-    "topic": "number system",
-    "question": "Smallest prime number",
+    "type": "dev",
+    "level": 2,
+    "topic": "HTML5 & Semantics",
+    "question": "What is the event loop responsible for?",
     "options": [
-      "0",
-      "1",
-      "2",
-      "3"
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
     ],
-    "correctAnswer": "2",
-    "explanation": "2 is smallest prime"
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
   },
   {
-    "type": "aptitude",
-    "level": 1,
-    "topic": "percentages",
-    "question": "25% of 400 = ?",
+    "type": "dev",
+    "level": 2,
+    "topic": "HTML5 & Semantics",
+    "question": "What does async/await syntactically wrap?",
     "options": [
-      "50",
-      "75",
-      "100",
-      "125"
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
     ],
-    "correctAnswer": "100",
-    "explanation": "25% of 400=(25/100)×400=100"
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
   },
   {
-    "type": "aptitude",
-    "level": 1,
-    "topic": "ratios",
-    "question": "Ratio 3:9 in simplest form",
+    "type": "dev",
+    "level": 2,
+    "topic": "HTML5 & Semantics",
+    "question": "What does npm install do?",
     "options": [
-      "1:3",
-      "2:6",
-      "3:9",
-      "4:12"
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
     ],
-    "correctAnswer": "1:3",
-    "explanation": "Divide by 3: 3÷3=1, 9÷3=3"
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
   },
   {
-    "type": "aptitude",
-    "level": 1,
-    "topic": "averages",
-    "question": "Average of 5, 10, 15, 20",
+    "type": "dev",
+    "level": 2,
+    "topic": "HTML5 & Semantics",
+    "question": "What is JSX?",
     "options": [
-      "10",
-      "12.5",
-      "15",
-      "17.5"
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
     ],
-    "correctAnswer": "12.5",
-    "explanation": "(5+10+15+20)/4=50/4=12.5"
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
   },
   {
-    "type": "aptitude",
-    "level": 1,
-    "topic": "time speed distance",
-    "question": "Distance=240km, Time=4h, Speed?",
+    "type": "dev",
+    "level": 2,
+    "topic": "HTML5 & Semantics",
+    "question": "What is JWT often used for?",
     "options": [
-      "50",
-      "55",
-      "60",
-      "65"
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
     ],
-    "correctAnswer": "60",
-    "explanation": "Speed=Distance/Time=240/4=60km/h"
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 3,
+    "topic": "HTML5 & Semantics",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 3,
+    "topic": "HTML5 & Semantics",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
+    ],
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
+  },
+  {
+    "type": "dev",
+    "level": 3,
+    "topic": "HTML5 & Semantics",
+    "question": "What is the event loop responsible for?",
+    "options": [
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
+    ],
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
+  },
+  {
+    "type": "dev",
+    "level": 3,
+    "topic": "HTML5 & Semantics",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 3,
+    "topic": "HTML5 & Semantics",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 3,
+    "topic": "HTML5 & Semantics",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 3,
+    "topic": "HTML5 & Semantics",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 3,
+    "topic": "HTML5 & Semantics",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 3,
+    "topic": "HTML5 & Semantics",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 3,
+    "topic": "HTML5 & Semantics",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 4,
+    "topic": "HTML5 & Semantics",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 4,
+    "topic": "HTML5 & Semantics",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 4,
+    "topic": "HTML5 & Semantics",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 4,
+    "topic": "HTML5 & Semantics",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 4,
+    "topic": "HTML5 & Semantics",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 4,
+    "topic": "HTML5 & Semantics",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 4,
+    "topic": "HTML5 & Semantics",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 4,
+    "topic": "HTML5 & Semantics",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 4,
+    "topic": "HTML5 & Semantics",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 4,
+    "topic": "HTML5 & Semantics",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 5,
+    "topic": "HTML5 & Semantics",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 5,
+    "topic": "HTML5 & Semantics",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 5,
+    "topic": "HTML5 & Semantics",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 5,
+    "topic": "HTML5 & Semantics",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 5,
+    "topic": "HTML5 & Semantics",
+    "question": "Which HTTP method is idempotent and safe for reads?",
+    "options": [
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
+    ],
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
+  },
+  {
+    "type": "dev",
+    "level": 5,
+    "topic": "HTML5 & Semantics",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
+    "options": [
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
+    ],
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
+  },
+  {
+    "type": "dev",
+    "level": 5,
+    "topic": "HTML5 & Semantics",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 5,
+    "topic": "HTML5 & Semantics",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 5,
+    "topic": "HTML5 & Semantics",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 5,
+    "topic": "HTML5 & Semantics",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 6,
+    "topic": "CSS3 & Layout",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 6,
+    "topic": "CSS3 & Layout",
+    "question": "Which HTTP method is idempotent and safe for reads?",
+    "options": [
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
+    ],
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
+  },
+  {
+    "type": "dev",
+    "level": 6,
+    "topic": "CSS3 & Layout",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
+    "options": [
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
+    ],
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
+  },
+  {
+    "type": "dev",
+    "level": 6,
+    "topic": "CSS3 & Layout",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 6,
+    "topic": "CSS3 & Layout",
+    "question": "Which CSS unit is relative to the root element font size?",
+    "options": [
+      "em",
+      "rem",
+      "vh",
+      "px"
+    ],
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
+  },
+  {
+    "type": "dev",
+    "level": 6,
+    "topic": "CSS3 & Layout",
+    "question": "What does typeof null return in JavaScript?",
+    "options": [
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
+    ],
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
+  },
+  {
+    "type": "dev",
+    "level": 6,
+    "topic": "CSS3 & Layout",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 6,
+    "topic": "CSS3 & Layout",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 6,
+    "topic": "CSS3 & Layout",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 6,
+    "topic": "CSS3 & Layout",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 7,
+    "topic": "CSS3 & Layout",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 7,
+    "topic": "CSS3 & Layout",
+    "question": "Which CSS unit is relative to the root element font size?",
+    "options": [
+      "em",
+      "rem",
+      "vh",
+      "px"
+    ],
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
+  },
+  {
+    "type": "dev",
+    "level": 7,
+    "topic": "CSS3 & Layout",
+    "question": "What does typeof null return in JavaScript?",
+    "options": [
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
+    ],
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
+  },
+  {
+    "type": "dev",
+    "level": 7,
+    "topic": "CSS3 & Layout",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 7,
+    "topic": "CSS3 & Layout",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
+    ],
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
+  },
+  {
+    "type": "dev",
+    "level": 7,
+    "topic": "CSS3 & Layout",
+    "question": "What is the event loop responsible for?",
+    "options": [
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
+    ],
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
+  },
+  {
+    "type": "dev",
+    "level": 7,
+    "topic": "CSS3 & Layout",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 7,
+    "topic": "CSS3 & Layout",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 7,
+    "topic": "CSS3 & Layout",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 7,
+    "topic": "CSS3 & Layout",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 8,
+    "topic": "CSS3 & Layout",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 8,
+    "topic": "CSS3 & Layout",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
+    ],
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
+  },
+  {
+    "type": "dev",
+    "level": 8,
+    "topic": "CSS3 & Layout",
+    "question": "What is the event loop responsible for?",
+    "options": [
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
+    ],
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
+  },
+  {
+    "type": "dev",
+    "level": 8,
+    "topic": "CSS3 & Layout",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 8,
+    "topic": "CSS3 & Layout",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 8,
+    "topic": "CSS3 & Layout",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 8,
+    "topic": "CSS3 & Layout",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 8,
+    "topic": "CSS3 & Layout",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 8,
+    "topic": "CSS3 & Layout",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 8,
+    "topic": "CSS3 & Layout",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 9,
+    "topic": "CSS3 & Layout",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 9,
+    "topic": "CSS3 & Layout",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 9,
+    "topic": "CSS3 & Layout",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 9,
+    "topic": "CSS3 & Layout",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 9,
+    "topic": "CSS3 & Layout",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 9,
+    "topic": "CSS3 & Layout",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 9,
+    "topic": "CSS3 & Layout",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 9,
+    "topic": "CSS3 & Layout",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 9,
+    "topic": "CSS3 & Layout",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 9,
+    "topic": "CSS3 & Layout",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 10,
+    "topic": "CSS3 & Layout",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 10,
+    "topic": "CSS3 & Layout",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 10,
+    "topic": "CSS3 & Layout",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 10,
+    "topic": "CSS3 & Layout",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 10,
+    "topic": "CSS3 & Layout",
+    "question": "Which HTTP method is idempotent and safe for reads?",
+    "options": [
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
+    ],
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
+  },
+  {
+    "type": "dev",
+    "level": 10,
+    "topic": "CSS3 & Layout",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
+    "options": [
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
+    ],
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
+  },
+  {
+    "type": "dev",
+    "level": 10,
+    "topic": "CSS3 & Layout",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 10,
+    "topic": "CSS3 & Layout",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 10,
+    "topic": "CSS3 & Layout",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 10,
+    "topic": "CSS3 & Layout",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 11,
+    "topic": "JavaScript Core",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 11,
+    "topic": "JavaScript Core",
+    "question": "Which HTTP method is idempotent and safe for reads?",
+    "options": [
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
+    ],
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
+  },
+  {
+    "type": "dev",
+    "level": 11,
+    "topic": "JavaScript Core",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
+    "options": [
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
+    ],
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
+  },
+  {
+    "type": "dev",
+    "level": 11,
+    "topic": "JavaScript Core",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 11,
+    "topic": "JavaScript Core",
+    "question": "Which CSS unit is relative to the root element font size?",
+    "options": [
+      "em",
+      "rem",
+      "vh",
+      "px"
+    ],
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
+  },
+  {
+    "type": "dev",
+    "level": 11,
+    "topic": "JavaScript Core",
+    "question": "What does typeof null return in JavaScript?",
+    "options": [
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
+    ],
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
+  },
+  {
+    "type": "dev",
+    "level": 11,
+    "topic": "JavaScript Core",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 11,
+    "topic": "JavaScript Core",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 11,
+    "topic": "JavaScript Core",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 11,
+    "topic": "JavaScript Core",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 12,
+    "topic": "JavaScript Core",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 12,
+    "topic": "JavaScript Core",
+    "question": "Which CSS unit is relative to the root element font size?",
+    "options": [
+      "em",
+      "rem",
+      "vh",
+      "px"
+    ],
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
+  },
+  {
+    "type": "dev",
+    "level": 12,
+    "topic": "JavaScript Core",
+    "question": "What does typeof null return in JavaScript?",
+    "options": [
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
+    ],
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
+  },
+  {
+    "type": "dev",
+    "level": 12,
+    "topic": "JavaScript Core",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 12,
+    "topic": "JavaScript Core",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
+    ],
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
+  },
+  {
+    "type": "dev",
+    "level": 12,
+    "topic": "JavaScript Core",
+    "question": "What is the event loop responsible for?",
+    "options": [
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
+    ],
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
+  },
+  {
+    "type": "dev",
+    "level": 12,
+    "topic": "JavaScript Core",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 12,
+    "topic": "JavaScript Core",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 12,
+    "topic": "JavaScript Core",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 12,
+    "topic": "JavaScript Core",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 13,
+    "topic": "JavaScript Core",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 13,
+    "topic": "JavaScript Core",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
+    ],
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
+  },
+  {
+    "type": "dev",
+    "level": 13,
+    "topic": "JavaScript Core",
+    "question": "What is the event loop responsible for?",
+    "options": [
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
+    ],
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
+  },
+  {
+    "type": "dev",
+    "level": 13,
+    "topic": "JavaScript Core",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 13,
+    "topic": "JavaScript Core",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 13,
+    "topic": "JavaScript Core",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 13,
+    "topic": "JavaScript Core",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 13,
+    "topic": "JavaScript Core",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 13,
+    "topic": "JavaScript Core",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 13,
+    "topic": "JavaScript Core",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 14,
+    "topic": "JavaScript Core",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 14,
+    "topic": "JavaScript Core",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 14,
+    "topic": "JavaScript Core",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 14,
+    "topic": "JavaScript Core",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 14,
+    "topic": "JavaScript Core",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 14,
+    "topic": "JavaScript Core",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 14,
+    "topic": "JavaScript Core",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 14,
+    "topic": "JavaScript Core",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 14,
+    "topic": "JavaScript Core",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 14,
+    "topic": "JavaScript Core",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 15,
+    "topic": "JavaScript Core",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 15,
+    "topic": "JavaScript Core",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 15,
+    "topic": "JavaScript Core",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 15,
+    "topic": "JavaScript Core",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 15,
+    "topic": "JavaScript Core",
+    "question": "Which HTTP method is idempotent and safe for reads?",
+    "options": [
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
+    ],
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
+  },
+  {
+    "type": "dev",
+    "level": 15,
+    "topic": "JavaScript Core",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
+    "options": [
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
+    ],
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
+  },
+  {
+    "type": "dev",
+    "level": 15,
+    "topic": "JavaScript Core",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 15,
+    "topic": "JavaScript Core",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 15,
+    "topic": "JavaScript Core",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 15,
+    "topic": "JavaScript Core",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 16,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 16,
+    "topic": "JavaScript Async & DOM",
+    "question": "Which HTTP method is idempotent and safe for reads?",
+    "options": [
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
+    ],
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
+  },
+  {
+    "type": "dev",
+    "level": 16,
+    "topic": "JavaScript Async & DOM",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
+    "options": [
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
+    ],
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
+  },
+  {
+    "type": "dev",
+    "level": 16,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 16,
+    "topic": "JavaScript Async & DOM",
+    "question": "Which CSS unit is relative to the root element font size?",
+    "options": [
+      "em",
+      "rem",
+      "vh",
+      "px"
+    ],
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
+  },
+  {
+    "type": "dev",
+    "level": 16,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does typeof null return in JavaScript?",
+    "options": [
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
+    ],
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
+  },
+  {
+    "type": "dev",
+    "level": 16,
+    "topic": "JavaScript Async & DOM",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 16,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 16,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 16,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 17,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 17,
+    "topic": "JavaScript Async & DOM",
+    "question": "Which CSS unit is relative to the root element font size?",
+    "options": [
+      "em",
+      "rem",
+      "vh",
+      "px"
+    ],
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
+  },
+  {
+    "type": "dev",
+    "level": 17,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does typeof null return in JavaScript?",
+    "options": [
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
+    ],
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
+  },
+  {
+    "type": "dev",
+    "level": 17,
+    "topic": "JavaScript Async & DOM",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 17,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
+    ],
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
+  },
+  {
+    "type": "dev",
+    "level": 17,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is the event loop responsible for?",
+    "options": [
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
+    ],
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
+  },
+  {
+    "type": "dev",
+    "level": 17,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 17,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 17,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 17,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 18,
+    "topic": "JavaScript Async & DOM",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 18,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
+    ],
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
+  },
+  {
+    "type": "dev",
+    "level": 18,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is the event loop responsible for?",
+    "options": [
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
+    ],
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
+  },
+  {
+    "type": "dev",
+    "level": 18,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 18,
+    "topic": "JavaScript Async & DOM",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 18,
+    "topic": "JavaScript Async & DOM",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 18,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 18,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 18,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 18,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 19,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 19,
+    "topic": "JavaScript Async & DOM",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 19,
+    "topic": "JavaScript Async & DOM",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 19,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 19,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 19,
+    "topic": "JavaScript Async & DOM",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 19,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 19,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 19,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 19,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 20,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 20,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 20,
+    "topic": "JavaScript Async & DOM",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 20,
+    "topic": "JavaScript Async & DOM",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 20,
+    "topic": "JavaScript Async & DOM",
+    "question": "Which HTTP method is idempotent and safe for reads?",
+    "options": [
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
+    ],
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
+  },
+  {
+    "type": "dev",
+    "level": 20,
+    "topic": "JavaScript Async & DOM",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
+    "options": [
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
+    ],
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
+  },
+  {
+    "type": "dev",
+    "level": 20,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 20,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 20,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 20,
+    "topic": "JavaScript Async & DOM",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 21,
+    "topic": "React",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 21,
+    "topic": "React",
+    "question": "Which HTTP method is idempotent and safe for reads?",
+    "options": [
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
+    ],
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
+  },
+  {
+    "type": "dev",
+    "level": 21,
+    "topic": "React",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
+    "options": [
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
+    ],
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
+  },
+  {
+    "type": "dev",
+    "level": 21,
+    "topic": "React",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 21,
+    "topic": "React",
+    "question": "Which CSS unit is relative to the root element font size?",
+    "options": [
+      "em",
+      "rem",
+      "vh",
+      "px"
+    ],
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
+  },
+  {
+    "type": "dev",
+    "level": 21,
+    "topic": "React",
+    "question": "What does typeof null return in JavaScript?",
+    "options": [
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
+    ],
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
+  },
+  {
+    "type": "dev",
+    "level": 21,
+    "topic": "React",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 21,
+    "topic": "React",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 21,
+    "topic": "React",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 21,
+    "topic": "React",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 22,
+    "topic": "React",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 22,
+    "topic": "React",
+    "question": "Which CSS unit is relative to the root element font size?",
+    "options": [
+      "em",
+      "rem",
+      "vh",
+      "px"
+    ],
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
+  },
+  {
+    "type": "dev",
+    "level": 22,
+    "topic": "React",
+    "question": "What does typeof null return in JavaScript?",
+    "options": [
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
+    ],
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
+  },
+  {
+    "type": "dev",
+    "level": 22,
+    "topic": "React",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 22,
+    "topic": "React",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
+    ],
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
+  },
+  {
+    "type": "dev",
+    "level": 22,
+    "topic": "React",
+    "question": "What is the event loop responsible for?",
+    "options": [
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
+    ],
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
+  },
+  {
+    "type": "dev",
+    "level": 22,
+    "topic": "React",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 22,
+    "topic": "React",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 22,
+    "topic": "React",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 22,
+    "topic": "React",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 23,
+    "topic": "React",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 23,
+    "topic": "React",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
+    ],
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
+  },
+  {
+    "type": "dev",
+    "level": 23,
+    "topic": "React",
+    "question": "What is the event loop responsible for?",
+    "options": [
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
+    ],
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
+  },
+  {
+    "type": "dev",
+    "level": 23,
+    "topic": "React",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 23,
+    "topic": "React",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 23,
+    "topic": "React",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 23,
+    "topic": "React",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 23,
+    "topic": "React",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 23,
+    "topic": "React",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 23,
+    "topic": "React",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 24,
+    "topic": "React",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 24,
+    "topic": "React",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 24,
+    "topic": "React",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 24,
+    "topic": "React",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 24,
+    "topic": "React",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 24,
+    "topic": "React",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 24,
+    "topic": "React",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 24,
+    "topic": "React",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 24,
+    "topic": "React",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 24,
+    "topic": "React",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 25,
+    "topic": "React",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 25,
+    "topic": "React",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 25,
+    "topic": "React",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 25,
+    "topic": "React",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 25,
+    "topic": "React",
+    "question": "Which HTTP method is idempotent and safe for reads?",
+    "options": [
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
+    ],
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
+  },
+  {
+    "type": "dev",
+    "level": 25,
+    "topic": "React",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
+    "options": [
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
+    ],
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
+  },
+  {
+    "type": "dev",
+    "level": 25,
+    "topic": "React",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 25,
+    "topic": "React",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 25,
+    "topic": "React",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 25,
+    "topic": "React",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 26,
+    "topic": "Node.js & Backend",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 26,
+    "topic": "Node.js & Backend",
+    "question": "Which HTTP method is idempotent and safe for reads?",
+    "options": [
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
+    ],
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
+  },
+  {
+    "type": "dev",
+    "level": 26,
+    "topic": "Node.js & Backend",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
+    "options": [
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
+    ],
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
+  },
+  {
+    "type": "dev",
+    "level": 26,
+    "topic": "Node.js & Backend",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 26,
+    "topic": "Node.js & Backend",
+    "question": "Which CSS unit is relative to the root element font size?",
+    "options": [
+      "em",
+      "rem",
+      "vh",
+      "px"
+    ],
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
+  },
+  {
+    "type": "dev",
+    "level": 26,
+    "topic": "Node.js & Backend",
+    "question": "What does typeof null return in JavaScript?",
+    "options": [
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
+    ],
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
+  },
+  {
+    "type": "dev",
+    "level": 26,
+    "topic": "Node.js & Backend",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 26,
+    "topic": "Node.js & Backend",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 26,
+    "topic": "Node.js & Backend",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 26,
+    "topic": "Node.js & Backend",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 27,
+    "topic": "Node.js & Backend",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 27,
+    "topic": "Node.js & Backend",
+    "question": "Which CSS unit is relative to the root element font size?",
+    "options": [
+      "em",
+      "rem",
+      "vh",
+      "px"
+    ],
+    "correctAnswer": "rem",
+    "explanation": "rem is relative to the root (html) font size; em is relative to parent."
+  },
+  {
+    "type": "dev",
+    "level": 27,
+    "topic": "Node.js & Backend",
+    "question": "What does typeof null return in JavaScript?",
+    "options": [
+      "'null'",
+      "'undefined'",
+      "'object'",
+      "'number'"
+    ],
+    "correctAnswer": "'object'",
+    "explanation": "Historical JS quirk: typeof null === 'object'."
+  },
+  {
+    "type": "dev",
+    "level": 27,
+    "topic": "Node.js & Backend",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 27,
+    "topic": "Node.js & Backend",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
+    ],
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
+  },
+  {
+    "type": "dev",
+    "level": 27,
+    "topic": "Node.js & Backend",
+    "question": "What is the event loop responsible for?",
+    "options": [
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
+    ],
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
+  },
+  {
+    "type": "dev",
+    "level": 27,
+    "topic": "Node.js & Backend",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 27,
+    "topic": "Node.js & Backend",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 27,
+    "topic": "Node.js & Backend",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 27,
+    "topic": "Node.js & Backend",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 28,
+    "topic": "Node.js & Backend",
+    "question": "Which method creates a new array without mutating the original when adding an element?",
+    "options": [
+      "push()",
+      "concat() or spread",
+      "pop()",
+      "reverse()"
+    ],
+    "correctAnswer": "concat() or spread",
+    "explanation": "push mutates; [...arr, x] or [].concat(arr, x) returns a new array."
+  },
+  {
+    "type": "dev",
+    "level": 28,
+    "topic": "Node.js & Backend",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A sealed class",
+      "A function that retains access to variables from outer scope",
+      "A private keyword",
+      "A loop construct"
+    ],
+    "correctAnswer": "A function that retains access to variables from outer scope",
+    "explanation": "Inner functions capture lexical environment from where they were created."
+  },
+  {
+    "type": "dev",
+    "level": 28,
+    "topic": "Node.js & Backend",
+    "question": "What is the event loop responsible for?",
+    "options": [
+      "Parsing HTML",
+      "Scheduling callbacks after the call stack clears",
+      "Garbage collection",
+      "DOM parsing"
+    ],
+    "correctAnswer": "Scheduling callbacks after the call stack clears",
+    "explanation": "The event loop queues async callbacks (microtasks, macrotasks) after synchronous work."
+  },
+  {
+    "type": "dev",
+    "level": 28,
+    "topic": "Node.js & Backend",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 28,
+    "topic": "Node.js & Backend",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 28,
+    "topic": "Node.js & Backend",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 28,
+    "topic": "Node.js & Backend",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 28,
+    "topic": "Node.js & Backend",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 28,
+    "topic": "Node.js & Backend",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 28,
+    "topic": "Node.js & Backend",
+    "question": "What is JSX?",
+    "options": [
+      "Syntax extension for React describing UI",
+      "A database",
+      "A CSS preprocessor",
+      "A browser engine"
+    ],
+    "correctAnswer": "Syntax extension for React describing UI",
+    "explanation": "JSX compiles to React.createElement calls."
+  },
+  {
+    "type": "dev",
+    "level": 29,
+    "topic": "Node.js & Backend",
+    "question": "What does async/await syntactically wrap?",
+    "options": [
+      "Callbacks only",
+      "Promises",
+      "XMLHttpRequest",
+      "Web Workers"
+    ],
+    "correctAnswer": "Promises",
+    "explanation": "async functions return Promises; await pauses until a Promise settles."
+  },
+  {
+    "type": "dev",
+    "level": 29,
+    "topic": "Node.js & Backend",
+    "question": "In React, what is the purpose of key in lists?",
+    "options": [
+      "Styling",
+      "Helping React identify elements across re-renders",
+      "SEO",
+      "Accessibility only"
+    ],
+    "correctAnswer": "Helping React identify elements across re-renders",
+    "explanation": "Stable keys help reconcile list diffs and avoid incorrect state reuse."
+  },
+  {
+    "type": "dev",
+    "level": 29,
+    "topic": "Node.js & Backend",
+    "question": "Which hook runs after paint and can subscribe to external systems?",
+    "options": [
+      "useState",
+      "useLayoutEffect",
+      "useEffect",
+      "useMemo"
+    ],
+    "correctAnswer": "useEffect",
+    "explanation": "useEffect runs after commit; useLayoutEffect runs synchronously after DOM updates."
+  },
+  {
+    "type": "dev",
+    "level": 29,
+    "topic": "Node.js & Backend",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 29,
+    "topic": "Node.js & Backend",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 29,
+    "topic": "Node.js & Backend",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 29,
+    "topic": "Node.js & Backend",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 29,
+    "topic": "Node.js & Backend",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 29,
+    "topic": "Node.js & Backend",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
+  },
+  {
+    "type": "dev",
+    "level": 29,
+    "topic": "Node.js & Backend",
+    "question": "What does npm install do?",
+    "options": [
+      "Installs dependencies from package.json",
+      "Deletes node_modules",
+      "Runs tests",
+      "Starts server"
+    ],
+    "correctAnswer": "Installs dependencies from package.json",
+    "explanation": "npm reads package.json and installs listed packages into node_modules."
+  },
+  {
+    "type": "dev",
+    "level": 30,
+    "topic": "Node.js & Backend",
+    "question": "What is the default port for HTTP in Node/Express examples?",
+    "options": [
+      "80",
+      "3000 or 5000",
+      "443",
+      "8080 only"
+    ],
+    "correctAnswer": "3000 or 5000",
+    "explanation": "Dev servers often use 3000/5000; production HTTP is 80, HTTPS 443."
+  },
+  {
+    "type": "dev",
+    "level": 30,
+    "topic": "Node.js & Backend",
+    "question": "What does REST stand for in REST APIs?",
+    "options": [
+      "Remote Execution State Transfer",
+      "Representational State Transfer",
+      "Resource Encoding Standard",
+      "Reactive State Transfer"
+    ],
+    "correctAnswer": "Representational State Transfer",
+    "explanation": "REST uses resource-oriented URLs and standard HTTP verbs."
+  },
+  {
+    "type": "dev",
+    "level": 30,
+    "topic": "Node.js & Backend",
+    "question": "In MongoDB, what is a document?",
+    "options": [
+      "A table row in SQL",
+      "A BSON/JSON-like record in a collection",
+      "A binary file",
+      "An index"
+    ],
+    "correctAnswer": "A BSON/JSON-like record in a collection",
+    "explanation": "MongoDB stores documents in collections; analogous to rows but schema-flexible."
+  },
+  {
+    "type": "dev",
+    "level": 30,
+    "topic": "Node.js & Backend",
+    "question": "What does the <main> element represent in HTML5?",
+    "options": [
+      "Footer content",
+      "Dominant content of the page",
+      "Navigation only",
+      "Script tags"
+    ],
+    "correctAnswer": "Dominant content of the page",
+    "explanation": "<main> wraps the primary content of the document, distinct from header, nav, aside, footer."
+  },
+  {
+    "type": "dev",
+    "level": 30,
+    "topic": "Node.js & Backend",
+    "question": "Which HTTP method is idempotent and safe for reads?",
+    "options": [
+      "POST",
+      "GET",
+      "PATCH",
+      "CONNECT"
+    ],
+    "correctAnswer": "GET",
+    "explanation": "GET should not change server state and can be repeated safely."
+  },
+  {
+    "type": "dev",
+    "level": 30,
+    "topic": "Node.js & Backend",
+    "question": "In CSS Flexbox, what does justify-content space-between do?",
+    "options": [
+      "Stack vertically",
+      "Distribute items with space between them",
+      "Center on cross axis",
+      "Wrap to new lines"
+    ],
+    "correctAnswer": "Distribute items with space between them",
+    "explanation": "space-between places first/last at edges and equal space between items."
+  },
+  {
+    "type": "dev",
+    "level": 30,
+    "topic": "Node.js & Backend",
+    "question": "What is the purpose of the alt attribute on <img>?",
+    "options": [
+      "Tooltip text",
+      "Accessible description when image fails",
+      "Lazy loading",
+      "Image size"
+    ],
+    "correctAnswer": "Accessible description when image fails",
+    "explanation": "alt provides text for screen readers and when the image cannot load."
+  },
+  {
+    "type": "dev",
+    "level": 30,
+    "topic": "Node.js & Backend",
+    "question": "What is JWT often used for?",
+    "options": [
+      "Stateless authentication tokens",
+      "Image compression",
+      "CSS variables",
+      "SQL joins"
+    ],
+    "correctAnswer": "Stateless authentication tokens",
+    "explanation": "JWTs carry signed claims; often used for API auth."
+  },
+  {
+    "type": "dev",
+    "level": 30,
+    "topic": "Node.js & Backend",
+    "question": "What is CORS?",
+    "options": [
+      "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+      "A CSS property",
+      "A React hook",
+      "A database"
+    ],
+    "correctAnswer": "Cross-Origin Resource Sharing — browser security for cross-origin requests",
+    "explanation": "CORS headers allow a browser to permit cross-origin XHR/fetch."
+  },
+  {
+    "type": "dev",
+    "level": 30,
+    "topic": "Node.js & Backend",
+    "question": "What is middleware in Express?",
+    "options": [
+      "Functions that run in the request pipeline",
+      "Only static files",
+      "Database only",
+      "HTML templates"
+    ],
+    "correctAnswer": "Functions that run in the request pipeline",
+    "explanation": "Middleware functions run between request and response, e.g. auth, logging."
   }
-  ]
+]

@@ -1,7 +1,7 @@
 // src/components/student/PracticeSection.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Brain, Code2, Laptop, Building2, ArrowRight, BarChart3 } from 'lucide-react';
+import { Brain, Code2, Laptop, Building2, ArrowRight, BarChart3, BookOpen } from 'lucide-react';
 
 const PracticeSection = () => {
   const navigate = useNavigate();
@@ -42,6 +42,15 @@ const PracticeSection = () => {
       color: 'bg-orange-50',
       border: 'hover:border-orange-500',
       path: '/practice/companies'
+    },
+    {
+      id: 'study-share',
+      title: 'Community study notes',
+      desc: 'Share your own notes, screenshots & PDFs — help others prep (no pirated material).',
+      icon: <BookOpen className="w-8 h-8 text-teal-600" />,
+      color: 'bg-teal-50',
+      border: 'hover:border-teal-500',
+      path: '/study-share'
     }
   ];
 
@@ -53,7 +62,7 @@ const PracticeSection = () => {
           <p className="text-gray-500 mt-2">Choose a track and start leveling up your skills today.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {practices.map((item) => (
             <div 
               key={item.id}

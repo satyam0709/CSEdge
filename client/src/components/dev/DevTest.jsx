@@ -1,101 +1,180 @@
-import React, { useState } from 'react';
-import { Code2, ArrowRight, Check, X, AlertTriangle } from 'lucide-react';
+// src/components/dev/DevTest.jsx — matches AptitudeTest: server-side grading + explanations
+import React, { useState, useEffect } from 'react';
+import { AlertCircle, CheckCircle, XCircle, ArrowRight, ArrowLeft } from 'lucide-react';
+import axios from '../../utils/axios';
 
-const DevTest = ({ level, questions, onComplete, onExit }) => {
-  const [index, setIndex] = useState(0);
+const DevTest = ({ level, questions: questionsProp, onComplete, onExit }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [questions, setQuestions] = useState(questionsProp);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = () => {
-    setSubmitted(true);
-    let correct = 0;
-    questions.forEach(q => { if (answers[q.id] === q.correctAnswer) correct++; });
-    const pct = (correct / questions.length) * 100;
-    setTimeout(() => onComplete({ score: correct*10, percentage: pct, passed: pct >= level.requiredScore, levelId: level.id }), 2000);
+  useEffect(() => {
+    setQuestions(questionsProp);
+    setCurrentIndex(0);
+    setAnswers({});
+    setIsSubmitted(false);
+  }, [questionsProp]);
+
+  const handleOptionSelect = (optionIndex) => {
+    if (isSubmitted || submitting) return;
+    setAnswers({ ...answers, [questions[currentIndex].id]: optionIndex });
   };
 
-  const current = questions[index];
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    let correctCount = 0;
+    const next = questions.map((q) => ({ ...q }));
+    for (let i = 0; i < next.length; i++) {
+      const q = next[i];
+      const idx = answers[q.id];
+      const selectedText =
+        typeof idx === 'number' && q.options?.[idx] !== undefined ? q.options[idx] : idx;
+      try {
+        const { data } = await axios.post('/api/test/submit', {
+          questionId: q.id,
+          selectedAnswer: selectedText,
+          type: 'dev'
+        });
+
+        if (data.success && data.correct) correctCount++;
+        if (data.explanation) q.explanation = data.explanation;
+        if (data.correctAnswer != null && q.options) {
+          q.correctAnswer = q.options.indexOf(data.correctAnswer);
+        }
+      } catch (err) {
+        console.error('submit error', err);
+      }
+    }
+    setQuestions(next);
+    setIsSubmitted(true);
+    setSubmitting(false);
+
+    const percentage = next.length ? (correctCount / next.length) * 100 : 0;
+    const passed = percentage >= (level.requiredScore ?? 50);
+
+    setTimeout(() => {
+      onComplete({
+        score: Math.round(percentage),
+        correctCount,
+        totalQuestions: next.length,
+        percentage,
+        passed,
+        levelId: level.id
+      });
+    }, 600);
+  };
+
+  const currentQuestion = questions[currentIndex];
+
+  if (!currentQuestion) return <div className="text-slate-300">Loading...</div>;
+
+  if (submitting) {
+    return (
+      <div className="max-w-4xl mx-auto p-12 text-center text-slate-300">
+        Grading your answers…
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-slate-900 min-h-screen text-slate-200">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-8 bg-slate-800 p-4 rounded-lg border border-slate-700">
-        <h2 className="text-xl font-bold text-white flex items-center gap-2">
-          <Code2 className="text-blue-400" /> {level.topic}
-        </h2>
-        <div />
+    <div className="max-w-4xl mx-auto p-6 bg-slate-800/80 rounded-xl shadow-lg border border-slate-700">
+      <div className="flex justify-between items-center mb-6 pb-4 border-b border-slate-600">
+        <div>
+          <h2 className="text-2xl font-bold text-white">{level.name} — Full Stack</h2>
+          <span className="text-sm text-slate-400">
+            Question {currentIndex + 1} of {questions.length}
+          </span>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Question Panel */}
-        <div className="space-y-6">
-          <div className="bg-black rounded-lg border border-slate-700 overflow-hidden">
-             <div className="bg-slate-800 px-4 py-2 text-xs text-slate-400 flex items-center gap-2">
-               <span className="w-2 h-2 rounded-full bg-red-500"/>
-               <span className="w-2 h-2 rounded-full bg-yellow-500"/>
-               <span className="w-2 h-2 rounded-full bg-green-500"/>
-               <span className="ml-2 font-mono">interview_question.js</span>
-             </div>
-             <div className="p-6">
-               {current.code ? (
-                 <pre className="font-mono text-sm text-green-400 whitespace-pre-wrap">{current.code}</pre>
-               ) : (
-                 <div className="text-slate-500 italic text-center py-8">Concept Question (No Code)</div>
-               )}
-             </div>
-          </div>
-          
-          <div className="text-lg font-medium text-white">{current.question}</div>
-        </div>
+      <div className="mb-8">
+        <h3 className="text-lg font-medium text-slate-100 mb-6 leading-relaxed">
+          {currentQuestion.question}
+        </h3>
 
-        {/* Options Panel */}
         <div className="space-y-3">
-          {current.options.map((opt, idx) => {
-            const sel = answers[current.id] === idx;
-            const cor = current.correctAnswer === idx;
-            let style = "border-slate-700 bg-slate-800 hover:bg-slate-700";
-            
-            if (submitted) {
-              if (cor) style = "bg-green-900/40 border-green-500 text-green-300";
-              else if (sel) style = "bg-red-900/40 border-red-500 text-red-300";
-              else style = "opacity-50 border-slate-700";
-            } else if (sel) {
-              style = "bg-blue-900/40 border-blue-500 text-blue-300";
+          {currentQuestion.options.map((option, idx) => {
+            const isSelected = answers[currentQuestion.id] === idx;
+            const isCorrect = currentQuestion.correctAnswer === idx;
+
+            let buttonStyle = 'border-slate-600 hover:bg-slate-700/50 hover:border-blue-500';
+            if (isSubmitted) {
+              if (isCorrect) buttonStyle = 'bg-emerald-900/40 border-emerald-500 text-emerald-200';
+              else if (isSelected && !isCorrect) buttonStyle = 'bg-rose-900/40 border-rose-500 text-rose-200';
+              else buttonStyle = 'opacity-50 border-slate-600';
+            } else if (isSelected) {
+              buttonStyle = 'bg-blue-900/40 border-blue-500 text-blue-100';
             }
 
             return (
-              <button 
-                key={idx} 
-                onClick={() => !submitted && setAnswers({...answers, [current.id]: idx})}
-                disabled={submitted}
-                className={`w-full text-left p-4 rounded-lg border transition-all flex justify-between ${style}`}
+              <button
+                key={idx}
+                onClick={() => handleOptionSelect(idx)}
+                disabled={isSubmitted}
+                className={`w-full text-left p-4 rounded-lg border-2 transition-all flex items-center justify-between ${buttonStyle}`}
               >
-                <span>{opt}</span>
-                {submitted && cor && <Check className="w-5 h-5"/>}
-                {submitted && sel && !cor && <X className="w-5 h-5"/>}
+                <span className="flex items-center gap-3">
+                  <span className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-700 border text-sm font-bold text-slate-300">
+                    {String.fromCharCode(65 + idx)}
+                  </span>
+                  {option}
+                </span>
+                {isSubmitted && isCorrect && <CheckCircle className="w-5 h-5 text-emerald-400" />}
+                {isSubmitted && isSelected && !isCorrect && <XCircle className="w-5 h-5 text-rose-400" />}
               </button>
             );
           })}
-          
-          {submitted && (
-            <div className="mt-4 p-4 bg-blue-900/20 border border-blue-800 rounded text-sm text-blue-300 flex gap-2">
-              <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5"/>
-              {current.explanation}
-            </div>
-          )}
+        </div>
 
-          <div className="pt-6 mt-auto flex justify-between">
-            <button onClick={onExit} className="text-slate-500 hover:text-white">Exit</button>
-            {index < questions.length - 1 ? (
-              <button onClick={() => setIndex(i => i + 1)} className="bg-white text-black px-6 py-2 rounded font-bold hover:bg-slate-200">
-                Next <ArrowRight className="inline w-4 h-4"/>
-              </button>
-            ) : !submitted && (
-              <button onClick={handleSubmit} className="bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-500">
-                Submit Answers
-              </button>
-            )}
+        {isSubmitted && currentQuestion.explanation && (
+          <div className="mt-6 p-4 bg-slate-900/80 rounded-lg border border-slate-600">
+            <h4 className="font-bold text-blue-300 mb-1 flex items-center gap-2">
+              <AlertCircle className="w-4 h-4" /> Explanation
+            </h4>
+            <p className="text-slate-300 text-sm">{currentQuestion.explanation}</p>
           </div>
+        )}
+      </div>
+
+      <div className="flex justify-between items-center pt-6 border-t border-slate-600">
+        <button
+          onClick={() => !isSubmitted && onExit()}
+          className="text-slate-400 hover:text-white font-medium px-4 py-2"
+        >
+          Exit
+        </button>
+
+        <div className="flex gap-3">
+          <button
+            onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
+            disabled={currentIndex === 0}
+            className="px-4 py-2 rounded-lg border border-slate-600 hover:bg-slate-700 disabled:opacity-50 flex items-center gap-2 text-slate-200"
+          >
+            <ArrowLeft className="w-4 h-4" /> Previous
+          </button>
+
+          {currentIndex === questions.length - 1 ? (
+            !isSubmitted && (
+              <button
+                onClick={handleSubmit}
+                disabled={submitting}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 font-medium disabled:opacity-50"
+              >
+                Submit Test
+              </button>
+            )
+          ) : (
+            <button
+              onClick={() =>
+                setCurrentIndex((prev) => Math.min(questions.length - 1, prev + 1))
+              }
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 flex items-center gap-2"
+            >
+              Next <ArrowRight className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
     </div>

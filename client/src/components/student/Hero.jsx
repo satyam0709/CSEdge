@@ -1,7 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { assets } from '../../assets/assets'
-import SearchBar from './SearchBar'
 
 const PLATFORMS = [
   {
@@ -139,8 +138,6 @@ const Hero = () => {
       <p className="text-gray-500 max-w-sm mx-auto text-xl">
         We bring everything together to help you achieve your personal and professional goals.
       </p>
-
-      <SearchBar />
     </div>
   )
 }

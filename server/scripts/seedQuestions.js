@@ -65,7 +65,7 @@ const seed = async () => {
     const seen = new Set();
 
     for (const q of allQuestions) {
-      const key = `${q.type}-${q.question.toLowerCase()}`;
+      const key = `${q.type}-${q.level}-${q.question.toLowerCase()}`;
       if (!seen.has(key)) {
         seen.add(key);
         unique.push(q);

@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config({ path: path.join(__dirname, ".env"), quiet: true });
 
 import connectDB from "./configs/mongodb.js";
 import connectCloudinary from "./configs/cloudinary.js";
@@ -20,6 +20,7 @@ import companyArticleRoutes from "./routes/app-company-articles-routes.js";
 import contestRoutes from "./routes/app-contest-routes.js";
 import testimonialRoutes from "./routes/app-testimonial-routes.js";
 import chatRoutes from "./routes/app-chat-routes.js";
+import studyShareRoutes from "./routes/app-study-share-routes.js";
 import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
 
 const app = express();
@@ -60,6 +61,7 @@ app.use("/api/company-articles", companyArticleRoutes);
 app.use("/api/contest", contestRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/study-share", studyShareRoutes);
 
 app.get("/", (_, res) => res.send("LMS API Running"));
 

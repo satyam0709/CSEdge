@@ -3,7 +3,9 @@
  * - Google Gemini (free tier via AI Studio) — set GEMINI_API_KEY or GOOGLE_AI_API_KEY
  * - OpenAI — set OPENAI_API_KEY (paid / credits)
  *
- * Provider: CHAT_PROVIDER=auto|gemini|openai  (default auto → Gemini if key exists, else OpenAI)
+ * Provider: CHAT_PROVIDER=auto|gemini|openai
+ *   auto → Gemini if GEMINI_API_KEY is set, else OpenAI. OpenAI fallback after Gemini failure
+ *   only if CHAT_FALLBACK_OPENAI=true (avoids surprise OpenAI quota errors).
  */
 
 const MAX_USER_MESSAGE = 3000;
@@ -11,12 +13,16 @@ const MAX_HISTORY_MESSAGES = 16;
 
 function buildSystemPrompt(context) {
   const parts = [
-    'You are a patient, clear teaching assistant for an online learning platform.',
-    'The student is watching a video lecture. Help them understand concepts, definitions, and problem-solving approaches.',
+    'You are a patient, clear teaching assistant for an online learning platform (LMS).',
     'Keep answers focused and easy to follow. Use short paragraphs or bullet points when helpful.',
-    'If you are unsure about something specific to their video, say so and explain the general idea instead.',
-    'Do not encourage academic dishonesty (e.g. completing graded work for them); do help them learn.',
+    'If the user pastes an error message or describes a bug, explain likely causes and step-by-step fixes.',
+    'Do not encourage academic dishonesty (e.g. completing graded work for them); do help them learn and debug.',
   ];
+  if (context?.pageTitle || context?.pagePath) {
+    parts.push(
+      `Student location in the app: ${context.pageTitle || 'Unknown'}${context.pagePath ? ` (URL path: ${context.pagePath})` : ''}. They may be taking a practice test, viewing the dashboard, or browsing courses — tailor help to that context.`
+    );
+  }
   if (context?.courseTitle) {
     parts.push(`Course: ${context.courseTitle}`);
   }
@@ -25,6 +31,9 @@ function buildSystemPrompt(context) {
   }
   if (context?.lectureTitle) {
     parts.push(`Current lecture title: ${context.lectureTitle}`);
+    parts.push(
+      'They may be watching a video lecture; help with concepts, definitions, and problem-solving approaches.'
+    );
   }
   return parts.join('\n');
 }
@@ -99,25 +108,59 @@ async function callOpenAI(trimmed, context) {
 }
 
 /**
- * Gemini — free quota via Google AI Studio (key usually starts with AIza...).
+ * Models to try in order. Many keys show free_tier limit:0 on gemini-2.0-flash; 2.5 / 1.5 often still work.
+ * Override with GEMINI_MODEL (first) and optional GEMINI_MODEL_FALLBACK=comma,separated
  * @see https://aistudio.google.com/apikey
  */
-async function callGemini(trimmed, context) {
-  const apiKey =
-    process.env.GEMINI_API_KEY?.trim() || process.env.GOOGLE_AI_API_KEY?.trim();
-  if (!apiKey) {
-    return {
-      ok: false,
-      status: 503,
-      message:
-        'No Gemini key. Get a free API key at https://aistudio.google.com/apikey and set GEMINI_API_KEY in server/.env',
-    };
+/** Order: lighter / older models first — less "high demand" than flagship Flash. */
+const DEFAULT_GEMINI_MODELS = [
+  'gemini-2.5-flash-lite',
+  'gemini-1.5-flash',
+  'gemini-1.5-flash-8b',
+  'gemini-2.5-flash',
+  'gemini-2.0-flash',
+];
+
+function buildGeminiModelList() {
+  const primary = process.env.GEMINI_MODEL?.trim();
+  const extra = process.env.GEMINI_MODEL_FALLBACK?.trim();
+  const ordered = [];
+  const pushUnique = (m) => {
+    if (m && !ordered.includes(m)) ordered.push(m);
+  };
+  if (primary) pushUnique(primary);
+  if (extra) {
+    for (const m of extra.split(',')) pushUnique(m.trim());
   }
+  for (const m of DEFAULT_GEMINI_MODELS) pushUnique(m);
+  return ordered;
+}
 
-  const model =
-    process.env.GEMINI_MODEL?.trim() ||
-    'gemini-2.0-flash';
+function isRetryableGeminiError(msg, httpStatus) {
+  if (httpStatus === 503 || httpStatus === 429 || httpStatus === 504) return true;
+  const s = String(msg || '').toLowerCase();
+  return (
+    s.includes('high demand') ||
+    s.includes('try again later') ||
+    s.includes('temporarily') ||
+    s.includes('overloaded') ||
+    s.includes('unavailable') ||
+    s.includes('quota') ||
+    s.includes('limit: 0') ||
+    s.includes('resource_exhausted') ||
+    s.includes('rate limit') ||
+    s.includes('429') ||
+    s.includes('not found') ||
+    s.includes('does not exist') ||
+    s.includes('404')
+  );
+}
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function callGeminiOnce(model, trimmed, context, apiKey) {
   const contents = [];
   for (const m of trimmed) {
     contents.push({
@@ -153,12 +196,7 @@ async function callGemini(trimmed, context) {
       data?.error?.status ||
       r.statusText ||
       'Gemini request failed';
-    console.error('[lectureChat] Gemini error:', errMsg);
-    let hint = errMsg;
-    if (String(errMsg).includes('not found') || r.status === 404) {
-      hint += ` — Try GEMINI_MODEL=gemini-1.5-flash or gemini-2.0-flash in server/.env`;
-    }
-    return { ok: false, status: 502, message: hint };
+    return { ok: false, errMsg, model, httpStatus: r.status };
   }
 
   const parts = data?.candidates?.[0]?.content?.parts;
@@ -170,15 +208,80 @@ async function callGemini(trimmed, context) {
   if (!reply) {
     return {
       ok: false,
-      status: 502,
-      message:
+      errMsg:
         blockReason === 'SAFETY'
           ? 'Reply was blocked by safety filters. Rephrase your question.'
           : 'Empty response from Gemini.',
+      model,
+      httpStatus: r.status,
     };
   }
 
-  return { ok: true, reply };
+  return { ok: true, reply, model, httpStatus: r.status };
+}
+
+async function callGemini(trimmed, context) {
+  const apiKey =
+    process.env.GEMINI_API_KEY?.trim() || process.env.GOOGLE_AI_API_KEY?.trim();
+  if (!apiKey) {
+    return {
+      ok: false,
+      status: 503,
+      message:
+        'No Gemini key. Get a free API key at https://aistudio.google.com/apikey and set GEMINI_API_KEY in server/.env',
+    };
+  }
+
+  const models = buildGeminiModelList();
+  let lastErr = 'Gemini request failed';
+  const retryDelayMs = Math.min(
+    Math.max(Number(process.env.GEMINI_RETRY_DELAY_MS) || 2500, 500),
+    15000
+  );
+  const maxAttemptsPerModel = Math.min(
+    Math.max(Number(process.env.GEMINI_MAX_ATTEMPTS_PER_MODEL) || 2, 1),
+    4
+  );
+
+  for (const model of models) {
+    for (let attempt = 0; attempt < maxAttemptsPerModel; attempt++) {
+      if (attempt > 0) {
+        await sleep(retryDelayMs);
+        console.warn(
+          `[lectureChat] Retry ${attempt + 1}/${maxAttemptsPerModel} for ${model} after transient error`
+        );
+      }
+      const one = await callGeminiOnce(model, trimmed, context, apiKey);
+      if (one.ok) {
+        if (model !== models[0]) {
+          console.warn(`[lectureChat] Using Gemini model: ${model}`);
+        }
+        return { ok: true, reply: one.reply };
+      }
+      lastErr = one.errMsg || lastErr;
+      console.error(`[lectureChat] Gemini (${model}):`, one.errMsg);
+      const retryable = isRetryableGeminiError(one.errMsg, one.httpStatus);
+      if (!retryable) {
+        return { ok: false, status: 502, message: lastErr };
+      }
+      const canRetrySameModel = attempt < maxAttemptsPerModel - 1;
+      if (!canRetrySameModel) break;
+    }
+  }
+
+  let hint = lastErr;
+  if (String(lastErr).toLowerCase().includes('high demand')) {
+    hint +=
+      ' — Google is busy on that model; the server already retried and tried other models. Wait a minute and send again, or set GEMINI_MODEL=gemini-1.5-flash in server/.env to prefer a quieter model.';
+  } else if (
+    String(lastErr).includes('limit: 0') ||
+    String(lastErr).toLowerCase().includes('quota')
+  ) {
+    hint +=
+      ' — Your Google project may have no free quota for these models. In Google AI Studio enable billing (free tier still applies) or create a new API key. See https://ai.google.dev/gemini-api/docs/rate-limits';
+  }
+
+  return { ok: false, status: 503, message: hint };
 }
 
 export const lectureChat = async (req, res) => {
@@ -205,9 +308,11 @@ export const lectureChat = async (req, res) => {
       result = await callGemini(trimmed, context);
     } else {
       // auto
+      const allowOpenAiFallback =
+        String(process.env.CHAT_FALLBACK_OPENAI || '').toLowerCase() === 'true';
       if (hasGemini) {
         result = await callGemini(trimmed, context);
-        if (!result.ok && hasOpenAI) {
+        if (!result.ok && hasOpenAI && allowOpenAiFallback) {
           console.warn('[lectureChat] Gemini failed, falling back to OpenAI');
           result = await callOpenAI(trimmed, context);
         }

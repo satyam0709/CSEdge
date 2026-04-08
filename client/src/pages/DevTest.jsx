@@ -136,7 +136,17 @@ export default function DevTest() {
         type: testType
       });
       if (data.success) {
-        setCurrentQuestion(prev => ({ ...prev, explanation: data.explanation, correctAnswer: data.correctAnswer }));
+        setCurrentQuestion((prev) => {
+          const idx =
+            prev.options && data.correctAnswer != null
+              ? prev.options.indexOf(data.correctAnswer)
+              : -1;
+          return {
+            ...prev,
+            explanation: data.explanation,
+            correctAnswer: idx >= 0 ? idx : undefined
+          };
+        });
         setIsSubmitted(true);
         setLevelAnswers(prev => ({
           ...prev,

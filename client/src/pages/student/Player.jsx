@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { useContext } from 'react'
 import { AppContext } from '../../context/AppContext'
 import { assets } from '../../assets/assets'
@@ -41,6 +41,7 @@ const Player = () => {
   } = useContext(AppContext)
 
   const { courseId } = useParams()
+  const { pathname: playerPath } = useLocation()
   const [courseData, setCourseData] = useState(null)
   const [openSections, setOpenSections] = useState({})
   const [playerData, setPlayerData] = useState(null) // { lecture, chapterIndex, lectureIndex }
@@ -419,6 +420,8 @@ const Player = () => {
                 lectureId={String(playerData.lectureId)}
                 lectureTitle={playerData.lectureTitle}
                 chapterTitle={playerData.chapterTitle}
+                pagePath={playerPath}
+                pageTitle="Video lecture player"
                 getToken={getToken}
               />
 

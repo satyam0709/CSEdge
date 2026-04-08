@@ -18,6 +18,7 @@ const router = express.Router();
 // still require Clerk auth.
 router.get("/levels", getAvailableLevels);
 router.get("/level-questions", getQuestionsByLevel);
+router.get("/questions", getQuestionsByLevel);
 
 router.get("/question", requireAuth(), getNextQuestion);
 router.post("/submit", requireAuth(), submitAnswer);

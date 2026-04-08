@@ -67,10 +67,24 @@ const DevDashboard = () => {
                 disabled={locked}
                 onClick={async () => { 
                   try {
-                    const { data } = await axios.get('/api/test/questions', { params: { type: 'dev', level: level.id, limit: 8 } });
-                    if (data.success) level.questions = data.questions.map(q => ({ id: q._id, question: q.question, options: q.options }));
+                    const { data } = await axios.get('/api/test/questions', { params: { type: 'dev', level: level.id, limit: 10 } });
+                    if (data.success && data.questions?.length) {
+                      const mapped = data.questions.map(q => ({
+                        id: q._id,
+                        question: q.question,
+                        options: q.options,
+                      }));
+                      setActiveLevel({
+                        ...level,
+                        topic: data.questions[0].topic || level.topic,
+                        questions: mapped,
+                        requiredScore: 50,
+                      });
+                      setView('test');
+                    } else {
+                      console.warn('No dev questions for level', level.id);
+                    }
                   } catch (err) { console.error(err); }
-                  setActiveLevel(level); setView('test');
                 }}
                 className={`relative p-6 rounded-xl border text-left transition-all ${
                   locked 

@@ -103,17 +103,23 @@ export const submitAnswer = async (req, res) => {
       });
     }
 
-    const isCorrect = question.correctAnswer === selectedAnswer;
+    let selected = selectedAnswer;
+    if (typeof selectedAnswer === "number" && Number.isInteger(selectedAnswer)) {
+      selected = question.options?.[selectedAnswer];
+    }
+    const isCorrect = question.correctAnswer === selected;
 
-    const progress = await TestProgress.findOne({
+    let progress = await TestProgress.findOne({
       userId,
       testType: type
     });
 
     if (!progress) {
-      return res.status(400).json({
-        success: false,
-        message: "Test progress not found"
+      progress = await TestProgress.create({
+        userId,
+        testType: type,
+        currentLevel: 1,
+        attemptedQuestions: []
       });
     }
 
@@ -134,7 +140,8 @@ export const submitAnswer = async (req, res) => {
     res.json({
       success: true,
       correct: isCorrect,
-      explanation: question.explanation
+      explanation: question.explanation,
+      correctAnswer: question.correctAnswer
     });
 
   } catch (error) {
@@ -339,11 +346,23 @@ export const getQuestionsByLevel = async (req, res) => {
       return res.status(400).json({ success: false, message: 'type and level required' });
     }
 
+    const typeMap = {
+      dev: ["dev", "development"],
+      development: ["dev", "development"],
+      dsa: ["dsa", "coding"],
+      coding: ["dsa", "coding"],
+      aptitude: ["aptitude"]
+    };
+
+    const typesToQuery = typeMap[type] || [type];
     const qLimit = Math.max(1, Math.min(50, Number(limit) || 10));
 
-    const questions = await Question.find({ type, level: Number(level) })
+    const questions = await Question.find({
+      type: { $in: typesToQuery },
+      level: Number(level)
+    })
       .limit(qLimit)
-      .select('_id question options');
+      .select("_id question options topic level");
 
     res.json({ success: true, questions });
   } catch (error) {

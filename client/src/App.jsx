@@ -25,6 +25,8 @@ import AdminCourses from "./admin/AdminCourses";
 import Player from "./pages/student/Player";
 import ContestPage from "./pages/ContestPage";
 import ContestPotdPromo from "./components/ContestPotdPromo";
+import GlobalChatAssistant from "./components/student/GlobalChatAssistant.jsx";
+import StudyShare from "./pages/student/StudyShare.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -34,6 +36,7 @@ function App() {
     <>
       {!isEducatorRoute && <Navbar />}
       <ContestPotdPromo />
+      <GlobalChatAssistant />
 
       <Routes>
         {/* Public */}
@@ -145,6 +148,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/study-share" element={<StudyShare />} />
         <Route
           path="/company/:companyId"
           element={

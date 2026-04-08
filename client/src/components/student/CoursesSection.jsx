@@ -2,12 +2,19 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AppContext } from '../../context/AppContext'
 import CourseCard from './CourseCard'
+import SearchBar from './SearchBar'
 
 const CoursesSection = () => {
   const { allCourses } = useContext(AppContext)
 
   return (
     <div className='py-16 md:px-40 px-8'>
+      {/* Course search — lives with the catalog, not the hero */}
+      <div className='flex flex-col items-center mb-10'>
+        <p className='text-sm font-medium text-gray-500 mb-3'>Find a course</p>
+        <SearchBar />
+      </div>
+
       {/* Heading — centered */}
       <h2 className='text-3xl font-semibold text-gray-800 text-center'>
         Some Best Suggested Courses

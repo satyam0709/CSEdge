@@ -94,6 +94,8 @@ const Navbar = () => {
                 </>
               )}
               <Link to='/my-enrollments' className='whitespace-nowrap hover:text-gray-900'>My Enrollments</Link>
+              <span className='text-gray-300' aria-hidden>|</span>
+              <Link to='/study-share' className='whitespace-nowrap hover:text-gray-900'>Study hub</Link>
               {isEducator ? (
                 <>
                   <span className='text-gray-300' aria-hidden>|</span>
