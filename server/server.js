@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+import { createServer } from "http";
+import { attachPresenceSocket } from "./socket/presenceSocket.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,7 +68,10 @@ app.use("/api/study-share", studyShareRoutes);
 app.get("/", (_, res) => res.send("LMS API Running"));
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`✅ Server running on port ${PORT}`);
+const httpServer = createServer(app);
+attachPresenceSocket(httpServer, allowedOrigins);
+
+httpServer.listen(PORT, () => {
+    console.log(`✅ Server running on port ${PORT} (HTTP + Socket.io presence)`);
 });
 export default app;

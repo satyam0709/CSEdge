@@ -11,7 +11,15 @@ import { toast } from 'react-toastify'
 import Loading from '../../components/student/Loading.jsx'
 import LectureNotesPanel from '../../components/student/LectureNotesPanel.jsx'
 import LectureChatAssistant from '../../components/student/LectureChatAssistant.jsx'
+import FlashPrepPanel from '../../components/student/FlashPrepPanel.jsx'
+import LectureYoutubePlayer from '../../components/student/LectureYoutubePlayer.jsx'
+import CourseStudyRoomPresence from '../../components/student/CourseStudyRoomPresence.jsx'
 import { ChevronLeft, ChevronRight, CheckCircle, Circle } from 'lucide-react'
+
+function isYoutubeLectureUrl(url) {
+  if (!url || typeof url !== 'string') return false
+  return /youtube\.com|youtu\.be/i.test(url)
+}
 
 // Extract YouTube video ID from any YouTube URL format
 const extractVideoId = (url) => {
@@ -47,6 +55,8 @@ const Player = () => {
   const [playerData, setPlayerData] = useState(null) // { lecture, chapterIndex, lectureIndex }
   const [progressData, setProgressData] = useState(null)
   const [initialRating, setInitialRating] = useState(0)
+  /** lectureId → short-lived server token after Flash-Prep pass */
+  const [flashPrepPassByLecture, setFlashPrepPassByLecture] = useState({})
 
   // ── Build a flat list of all lectures for easy prev/next ──────────────────
   const allLectures = courseData
@@ -140,21 +150,39 @@ const Player = () => {
 
   const markLecAsCompleted = async (lectureId) => {
     try {
-      const token = await getToken()
+      const auth = await getToken()
+      const flashPrepPassToken = flashPrepPassByLecture[lectureId]
       const { data } = await axiosInstance.post(
         '/api/user/update-course-progress',
-        { courseId, lectureId },
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          courseId,
+          lectureId,
+          ...(flashPrepPassToken ? { flashPrepPassToken } : {}),
+        },
+        { headers: { Authorization: `Bearer ${auth}` } }
       )
       if (data.success) {
         toast.success('Lecture marked as completed!')
+        setFlashPrepPassByLecture((prev) => {
+          const next = { ...prev }
+          delete next[lectureId]
+          return next
+        })
         getCourseProgress()
       } else {
-        toast.error(data.message)
+        if (data.requiresFlashPrep) {
+          toast.error(data.message || 'Pass Flash-Prep first.')
+        } else {
+          toast.error(data.message)
+        }
       }
     } catch (error) {
       toast.error(error.message)
     }
+  }
+
+  const handleFlashPrepPass = (lecId, passToken) => {
+    setFlashPrepPassByLecture((prev) => ({ ...prev, [lecId]: passToken }))
   }
 
   useEffect(() => {
@@ -181,7 +209,9 @@ const Player = () => {
   }
 
   const isCompleted = (lectureId) =>
-    progressData?.lectureCompleted?.includes(lectureId)
+    progressData?.lectureCompleted?.some(
+      (id) => String(id) === String(lectureId)
+    )
 
   // ── Total progress percentage ──────────────────────────────────────────────
   const progressPercent =
@@ -194,7 +224,12 @@ const Player = () => {
   // ── Render ─────────────────────────────────────────────────────────────────
   if (!courseData) return <Loading />
 
-  const videoId = playerData ? extractVideoId(playerData.lectureUrl) : null
+  const isYt = playerData ? isYoutubeLectureUrl(playerData.lectureUrl) : false
+  const youtubeVideoId = playerData ? extractVideoId(playerData.lectureUrl) : null
+  const hasPlayableVideo =
+    playerData &&
+    ((isYt && Boolean(youtubeVideoId)) ||
+      (!isYt && Boolean(playerData.lectureUrl?.trim())))
 
   return (
     <>
@@ -219,6 +254,14 @@ const Player = () => {
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
+            </div>
+            <div className="mt-3">
+              <CourseStudyRoomPresence
+                courseId={String(courseId)}
+                getToken={getToken}
+                enabled
+                variant="inline"
+              />
             </div>
           </div>
 
@@ -319,22 +362,28 @@ const Player = () => {
 
         {/* ── Right: Video player ─────────────────────────────────────────── */}
         <div className="flex-1 flex flex-col min-h-screen">
-          {playerData && videoId ? (
+          {hasPlayableVideo ? (
             <div className="flex flex-col flex-1">
-              {/* Video embed — plays INSIDE the platform, no YouTube redirect */}
-              <div className="w-full bg-black">
-                <div className="w-full aspect-video max-h-[70vh]">
-                  <iframe
-                    key={videoId}  // re-mount when video changes
-                    src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
-                    title={playerData.lectureTitle}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    className="w-full h-full"
-                    style={{ border: 'none' }}
-                  />
+              {isYt && youtubeVideoId ? (
+                <LectureYoutubePlayer
+                  videoId={youtubeVideoId}
+                  title={playerData.lectureTitle}
+                />
+              ) : (
+                <div className="w-full bg-black">
+                  <div className="w-full aspect-video max-h-[70vh]">
+                    <iframe
+                      key={playerData.lectureUrl}
+                      src={playerData.lectureUrl}
+                      title={playerData.lectureTitle}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="w-full h-full"
+                      style={{ border: 'none' }}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Video info + controls */}
               <div className="p-4 md:p-6 bg-white border-b border-gray-200">
@@ -351,13 +400,25 @@ const Player = () => {
                     </p>
                   </div>
 
-                  {/* Mark complete button */}
+                  {/* Mark complete — requires Flash-Prep pass token from server */}
                   <button
                     onClick={() => markLecAsCompleted(playerData.lectureId)}
+                    disabled={
+                      !isCompleted(playerData.lectureId) &&
+                      !flashPrepPassByLecture[playerData.lectureId]
+                    }
+                    title={
+                      !isCompleted(playerData.lectureId) &&
+                      !flashPrepPassByLecture[playerData.lectureId]
+                        ? 'Pass the Flash-Prep quiz below (80%+) to unlock'
+                        : undefined
+                    }
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex-shrink-0 ${
                       isCompleted(playerData.lectureId)
                         ? 'bg-green-100 text-green-700 cursor-default'
-                        : 'bg-blue-600 text-white hover:bg-blue-700'
+                        : flashPrepPassByLecture[playerData.lectureId]
+                          ? 'bg-blue-600 text-white hover:bg-blue-700'
+                          : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                     }`}
                   >
                     {isCompleted(playerData.lectureId) ? (
@@ -405,6 +466,16 @@ const Player = () => {
                     Next
                     <ChevronRight size={18} />
                   </button>
+                </div>
+
+                <div className="mt-5">
+                  <FlashPrepPanel
+                    courseId={String(courseId)}
+                    lectureId={String(playerData.lectureId)}
+                    getToken={getToken}
+                    isLectureCompleted={isCompleted(playerData.lectureId)}
+                    onEarnPassToken={handleFlashPrepPass}
+                  />
                 </div>
               </div>
 

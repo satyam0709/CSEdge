@@ -8,6 +8,12 @@ import TestAttempt from "../models/TestAttempt.js";
 import TestProgress from "../models/TestProgress.js";
 import ExternalProblem from "../models/ExternalProblem.js";
 import LectureNote from "../models/LectureNote.js";
+import { scoreFlashPrepAnswers } from "../lib/flashPrepScore.js";
+import { signFlashPrepPassToken, verifyFlashPrepPassToken } from "../lib/flashPrepToken.js";
+import { buildVideoLectureContext } from "../lib/buildVideoLectureContext.js";
+import { generateVideoFlashPrepMcqs } from "../lib/flashPrepVideoAi.js";
+import FlashPrepSession from "../models/FlashPrepSession.js";
+import crypto from "crypto";
 
 // FIX: Lazy init — called inside functions so dotenv has already loaded by then
 const getStripe = () => {
@@ -204,10 +210,26 @@ export const purchaseCourse = async(req, res) => {
     }
 }
 
+function findLectureContext(course, lectureId) {
+    const lid = String(lectureId);
+    for (const ch of course?.courseContent || []) {
+        for (const lec of ch.chapterContent || []) {
+            if (String(lec.lectureId) === lid) {
+                return { lecture: lec, chapterTitle: ch.chapterTitle || "" };
+            }
+        }
+    }
+    return null;
+}
+
+function findLectureInCourse(course, lectureId) {
+    return findLectureContext(course, lectureId)?.lecture ?? null;
+}
+
 export const updateUserCourseProgress = async (req, res) => {
     try {
         const userId = req.auth().userId;
-        const { courseId, lectureId } = req.body;
+        const { courseId, lectureId, flashPrepPassToken } = req.body;
 
         if (!courseId || !lectureId) {
             return res.json({ 
@@ -226,22 +248,42 @@ export const updateUserCourseProgress = async (req, res) => {
         }
 
         const progressData = await CourseProgress.findOne({ userId, courseId });
+        const lid = String(lectureId);
+        const alreadyDone = progressData?.lectureCompleted?.some((id) => String(id) === lid);
+
+        if (!alreadyDone) {
+            const course = await Course.findById(courseId);
+            const lec = findLectureInCourse(course, lectureId);
+            if (!lec) {
+                return res.json({ success: false, message: 'Lecture not found in this course' });
+            }
+            const tokenOk =
+                flashPrepPassToken &&
+                verifyFlashPrepPassToken(flashPrepPassToken, userId, courseId, lid);
+            if (!tokenOk) {
+                return res.json({
+                    success: false,
+                    message: 'Pass the Flash-Prep quiz for this lecture before marking it complete.',
+                    requiresFlashPrep: true,
+                });
+            }
+        }
 
         if (progressData) {
-            if (progressData.lectureCompleted.includes(lectureId)) {
+            if (progressData.lectureCompleted.some((id) => String(id) === lid)) {
                 return res.json({ 
                     success: true, 
                     message: 'Lecture Already Completed' 
                 });
             }
-            progressData.lectureCompleted.push(lectureId);
+            progressData.lectureCompleted.push(lid);
             
             // Check if all lectures are completed
             const course = await Course.findById(courseId);
             if (course && course.courseContent) {
                 const allLecturesCompleted = course.courseContent.every(chapter =>
                     chapter.chapterContent.every(lecture =>
-                        progressData.lectureCompleted.includes(lecture.lectureId.toString())
+                        progressData.lectureCompleted.some((id) => String(id) === String(lecture.lectureId))
                     )
                 );
                 progressData.completed = allLecturesCompleted;
@@ -252,7 +294,7 @@ export const updateUserCourseProgress = async (req, res) => {
             await CourseProgress.create({
                 userId,
                 courseId,
-                lectureCompleted: [lectureId],
+                lectureCompleted: [lid],
                 completed: false
             });
         }
@@ -285,6 +327,156 @@ export const getUserCourseProgress = async(req, res) => {
         res.json({ success: false, message: error.message });
     }
 }
+
+/** Flash-Prep: MCQs generated from THIS lecture’s video (transcript + metadata) via AI. */
+export const getFlashPrepQuiz = async (req, res) => {
+    try {
+        const userId = req.auth().userId;
+        const { courseId, lectureId, count } = req.body;
+
+        if (!courseId || !lectureId) {
+            return res.json({ success: false, message: 'Course ID and Lecture ID required' });
+        }
+
+        const user = await User.findById(userId);
+        if (!user?.enrolledCourses?.includes(courseId)) {
+            return res.json({ success: false, message: 'Not enrolled in this course' });
+        }
+
+        const course = await Course.findById(courseId);
+        const ctx = findLectureContext(course, lectureId);
+        if (!ctx?.lecture) {
+            return res.json({ success: false, message: 'Lecture not found in this course' });
+        }
+
+        const n = Math.min(10, Math.max(5, count != null ? Number(count) : 7));
+        const { contextBlock, videoId, hasTranscript } = await buildVideoLectureContext({
+            course,
+            lecture: ctx.lecture,
+            chapterTitle: ctx.chapterTitle,
+        });
+
+        const { questionsForClient, correctIndices, explanations } =
+            await generateVideoFlashPrepMcqs({
+                contextBlock,
+                questionCount: n,
+            });
+
+        const sessionId = crypto.randomUUID();
+        const expiresAt = new Date(Date.now() + 45 * 60 * 1000);
+
+        await FlashPrepSession.deleteMany({ userId, courseId: String(courseId), lectureId: String(lectureId) });
+
+        await FlashPrepSession.create({
+            sessionId,
+            userId,
+            courseId: String(courseId),
+            lectureId: String(lectureId),
+            videoId: videoId || '',
+            correctIndices,
+            explanations,
+            expiresAt,
+        });
+
+        res.json({
+            success: true,
+            quizSessionId: sessionId,
+            questions: questionsForClient,
+            questionCount: questionsForClient.length,
+            passThresholdPercent: 80,
+            source: videoId ? 'youtube_video' : 'lecture_metadata',
+            hasTranscript,
+        });
+    } catch (error) {
+        console.error('getFlashPrepQuiz error:', error);
+        res.json({ success: false, message: error.message || 'Flash-Prep generation failed' });
+    }
+};
+
+/** Verify answers against the stored session for this lecture only. */
+export const verifyFlashPrepQuiz = async (req, res) => {
+    try {
+        const userId = req.auth().userId;
+        const { courseId, lectureId, answers, quizSessionId } = req.body;
+
+        if (!courseId || !lectureId || !quizSessionId || !Array.isArray(answers)) {
+            return res.json({
+                success: false,
+                message: 'courseId, lectureId, quizSessionId, and answers[] are required',
+            });
+        }
+
+        const user = await User.findById(userId);
+        if (!user?.enrolledCourses?.includes(courseId)) {
+            return res.json({ success: false, message: 'Not enrolled in this course' });
+        }
+
+        const course = await Course.findById(courseId);
+        const ctx = findLectureContext(course, lectureId);
+        if (!ctx?.lecture) {
+            return res.json({ success: false, message: 'Lecture not found in this course' });
+        }
+
+        const session = await FlashPrepSession.findOne({
+            sessionId: String(quizSessionId),
+            userId,
+            courseId: String(courseId),
+            lectureId: String(lectureId),
+        });
+
+        if (!session) {
+            return res.json({
+                success: false,
+                message: 'This quiz session expired or does not match the current lecture. Generate Flash-Prep again.',
+            });
+        }
+
+        const correctIndices = session.correctIndices;
+        if (answers.length !== correctIndices.length) {
+            return res.json({
+                success: false,
+                message: 'Answer count does not match this quiz. Generate Flash-Prep again.',
+            });
+        }
+
+        const selected = answers.map((a) => Number(a));
+        const { correct, total, passed, minCorrect } = scoreFlashPrepAnswers(
+            correctIndices,
+            selected
+        );
+
+        if (!passed) {
+            return res.json({
+                success: true,
+                passed: false,
+                correct,
+                total,
+                minCorrect,
+                message: `You need at least ${minCorrect} of ${total} correct (80%). Try again.`,
+            });
+        }
+
+        await FlashPrepSession.deleteOne({ _id: session._id });
+
+        const flashPrepPassToken = signFlashPrepPassToken(
+            userId,
+            String(courseId),
+            String(lectureId)
+        );
+
+        res.json({
+            success: true,
+            passed: true,
+            correct,
+            total,
+            flashPrepPassToken,
+            explanations: session.explanations || [],
+        });
+    } catch (error) {
+        console.error('verifyFlashPrepQuiz error:', error);
+        res.json({ success: false, message: error.message });
+    }
+};
 
 export const addUserRating = async(req, res) => {
     try {

@@ -1,10 +1,3 @@
-/**
- * Loading.jsx — src/components/student/Loading.jsx
- * 
- * Used in TWO ways:
- * 1. Simple spinner while other pages load  →  <Loading />
- * 2. Post-Stripe payment verification page  →  /loading/my-enrollments?session_id=...
- */
 import React, { useEffect, useState, useRef } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useAuth } from '@clerk/clerk-react'

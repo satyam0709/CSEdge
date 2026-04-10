@@ -8,6 +8,12 @@
  *   only if CHAT_FALLBACK_OPENAI=true (avoids surprise OpenAI quota errors).
  */
 
+import {
+  buildGeminiModelList,
+  isRetryableGeminiError,
+  sleep,
+} from "../lib/geminiModelRotation.js";
+
 const MAX_USER_MESSAGE = 3000;
 const MAX_HISTORY_MESSAGES = 16;
 
@@ -107,58 +113,7 @@ async function callOpenAI(trimmed, context) {
   return { ok: true, reply };
 }
 
-/**
- * Models to try in order. Many keys show free_tier limit:0 on gemini-2.0-flash; 2.5 / 1.5 often still work.
- * Override with GEMINI_MODEL (first) and optional GEMINI_MODEL_FALLBACK=comma,separated
- * @see https://aistudio.google.com/apikey
- */
-/** Order: lighter / older models first — less "high demand" than flagship Flash. */
-const DEFAULT_GEMINI_MODELS = [
-  'gemini-2.5-flash-lite',
-  'gemini-1.5-flash',
-  'gemini-1.5-flash-8b',
-  'gemini-2.5-flash',
-  'gemini-2.0-flash',
-];
-
-function buildGeminiModelList() {
-  const primary = process.env.GEMINI_MODEL?.trim();
-  const extra = process.env.GEMINI_MODEL_FALLBACK?.trim();
-  const ordered = [];
-  const pushUnique = (m) => {
-    if (m && !ordered.includes(m)) ordered.push(m);
-  };
-  if (primary) pushUnique(primary);
-  if (extra) {
-    for (const m of extra.split(',')) pushUnique(m.trim());
-  }
-  for (const m of DEFAULT_GEMINI_MODELS) pushUnique(m);
-  return ordered;
-}
-
-function isRetryableGeminiError(msg, httpStatus) {
-  if (httpStatus === 503 || httpStatus === 429 || httpStatus === 504) return true;
-  const s = String(msg || '').toLowerCase();
-  return (
-    s.includes('high demand') ||
-    s.includes('try again later') ||
-    s.includes('temporarily') ||
-    s.includes('overloaded') ||
-    s.includes('unavailable') ||
-    s.includes('quota') ||
-    s.includes('limit: 0') ||
-    s.includes('resource_exhausted') ||
-    s.includes('rate limit') ||
-    s.includes('429') ||
-    s.includes('not found') ||
-    s.includes('does not exist') ||
-    s.includes('404')
-  );
-}
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+/** Model order: see ../lib/geminiModelRotation.js (GEMINI_MODEL + fallbacks). */
 
 async function callGeminiOnce(model, trimmed, context, apiKey) {
   const contents = [];

@@ -6,6 +6,7 @@ import { assets } from '../../assets/assets';
 import Footer from '../../components/student/Footer';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
+import CourseStudyRoomPresence from '../../components/student/CourseStudyRoomPresence.jsx';
 
 const extractVideoId = (url) => {
   if (!url) return null;
@@ -270,6 +271,16 @@ const CourseDetails = () => {
             >
               {btnLabel}
             </button>
+
+            {isAlreadyEnrolled && (
+              <div className="mt-4">
+                <CourseStudyRoomPresence
+                  courseId={String(courseData._id)}
+                  getToken={getToken}
+                  enabled
+                />
+              </div>
+            )}
 
             <div className="pt-6">
               <p className="md:text-xl text-lg font-medium text-gray-800">What's in the course?</p>

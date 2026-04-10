@@ -16,6 +16,8 @@ import {
     enrollFreeCourse,   // ← NEW
     getLectureNote,
     upsertLectureNote,
+    getFlashPrepQuiz,
+    verifyFlashPrepQuiz,
 } from '../controllers/userController.js'
 import { checkPurchaseStatus, checkAllPendingPurchases } from '../controllers/webhooks.js'
 import { requireAuth } from "@clerk/express";
@@ -33,6 +35,8 @@ userRouter.get("/dashboard", getUserDashboard);
 userRouter.get("/enrolled-courses", userEnrolledCourses);
 userRouter.post("/update-course-progress", updateUserCourseProgress);
 userRouter.post("/get-course-progress", getUserCourseProgress);
+userRouter.post("/flash-prep", getFlashPrepQuiz);
+userRouter.post("/flash-prep/verify", verifyFlashPrepQuiz);
 userRouter.post("/add-rating", addUserRating);
 
 // PAYMENTS
