@@ -37,11 +37,23 @@ app.post("/api/webhooks/clerk", express.raw({ type: "application/json" }), clerk
 app.use(express.json());
 const allowedOrigins = getAllowedOriginStrings();
 
+// Explicit allowed headers so preflight always permits Clerk's `Authorization` bearer token.
+// Relying on reflecting Access-Control-Request-Headers can fail behind some proxies or
+// when the header list is missing/malformed, which yields:
+// "Request header field authorization is not allowed by Access-Control-Allow-Headers".
 app.use(
   cors({
     origin: createExpressOriginCallback(allowedOrigins),
     credentials: true,
     optionsSuccessStatus: 200,
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "Origin",
+      "X-Requested-With",
+    ],
   })
 );
 
