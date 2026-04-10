@@ -21,9 +21,11 @@ import {
 } from '../controllers/userController.js'
 import { checkPurchaseStatus, checkAllPendingPurchases } from '../controllers/webhooks.js'
 import { requireAuth } from "@clerk/express";
+import { skipOptionsBeforeAuth } from "../middlewares/skipOptionsBeforeAuth.js";
 
 const userRouter = express.Router()
 
+userRouter.use(skipOptionsBeforeAuth);
 // Apply auth middleware to all routes
 userRouter.use(requireAuth());
 

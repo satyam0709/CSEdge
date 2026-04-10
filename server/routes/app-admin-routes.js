@@ -13,9 +13,11 @@ import {
   deleteCourse
 } from "../controllers/courseController.js";
 import  protectEducator  from "../middlewares/authMiddleware.js";
+import { skipOptionsBeforeAuth } from "../middlewares/skipOptionsBeforeAuth.js";
 
 const router = express.Router();
 
+router.use(skipOptionsBeforeAuth);
 // Only educators/admins allowed
 router.use(requireAuth());
 router.use(protectEducator);
