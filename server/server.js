@@ -5,6 +5,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { createServer } from "http";
 import { attachPresenceSocket } from "./socket/presenceSocket.js";
+import {
+  getAllowedOriginStrings,
+  createExpressOriginCallback,
+} from "./config/corsConfig.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,25 +35,15 @@ app.post("/api/webhooks/stripe", express.raw({ type: "application/json" }), stri
 app.post("/api/webhooks/clerk", express.raw({ type: "application/json" }), clerkWebhooks);
 
 app.use(express.json());
-const rawClientUrls = process.env.CLIENT_URLS || process.env.CLIENT_URL || '';
-const defaultLocal = 'http://localhost:5173';
-let allowedOrigins = [];
-if (rawClientUrls) {
-  allowedOrigins = rawClientUrls.split(",").map(u => u.trim()).filter(Boolean);
-}
-if (!allowedOrigins.includes(defaultLocal)) allowedOrigins.push(defaultLocal);
+const allowedOrigins = getAllowedOriginStrings();
 
-app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      return callback(null, true);
-    }
-    return callback(new Error('CORS: Origin not allowed'));
-  },
-  credentials: true,
-  optionsSuccessStatus: 200
-}));
+app.use(
+  cors({
+    origin: createExpressOriginCallback(allowedOrigins),
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
 
 connectDB();
 connectCloudinary();

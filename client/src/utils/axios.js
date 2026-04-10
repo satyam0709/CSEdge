@@ -24,7 +24,9 @@ try {
 
 const instance = axios.create({
   baseURL,
-  withCredentials: true,
+  // Clerk auth uses Bearer tokens, not cross-site cookies — omitting credentials
+  // avoids requiring Access-Control-Allow-Credentials on the API (fixes CORS with split Vercel/Render).
+  withCredentials: false,
   timeout: 10000,
 });
 

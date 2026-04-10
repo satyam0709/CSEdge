@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import { verifyToken } from "@clerk/backend";
 import User from "../models/user.js";
+import { createSocketOriginCallback } from "../config/corsConfig.js";
 
 function roomName(courseId) {
   return `course:${String(courseId)}`;
@@ -33,13 +34,13 @@ async function leaveCurrentPresenceRoom(socket, io) {
 /**
  * Real-time "who's studying this course" — Socket.io rooms per courseId, unique users by Clerk id.
  * @param {import('http').Server} httpServer
- * @param {string[]} corsOrigins
+ * @param {string[]} allowedOriginStrings same list as Express (from getAllowedOriginStrings)
  */
-export function attachPresenceSocket(httpServer, corsOrigins) {
+export function attachPresenceSocket(httpServer, allowedOriginStrings) {
   const io = new Server(httpServer, {
     path: "/socket.io",
     cors: {
-      origin: corsOrigins.length ? corsOrigins : true,
+      origin: createSocketOriginCallback(allowedOriginStrings),
       credentials: true,
       methods: ["GET", "POST"],
     },
