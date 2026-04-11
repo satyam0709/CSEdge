@@ -1,12 +1,10 @@
 import axios from "axios";
+import { viteConfiguredApiBase } from "./viteApiBaseUrl.js";
 
-// Use explicit VITE_API_URL when provided (in dev or CI/CD). Otherwise:
+// Use VITE_API_URL or VITE_BACKEND_URL when set. Otherwise:
 // - during local dev default to http://localhost:5000
-// - in production (no VITE_API_URL) use a relative URL so requests go to the
-//   same host that served the frontend (useful when backend is proxied or
-//   deployed under the same domain). This avoids failing calls to localhost
-//   from the deployed frontend when environment variables weren't set.
-let baseURL = import.meta.env.VITE_API_URL;
+// - in production use a relative URL (same-origin API / reverse proxy).
+let baseURL = viteConfiguredApiBase();
 
 try {
   if (!baseURL) {

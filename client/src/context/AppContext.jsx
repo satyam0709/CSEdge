@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import humanizeDuration from "humanize-duration";
 import { useAuth, useUser } from '@clerk/clerk-react';
 import axiosInstance from '../utils/axios';
+import { viteConfiguredApiBase } from '../utils/viteApiBaseUrl.js';
 import { toast } from 'react-toastify';
 export const AppContext = createContext();
 export const AppContextProvider = (props) => {
-  const backendUrl = import.meta.env.VITE_API_URL || 'https://csedge-backend.onrender.com';
+  const backendUrl =
+    viteConfiguredApiBase() || "https://csedge-backend.onrender.com";
   const currency = import.meta.env.VITE_CURRENCY;
   const { getToken } = useAuth();
   const { user } = useUser();
