@@ -33,7 +33,29 @@ const questionSchema = new mongoose.Schema({
   explanation: {
     type: String,
     default: ""
-  }
+  },
+  /** Optional — used for DSA UI (LeetCode, GFG, Codeforces, InterviewBit, CSEdge, …). */
+  platform: {
+    type: String,
+    default: "",
+    trim: true,
+  },
+  starterCode: {
+    type: String,
+    default: "",
+  },
+  constraints: {
+    type: String,
+    default: "",
+  },
+  sampleInput: {
+    type: String,
+    default: "",
+  },
+  sampleOutput: {
+    type: String,
+    default: "",
+  },
 }, { timestamps: true });
 
 questionSchema.index({ type: 1, level: 1 });

@@ -86,7 +86,14 @@ export const getNextQuestion = async (req, res) => {
       question: {
         _id: question._id,
         question: question.question,
-        options: question.options
+        options: question.options,
+        topic: question.topic,
+        level: question.level,
+        platform: question.platform,
+        starterCode: question.starterCode,
+        constraints: question.constraints,
+        sampleInput: question.sampleInput,
+        sampleOutput: question.sampleOutput,
       }
     });
 
@@ -382,7 +389,9 @@ export const getQuestionsByLevel = async (req, res) => {
       level: Number(level)
     })
       .limit(qLimit)
-      .select("_id question options topic level");
+      .select(
+        "_id question options topic level platform starterCode constraints sampleInput sampleOutput"
+      );
 
     res.json({ success: true, questions });
   } catch (error) {

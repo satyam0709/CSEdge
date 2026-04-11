@@ -83,7 +83,9 @@ export default function CodingTest() {
   const fetchLevelQuestions = async (level) => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/test/level-questions?type=${testType}&level=${level}`);
+      const { data } = await axios.get(
+        `/api/test/level-questions?type=${testType}&level=${level}&limit=50`
+      );
       
       if (!data.success || !data.questions || data.questions.length === 0) {
         await fetchQuestion(level, 0);
@@ -270,15 +272,16 @@ export default function CodingTest() {
       <div className="max-w-5xl mx-auto mt-8 px-4 md:px-6">
         {currentQuestion && (
           <>
-            <TestPage 
-              question={currentQuestion} 
-              selectedAnswer={selectedAnswer} 
-              onSelectAnswer={setSelectedAnswer} 
-              isSubmitted={isSubmitted} 
+            <TestPage
+              question={currentQuestion}
+              selectedAnswer={selectedAnswer}
+              onSelectAnswer={setSelectedAnswer}
+              isSubmitted={isSubmitted}
               loading={loading}
               currentQuestionNumber={currentQuestionIndex + 1}
               totalQuestions={questionsInLevel.length || 15}
               onBack={() => setView("levels")}
+              dsaLayout={testType === "dsa" || testType === "coding"}
             />
             
             <div className="mt-8 bg-white rounded-3xl border-2 border-slate-200 p-6 md:p-8 shadow-lg">

@@ -14,7 +14,12 @@ export const addQuestion = async (req, res) => {
       options,
       correctAnswer,
       explanation,
-      topic
+      topic,
+      platform,
+      starterCode,
+      constraints,
+      sampleInput,
+      sampleOutput,
     } = req.body;
 
     // Validation
@@ -46,7 +51,12 @@ export const addQuestion = async (req, res) => {
       options,
       correctAnswer,
       explanation,
-      topic
+      topic,
+      platform,
+      starterCode,
+      constraints,
+      sampleInput,
+      sampleOutput,
     });
 
     res.json({

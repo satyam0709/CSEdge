@@ -10,7 +10,12 @@ export default function AddQuestion({ reload }) {
     options: ["", "", "", ""],
     correctAnswer: "",
     explanation: "",
-    topic: ""
+    topic: "",
+    platform: "",
+    starterCode: "",
+    constraints: "",
+    sampleInput: "",
+    sampleOutput: "",
   });
   
   const [loading, setLoading] = useState(false);
@@ -61,7 +66,12 @@ export default function AddQuestion({ reload }) {
           options: ["", "", "", ""],
           correctAnswer: "",
           explanation: "",
-          topic: ""
+          topic: "",
+          platform: "",
+          starterCode: "",
+          constraints: "",
+          sampleInput: "",
+          sampleOutput: "",
         });
         reload();
       } else {
@@ -114,6 +124,43 @@ export default function AddQuestion({ reload }) {
           onChange={e => setForm({ ...form, question: e.target.value })}
           className="w-full border rounded px-3 py-2 h-20"
         />
+
+        {(form.type === "dsa" || form.type === "coding") && (
+          <div className="space-y-2 rounded border border-blue-200 bg-blue-50/50 p-3">
+            <p className="text-xs font-semibold text-blue-900">DSA / coding metadata (optional)</p>
+            <input
+              type="text"
+              value={form.platform}
+              onChange={(e) => setForm({ ...form, platform: e.target.value })}
+              placeholder="Platform (e.g. LeetCode, GeeksforGeeks, Codeforces)"
+              className="w-full border rounded px-3 py-2 bg-white"
+            />
+            <textarea
+              placeholder="Starter code (shown in IDE)"
+              value={form.starterCode}
+              onChange={(e) => setForm({ ...form, starterCode: e.target.value })}
+              className="w-full border rounded px-3 py-2 font-mono text-sm h-24 bg-white"
+            />
+            <textarea
+              placeholder="Constraints"
+              value={form.constraints}
+              onChange={(e) => setForm({ ...form, constraints: e.target.value })}
+              className="w-full border rounded px-3 py-2 h-16 bg-white"
+            />
+            <textarea
+              placeholder="Sample input"
+              value={form.sampleInput}
+              onChange={(e) => setForm({ ...form, sampleInput: e.target.value })}
+              className="w-full border rounded px-3 py-2 font-mono text-sm h-16 bg-white"
+            />
+            <textarea
+              placeholder="Sample output"
+              value={form.sampleOutput}
+              onChange={(e) => setForm({ ...form, sampleOutput: e.target.value })}
+              className="w-full border rounded px-3 py-2 font-mono text-sm h-16 bg-white"
+            />
+          </div>
+        )}
 
         <div className="space-y-2">
           <label className="font-semibold">Options:</label>
