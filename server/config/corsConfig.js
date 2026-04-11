@@ -32,9 +32,14 @@ function normalizeOrigin(url) {
   return url.replace(/\/+$/, "").trim();
 }
 
+/** Default browser origins if CLIENT_URLS is unset (Render often ships without env). */
+const DEFAULT_ORIGINS = [
+  "http://localhost:5173",
+  "https://cseedge.vercel.app",
+];
+
 export function getAllowedOriginStrings() {
   const raw = process.env.CLIENT_URLS || process.env.CLIENT_URL || "";
-  const defaultLocal = "http://localhost:5173";
   const list = [];
   if (raw) {
     for (const part of raw.split(/[\s,]+/)) {
@@ -42,7 +47,9 @@ export function getAllowedOriginStrings() {
       if (n) list.push(n);
     }
   }
-  if (!list.includes(defaultLocal)) list.push(defaultLocal);
+  for (const d of DEFAULT_ORIGINS) {
+    if (!list.includes(d)) list.push(d);
+  }
   return list;
 }
 
