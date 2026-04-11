@@ -58,7 +58,10 @@ const FlashPrepPanel = ({
       const { data } = await axiosInstance.post(
         '/api/user/flash-prep',
         { courseId, lectureId, count: 7 },
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          timeout: 120000,
+        }
       )
       if (!data.success) {
         const msg =
@@ -131,7 +134,7 @@ const FlashPrepPanel = ({
           quizSessionId,
           answers: selections,
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` }, timeout: 60000 }
       )
       if (!data.success) {
         const msg =

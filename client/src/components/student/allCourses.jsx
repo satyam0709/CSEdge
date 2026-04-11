@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Youtube, GraduationCap, ChevronRight, ArrowLeft } from 'lucide-react';
-import axios from 'axios';
+import axiosInstance from '../../utils/axios';
 import { assets } from '../../assets/assets';
 
 // Updated data with real YouTube Embed URLs and images from assets
@@ -104,12 +104,7 @@ export default function CourseCard() {
     try {
       setLoading(true);
       setError(null);
-      // Ensure your VITE_API_URL is correctly set in your .env file
-      const apiUrl = `${import.meta.env.VITE_API_URL || ''}/api/course/all`;
-      console.log('Fetching from:', apiUrl);
-      
-      const response = await axios.get(apiUrl);
-      console.log('API Response:', response.data);
+      const response = await axiosInstance.get('/api/course/all');
       
       if (response.data.success && response.data.courses && response.data.courses.length > 0) {
         setCoursesData(response.data.courses);

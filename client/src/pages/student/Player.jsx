@@ -258,6 +258,7 @@ const Player = () => {
             <div className="mt-3">
               <CourseStudyRoomPresence
                 courseId={String(courseId)}
+                lectureId={playerData?.lectureId != null ? String(playerData.lectureId) : undefined}
                 getToken={getToken}
                 enabled
                 variant="inline"

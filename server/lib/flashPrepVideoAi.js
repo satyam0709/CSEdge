@@ -238,7 +238,15 @@ async function runModelJson(prompt) {
     return callOpenAIJson(prompt);
   }
   if (provider === "gemini") {
-    return callGeminiJsonWithRotation(prompt);
+    try {
+      return await callGeminiJsonWithRotation(prompt);
+    } catch (e) {
+      if (hasOpenAI) {
+        console.warn("[flashPrep] Gemini failed, falling back to OpenAI:", e.message);
+        return callOpenAIJson(prompt);
+      }
+      throw e;
+    }
   }
 
   if (hasGemini) {

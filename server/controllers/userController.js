@@ -13,6 +13,7 @@ import { signFlashPrepPassToken, verifyFlashPrepPassToken } from "../lib/flashPr
 import { buildVideoLectureContext } from "../lib/buildVideoLectureContext.js";
 import { generateVideoFlashPrepMcqs } from "../lib/flashPrepVideoAi.js";
 import FlashPrepSession from "../models/FlashPrepSession.js";
+import { isUserEnrolledInCourse } from "../utils/enrollment.js";
 import crypto from "crypto";
 
 // FIX: Lazy init — called inside functions so dotenv has already loaded by then
@@ -238,9 +239,8 @@ export const updateUserCourseProgress = async (req, res) => {
             });
         }
 
-        // Check if user is enrolled in the course
         const user = await User.findById(userId);
-        if (!user.enrolledCourses.includes(courseId)) {
+        if (!isUserEnrolledInCourse(user, courseId)) {
             return res.json({ 
                 success: false, 
                 message: 'Not enrolled in this course' 
@@ -339,7 +339,7 @@ export const getFlashPrepQuiz = async (req, res) => {
         }
 
         const user = await User.findById(userId);
-        if (!user?.enrolledCourses?.includes(courseId)) {
+        if (!isUserEnrolledInCourse(user, courseId)) {
             return res.json({ success: false, message: 'Not enrolled in this course' });
         }
 
@@ -407,7 +407,7 @@ export const verifyFlashPrepQuiz = async (req, res) => {
         }
 
         const user = await User.findById(userId);
-        if (!user?.enrolledCourses?.includes(courseId)) {
+        if (!isUserEnrolledInCourse(user, courseId)) {
             return res.json({ success: false, message: 'Not enrolled in this course' });
         }
 
@@ -500,7 +500,7 @@ export const addUserRating = async(req, res) => {
         }
 
         const user = await User.findById(userId);
-        if (!user || !user.enrolledCourses.includes(courseId)) {
+        if (!user || !isUserEnrolledInCourse(user, courseId)) {
             return res.json({ 
                 success: false, 
                 message: 'User has not purchased this course' 
@@ -602,7 +602,7 @@ export const verifyPurchase = async(req, res) => {
                             }
 
                             // Update user enrolled courses
-                            if (!user.enrolledCourses.includes(course._id)) {
+                            if (!isUserEnrolledInCourse(user, course._id)) {
                                 user.enrolledCourses.push(course._id);
                                 await user.save();
                                 console.log("✅ Added course to user enrolledCourses via verifyPurchase");

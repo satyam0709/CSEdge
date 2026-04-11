@@ -7,14 +7,15 @@ import { useCoursePresence } from '../../hooks/useCoursePresence'
  */
 export default function CourseStudyRoomPresence({
   courseId,
+  lectureId,
   getToken,
   enabled = true,
   variant = 'card',
 }) {
-  const { studyingCount, othersCount, connected, error } = useCoursePresence(
+  const { studyingCount, othersCount, sameLectureCount, connected, error } = useCoursePresence(
     courseId,
     getToken,
-    { enabled: Boolean(enabled && courseId) }
+    { enabled: Boolean(enabled && courseId), lectureId }
   )
 
   if (!enabled || !courseId) return null
@@ -39,6 +40,26 @@ export default function CourseStudyRoomPresence({
           <WifiOff className="w-3.5 h-3.5 shrink-0" aria-hidden />
           {error === 'connect_error' ? 'Reconnecting to study room…' : 'Connecting…'}
         </p>
+      )
+    }
+    const sameLectureOthers =
+      lectureId && sameLectureCount > 0 ? Math.max(0, sameLectureCount - 1) : 0
+    if (lectureId && sameLectureOthers > 0) {
+      return (
+        <div className="space-y-1">
+          <p className="text-sm text-gray-800">
+            <span className="font-semibold tabular-nums">{sameLectureOthers}</span>
+            {sameLectureOthers === 1
+              ? ' other student is on this same lecture right now.'
+              : ' other students are on this same lecture right now.'}
+          </p>
+          {othersCount > 0 && (
+            <p className="text-xs text-gray-500">
+              <span className="font-medium tabular-nums">{othersCount}</span> others active in this
+              course overall.
+            </p>
+          )}
+        </div>
       )
     }
     if (othersCount > 0) {

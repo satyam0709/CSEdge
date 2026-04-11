@@ -11,15 +11,31 @@ async function broadcastPresenceCount(io, courseId) {
   const room = roomName(courseId);
   const sockets = await io.in(room).fetchSockets();
   const userIds = new Set();
+  /** lectureId -> Set of userIds currently watching that lecture */
+  const perLecture = new Map();
   for (const s of sockets) {
-    if (s.data.userId) userIds.add(String(s.data.userId));
+    const uid = s.data.userId;
+    if (!uid) continue;
+    const u = String(uid);
+    userIds.add(u);
+    const lec = s.data.presenceLectureId;
+    if (lec) {
+      const key = String(lec);
+      if (!perLecture.has(key)) perLecture.set(key, new Set());
+      perLecture.get(key).add(u);
+    }
   }
   const studyingCount = userIds.size;
   const othersCount = Math.max(0, studyingCount - 1);
+  const lecturePresence = {};
+  for (const [lid, set] of perLecture) {
+    lecturePresence[lid] = set.size;
+  }
   io.to(room).emit("presence:update", {
     courseId: String(courseId),
     studyingCount,
     othersCount,
+    lecturePresence,
   });
 }
 
@@ -27,6 +43,7 @@ async function leaveCurrentPresenceRoom(socket, io) {
   const cid = socket.data.presenceCourseId;
   if (!cid) return;
   socket.data.presenceCourseId = undefined;
+  socket.data.presenceLectureId = undefined;
   await socket.leave(roomName(cid));
   await broadcastPresenceCount(io, cid);
 }
@@ -72,7 +89,7 @@ export function attachPresenceSocket(httpServer, allowedOriginStrings) {
   });
 
   io.on("connection", (socket) => {
-    socket.on("presence:join", async ({ courseId } = {}) => {
+    socket.on("presence:join", async ({ courseId, lectureId } = {}) => {
       try {
         if (!courseId) return;
         const uid = socket.data.userId;
@@ -89,6 +106,7 @@ export function attachPresenceSocket(httpServer, allowedOriginStrings) {
         await leaveCurrentPresenceRoom(socket, io);
         await socket.join(roomName(cid));
         socket.data.presenceCourseId = cid;
+        socket.data.presenceLectureId = lectureId ? String(lectureId) : undefined;
         await broadcastPresenceCount(io, cid);
       } catch (err) {
         console.error("[presence] presence:join error:", err);

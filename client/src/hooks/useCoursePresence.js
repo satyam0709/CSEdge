@@ -5,9 +5,10 @@ import { getSocketBaseUrl } from '../utils/socketBaseUrl'
 /**
  * Join a per-course Socket.io room; receive live unique-learner counts (enrolled users only).
  */
-export function useCoursePresence(courseId, getToken, { enabled = true } = {}) {
+export function useCoursePresence(courseId, getToken, { enabled = true, lectureId } = {}) {
   const [studyingCount, setStudyingCount] = useState(0)
   const [othersCount, setOthersCount] = useState(0)
+  const [sameLectureCount, setSameLectureCount] = useState(0)
   const [connected, setConnected] = useState(false)
   const [error, setError] = useState(null)
   const socketRef = useRef(null)
@@ -18,6 +19,7 @@ export function useCoursePresence(courseId, getToken, { enabled = true } = {}) {
     if (!enabled || !courseId) {
       setStudyingCount(0)
       setOthersCount(0)
+      setSameLectureCount(0)
       setConnected(false)
       return
     }
@@ -25,6 +27,7 @@ export function useCoursePresence(courseId, getToken, { enabled = true } = {}) {
     let cancelled = false
     const socketUrl = getSocketBaseUrl()
     const cid = String(courseId)
+    const lid = lectureId != null && lectureId !== '' ? String(lectureId) : null
 
     const run = async () => {
       let token
@@ -50,13 +53,19 @@ export function useCoursePresence(courseId, getToken, { enabled = true } = {}) {
         if (cancelled) return
         setConnected(true)
         setError(null)
-        socket.emit('presence:join', { courseId: cid })
+        socket.emit('presence:join', lid ? { courseId: cid, lectureId: lid } : { courseId: cid })
       })
 
       socket.on('presence:update', (payload) => {
         if (cancelled || String(payload?.courseId) !== cid) return
         setStudyingCount(Number(payload.studyingCount) || 0)
         setOthersCount(Math.max(0, Number(payload.othersCount) || 0))
+        const lp = payload.lecturePresence && typeof payload.lecturePresence === 'object' ? payload.lecturePresence : {}
+        if (lid && lp[lid] != null) {
+          setSameLectureCount(Number(lp[lid]) || 0)
+        } else {
+          setSameLectureCount(0)
+        }
       })
 
       socket.on('presence:error', (p) => {
@@ -89,7 +98,7 @@ export function useCoursePresence(courseId, getToken, { enabled = true } = {}) {
       }
       setConnected(false)
     }
-  }, [courseId, enabled])
+  }, [courseId, enabled, lectureId])
 
-  return { studyingCount, othersCount, connected, error }
+  return { studyingCount, othersCount, sameLectureCount, connected, error }
 }

@@ -3,6 +3,7 @@ import User from "../models/user.js";
 import Stripe from "stripe";
 import { Purchase } from "../models/Purchase.js";
 import Course from '../models/course.js';
+import { isUserEnrolledInCourse } from "../utils/enrollment.js";
 
 // FIX: Lazy init so dotenv loads before Stripe initializes
 let _stripe = null;
@@ -173,7 +174,7 @@ export const stripeWebhooks = async (req, res) => {
                     }
                     
                     // Update user enrolled courses
-                    if (!user.enrolledCourses.includes(course._id)) {
+                    if (!isUserEnrolledInCourse(user, course._id)) {
                         user.enrolledCourses.push(course._id);
                         await user.save();
                         console.log("✅ Added course to user enrolledCourses");
@@ -233,7 +234,7 @@ export const stripeWebhooks = async (req, res) => {
                         await course.save();
                     }
                     
-                    if (!user.enrolledCourses.includes(course._id)) {
+                    if (!isUserEnrolledInCourse(user, course._id)) {
                         user.enrolledCourses.push(course._id);
                         await user.save();
                     }
@@ -347,7 +348,7 @@ export const checkPurchaseStatus = async (req, res) => {
                         await course.save();
                     }
 
-                    if (!user.enrolledCourses.includes(course._id)) {
+                    if (!isUserEnrolledInCourse(user, course._id)) {
                         user.enrolledCourses.push(course._id);
                         await user.save();
                     }
@@ -412,7 +413,7 @@ export const checkAllPendingPurchases = async (req, res) => {
                             await course.save();
                         }
                         
-                        if (!user.enrolledCourses.includes(course._id)) {
+                        if (!isUserEnrolledInCourse(user, course._id)) {
                             user.enrolledCourses.push(course._id);
                             await user.save();
                         }
