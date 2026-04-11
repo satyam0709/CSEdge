@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useAuth } from "@clerk/clerk-react";
 import axios from "../../utils/axios";
+import { withClerkAuth } from "../../utils/testApiAuth";
 import { RefreshCw, Radio, ExternalLink } from "lucide-react";
 
 const POLL_MS = 30_000;
@@ -15,6 +17,7 @@ function formatAgo(ts) {
 }
 
 export default function ExternalProblems() {
+  const { getToken } = useAuth();
   const [problems, setProblems] = useState([]);
   const [form, setForm] = useState({
     url: "",
@@ -39,7 +42,10 @@ export default function ExternalProblems() {
     try {
       if (!silent) setListLoading(true);
       else setRefreshing(true);
-      const { data } = await axios.get("/api/user/external-problems");
+      const { data } = await axios.get(
+        "/api/user/external-problems",
+        await withClerkAuth(getToken)
+      );
       if (!mounted.current) return;
       if (data.success) setProblems(data.problems || []);
       setLastSynced(Date.now());
@@ -51,7 +57,7 @@ export default function ExternalProblems() {
         setRefreshing(false);
       }
     }
-  }, []);
+  }, [getToken]);
 
   useEffect(() => {
     load(false);
@@ -75,7 +81,11 @@ export default function ExternalProblems() {
     if (!form.url) return alert("URL required");
     setLoading(true);
     try {
-      const { data } = await axios.post("/api/user/external-problem", form);
+      const { data } = await axios.post(
+        "/api/user/external-problem",
+        form,
+        await withClerkAuth(getToken)
+      );
       if (data.success) {
         setForm({ url: "", title: "", source: "", type: "dsa" });
         await load(false);
@@ -89,7 +99,11 @@ export default function ExternalProblems() {
 
   const toggle = async (id) => {
     try {
-      const { data } = await axios.put(`/api/user/external-problem/${id}`);
+      const { data } = await axios.put(
+        `/api/user/external-problem/${id}`,
+        {},
+        await withClerkAuth(getToken)
+      );
       if (data.success) await load(true);
     } catch (err) {
       console.error(err);
@@ -99,7 +113,10 @@ export default function ExternalProblems() {
   const del = async (id) => {
     if (!confirm("Delete this saved problem?")) return;
     try {
-      const { data } = await axios.delete(`/api/user/external-problem/${id}`);
+      const { data } = await axios.delete(
+        `/api/user/external-problem/${id}`,
+        await withClerkAuth(getToken)
+      );
       if (data.success) await load(true);
     } catch (err) {
       console.error(err);

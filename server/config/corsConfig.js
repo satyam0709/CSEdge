@@ -4,7 +4,28 @@
  * https://cseedge.vercel.app,http://localhost:5173
  *
  * Optional: ALLOW_VERCEL_SUBDOMAINS=1 allows any https://*.vercel.app (preview + prod).
+ *
+ * Render / split hosting: the frontend must be listed here or preflight fails in the browser.
  */
+
+/** Always echoed on preflight — never rely on reflecting Access-Control-Request-Headers (some proxies strip it). */
+export const CORS_ALLOWED_HEADERS = [
+  "Content-Type",
+  "Authorization",
+  "Accept",
+  "Origin",
+  "X-Requested-With",
+];
+
+export const CORS_ALLOWED_METHODS = [
+  "GET",
+  "HEAD",
+  "PUT",
+  "PATCH",
+  "POST",
+  "DELETE",
+  "OPTIONS",
+];
 
 function normalizeOrigin(url) {
   if (!url || typeof url !== "string") return "";
@@ -59,6 +80,37 @@ export function createExpressOriginCallback(allowedList) {
       }
     }
     return callback(null, false);
+  };
+}
+
+/**
+ * Answer browser CORS preflight before the `cors` package runs. When the origin is
+ * allowed, we always set `Access-Control-Allow-Headers` including `Authorization`
+ * so Clerk bearer tokens work even if a proxy strips `Access-Control-Request-Headers`
+ * or the `cors` package skips applying options (e.g. origin denied → `next()`).
+ */
+export function expressPreflightCorsMiddleware(allowedList) {
+  const checkOrigin = createExpressOriginCallback(allowedList);
+  const allowHeadersValue = CORS_ALLOWED_HEADERS.join(", ");
+  const allowMethodsValue = CORS_ALLOWED_METHODS.join(", ");
+
+  return function preflight(req, res, next) {
+    if (req.method !== "OPTIONS") return next();
+
+    const origin = req.headers.origin;
+    if (!origin || typeof origin !== "string") return next();
+
+    checkOrigin(origin, (err, ok) => {
+      if (err || !ok) return next();
+
+      res.setHeader("Vary", "Origin");
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Access-Control-Allow-Methods", allowMethodsValue);
+      res.setHeader("Access-Control-Allow-Headers", allowHeadersValue);
+      res.setHeader("Access-Control-Max-Age", "86400");
+      res.setHeader("Content-Length", "0");
+      return res.status(204).end();
+    });
   };
 }
 

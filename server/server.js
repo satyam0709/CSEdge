@@ -8,6 +8,9 @@ import { attachPresenceSocket } from "./socket/presenceSocket.js";
 import {
   getAllowedOriginStrings,
   createExpressOriginCallback,
+  expressPreflightCorsMiddleware,
+  CORS_ALLOWED_HEADERS,
+  CORS_ALLOWED_METHODS,
 } from "./config/corsConfig.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -31,12 +34,17 @@ import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
 
 const app = express();
 
+const allowedOrigins = getAllowedOriginStrings();
+
 app.post("/api/webhooks/stripe", express.raw({ type: "application/json" }), stripeWebhooks);
 app.post("/api/webhooks/clerk", express.raw({ type: "application/json" }), clerkWebhooks);
 
-app.use(express.json());
-const allowedOrigins = getAllowedOriginStrings();
+// Preflight first: guaranteed Allow-Headers including Authorization for allowed origins.
+app.use(expressPreflightCorsMiddleware(allowedOrigins));
 
+app.use(express.json());
+
+// Match the SPA axios client (`withCredentials: false`) — Clerk uses Bearer tokens, not cookies.
 // Explicit allowed headers so preflight always permits Clerk's `Authorization` bearer token.
 // Relying on reflecting Access-Control-Request-Headers can fail behind some proxies or
 // when the header list is missing/malformed, which yields:
@@ -44,16 +52,10 @@ const allowedOrigins = getAllowedOriginStrings();
 app.use(
   cors({
     origin: createExpressOriginCallback(allowedOrigins),
-    credentials: true,
-    optionsSuccessStatus: 200,
-    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Accept",
-      "Origin",
-      "X-Requested-With",
-    ],
+    credentials: false,
+    optionsSuccessStatus: 204,
+    methods: CORS_ALLOWED_METHODS,
+    allowedHeaders: [...CORS_ALLOWED_HEADERS],
   })
 );
 

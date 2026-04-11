@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 import axios from "../utils/axios";
+import { withClerkAuth } from "../utils/testApiAuth";
 import TestStatsCard from "./TestStatsCard";
 import CourseStatsCard from "./CourseStatsCard";
 import ExternalProblems from "../components/student/ExternalProblems";
@@ -21,6 +23,7 @@ function formatAgo(ts) {
 
 export default function UserDashboard() {
   const navigate = useNavigate();
+  const { getToken } = useAuth();
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,7 +47,10 @@ export default function UserDashboard() {
         setRefreshing(true);
       }
 
-      const { data } = await axios.get("/api/user/dashboard");
+      const { data } = await axios.get(
+        "/api/user/dashboard",
+        await withClerkAuth(getToken)
+      );
 
       if (!mounted.current) return;
 
@@ -69,7 +75,7 @@ export default function UserDashboard() {
         setRefreshing(false);
       }
     }
-  }, []);
+  }, [getToken]);
 
   useEffect(() => {
     fetchDashboard(false);
