@@ -32,7 +32,12 @@ const AptitudeDashboard = () => {
         });
         if (data.success) {
           // map server fields to what AptitudeTest expects
-          const qlist = data.questions.map(q => ({ id: q._id, question: q.question, options: q.options, explanation: '' }));
+          const qlist = data.questions.map((q) => ({
+            _id: q._id,
+            question: q.question,
+            options: q.options,
+            explanation: '',
+          }));
           setQuestionsForLevel(qlist);
           setView('test');
         }

@@ -140,7 +140,12 @@ const isLevelLocked = (levelId) => false;
                   try {
                     const { data } = await axios.get('/api/test/questions', { params: { type: 'dsa', level: level.id, limit: 10 } });
                     if (data.success) {
-                      level.questions = data.questions.map(q => ({ id: q._id, question: q.question, options: q.options }));
+                      level.questions = data.questions.map((q) => ({
+                        _id: q._id,
+                        question: q.question,
+                        options: q.options,
+                        code: q.code,
+                      }));
                     }
                   } catch (err) { console.error(err); }
                   setActiveLevel(level); setView('test');

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 import axios from "../utils/axios";
+import { withClerkAuth } from "../utils/testApiAuth";
 import BackButton from "../components/BackButton";
 import TestControls from "../tests/TestControls";
 import TestPage from "../tests/TestPage";
@@ -9,6 +11,7 @@ import LevelCompletionScreen from "../tests/LevelCompletionScreen";
 import { LayoutGrid, CheckCircle2, Lock, PlayCircle } from "lucide-react";
 
 export default function DevTest() {
+  const { getToken } = useAuth();
   const navigate = useNavigate();
   const [view, setView] = useState("levels"); // "levels", "testing", or "completion"
   const [levels, setLevels] = useState([]);
@@ -39,7 +42,10 @@ export default function DevTest() {
       
       // Recommendation fetch
       try {
-        const rResp = await axios.get(`/api/test/recommendations?type=dev`);
+        const rResp = await axios.get(
+          `/api/test/recommendations?type=dev`,
+          await withClerkAuth(getToken)
+        );
         recData = rResp.data;
       } catch (e) { recData = { recommendations: [] }; }
 
@@ -110,7 +116,10 @@ export default function DevTest() {
     try {
       setLoading(true);
       const idx = questionIndex !== null ? questionIndex : currentQuestionIndex;
-      const { data } = await axios.get(`/api/test/question?type=${testType}&level=${level}&index=${idx}`);
+      const { data } = await axios.get(
+        `/api/test/question?type=${testType}&level=${level}&index=${idx}`,
+        await withClerkAuth(getToken)
+      );
       
       if (!data.success) {
         calculateLevelStats();
@@ -130,11 +139,15 @@ export default function DevTest() {
     const finalAnswer = overrideAnswer !== null ? overrideAnswer : selectedAnswer;
     try {
       setLoading(true);
-      const { data } = await axios.post("/api/test/submit", {
-        questionId: currentQuestion._id,
-        selectedAnswer: finalAnswer,
-        type: testType
-      });
+      const { data } = await axios.post(
+        "/api/test/submit",
+        {
+          questionId: currentQuestion._id,
+          selectedAnswer: finalAnswer,
+          type: testType,
+        },
+        await withClerkAuth(getToken)
+      );
       if (data.success) {
         setCurrentQuestion((prev) => {
           const idx =

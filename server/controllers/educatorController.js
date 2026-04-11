@@ -89,8 +89,10 @@ export const educatorDashboardData = async (req, res) => {
             status: 'completed',
         });
 
-        const totalEarnings = purchases.reduce((sum, purchase) =>
-            sum + purchase.amount, 0);
+        const totalEarnings = purchases.reduce(
+            (sum, purchase) => sum + (Number(purchase.amount) || 0),
+            0
+        );
 
         // Collect Enrolled Student Data safely
         const enrolledStudentData = [];

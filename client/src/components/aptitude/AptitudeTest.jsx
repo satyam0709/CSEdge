@@ -1,43 +1,73 @@
 // src/components/aptitude/AptitudeTest.jsx
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '@clerk/clerk-react';
 import { AlertCircle, CheckCircle, XCircle, ArrowRight, ArrowLeft } from 'lucide-react';
 import axios from '../../utils/axios';
+import { withClerkAuth } from '../../utils/testApiAuth';
 
 const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
+  const { getToken } = useAuth();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  // timers removed
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [gradedQuestions, setGradedQuestions] = useState(null);
+  const [grading, setGrading] = useState(false);
 
+  const qKey = (q) => q._id || q.id;
+  const displayQuestions = gradedQuestions || questions;
 
-  // timers removed
+  useEffect(() => {
+    setCurrentIndex(0);
+    setAnswers({});
+    setIsSubmitted(false);
+    setGradedQuestions(null);
+    setGrading(false);
+  }, [questions]);
 
   const handleOptionSelect = (optionIndex) => {
-    if (isSubmitted) return;
-    setAnswers({ ...answers, [questions[currentIndex].id]: optionIndex });
+    if (isSubmitted || grading) return;
+    setAnswers({ ...answers, [qKey(displayQuestions[currentIndex])]: optionIndex });
   };
 
   const handleSubmit = () => {
-    setIsSubmitted(true);
-    // Submit each answer to server to record attempts and get correctness
     (async () => {
+      setGrading(true);
       let correctCount = 0;
-      for (const q of questions) {
-        const selected = answers[q.id];
+      const nextQs = questions.map((q) => ({ ...q }));
+      for (let i = 0; i < nextQs.length; i++) {
+        const q = nextQs[i];
+        const selected = answers[qKey(q)];
+        const optText =
+          typeof selected === 'number' && q.options?.[selected] !== undefined
+            ? q.options[selected]
+            : selected;
         try {
-          const { data } = await axios.post('/api/test/submit', {
-            questionId: q.id,
-            selectedAnswer: selected,
-            type: 'aptitude'
-          });
+          const { data } = await axios.post(
+            '/api/test/submit',
+            {
+              questionId: qKey(q),
+              selectedAnswer: optText,
+              type: 'aptitude',
+            },
+            await withClerkAuth(getToken)
+          );
 
           if (data.success && data.correct) correctCount++;
-          // optionally show explanation for last question
-          if (data.explanation && !q.explanation) q.explanation = data.explanation;
+          if (data.explanation) q.explanation = data.explanation;
+          if (data.correctAnswer != null && q.options) {
+            const idx = q.options.findIndex(
+              (o) => String(o).trim().toLowerCase() === String(data.correctAnswer).trim().toLowerCase()
+            );
+            if (idx >= 0) q.correctAnswerIdx = idx;
+          }
         } catch (err) {
           console.error('submit error', err);
         }
       }
+
+      setGradedQuestions(nextQs);
+      setIsSubmitted(true);
+      setGrading(false);
 
       const percentage = (correctCount / questions.length) * 100;
       const passed = percentage >= (level.requiredScore || 50);
@@ -55,7 +85,7 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
     })();
   };
 
-  const currentQuestion = questions[currentIndex];
+  const currentQuestion = displayQuestions[currentIndex];
 
   if (!currentQuestion) return <div>Loading...</div>;
 
@@ -65,7 +95,7 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
       <div className="flex justify-between items-center mb-6 pb-4 border-b">
         <div>
           <h2 className="text-2xl font-bold text-gray-800">{level.name} Assessment</h2>
-          <span className="text-sm text-gray-500">Question {currentIndex + 1} of {questions.length}</span>
+          <span className="text-sm text-gray-500">Question {currentIndex + 1} of {displayQuestions.length}</span>
         </div>
         <div />
       </div>
@@ -78,8 +108,10 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
 
         <div className="space-y-3">
           {currentQuestion.options.map((option, idx) => {
-            const isSelected = answers[currentQuestion.id] === idx;
-            const isCorrect = currentQuestion.correctAnswer === idx;
+            const isSelected = answers[qKey(currentQuestion)] === idx;
+            const isCorrect =
+              Number.isInteger(currentQuestion.correctAnswerIdx) &&
+              currentQuestion.correctAnswerIdx === idx;
             
             let buttonStyle = "border-gray-200 hover:bg-gray-50 hover:border-blue-300";
             if (isSubmitted) {
@@ -94,7 +126,7 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
               <button
                 key={idx}
                 onClick={() => handleOptionSelect(idx)}
-                disabled={isSubmitted}
+                disabled={isSubmitted || grading}
                 className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-center justify-between group ${buttonStyle}`}
               >
                 <span className="flex items-center gap-3">
@@ -110,7 +142,10 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
           })}
         </div>
 
-        {isSubmitted && (
+        {grading && (
+          <p className="mt-4 text-sm text-gray-600">Checking answers with the server…</p>
+        )}
+        {isSubmitted && currentQuestion.explanation && (
           <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
             <h4 className="font-bold text-blue-800 mb-1 flex items-center gap-2">
               <AlertCircle className="w-4 h-4" /> Explanation
@@ -123,7 +158,7 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
       {/* Footer / Navigation */}
       <div className="flex justify-between items-center pt-6 border-t">
         <button
-          onClick={() => !isSubmitted && onExit()}
+          onClick={() => !isSubmitted && !grading && onExit()}
           className="text-gray-500 hover:text-gray-700 font-medium px-4 py-2"
         >
           Exit Test
@@ -138,18 +173,19 @@ const AptitudeTest = ({ level, questions, onComplete, onExit }) => {
             <ArrowLeft className="w-4 h-4" /> Previous
           </button>
 
-          {currentIndex === questions.length - 1 ? (
+          {currentIndex === displayQuestions.length - 1 ? (
             !isSubmitted && (
               <button
                 onClick={handleSubmit}
-                className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 font-medium shadow-lg hover:shadow-xl transition-all"
+                disabled={grading}
+                className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
               >
-                Submit Test
+                {grading ? 'Submitting…' : 'Submit Test'}
               </button>
             )
           ) : (
             <button
-              onClick={() => setCurrentIndex(prev => Math.min(questions.length - 1, prev + 1))}
+              onClick={() => setCurrentIndex(prev => Math.min(displayQuestions.length - 1, prev + 1))}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 shadow-md"
             >
               Next <ArrowRight className="w-4 h-4" />

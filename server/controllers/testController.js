@@ -2,6 +2,19 @@ import Question from "../models/Question.js";
 import TestProgress from "../models/TestProgress.js";
 import TestAttempt from "../models/TestAttempt.js";
 
+/** Single canonical type for TestProgress + consistent analytics. */
+function normalizeProgressType(type) {
+  const t = String(type || "").toLowerCase();
+  if (t === "coding" || t === "dsa") return "dsa";
+  if (t === "development" || t === "dev") return "dev";
+  if (t === "aptitude") return "aptitude";
+  return t || "aptitude";
+}
+
+function normStr(v) {
+  return String(v ?? "").trim();
+}
+
 /*
 =====================================
 GET NEXT QUESTION (LEVEL SYSTEM)
@@ -107,19 +120,22 @@ export const submitAnswer = async (req, res) => {
     if (typeof selectedAnswer === "number" && Number.isInteger(selectedAnswer)) {
       selected = question.options?.[selectedAnswer];
     }
-    const isCorrect = question.correctAnswer === selected;
+    const isCorrect =
+      normStr(question.correctAnswer).toLowerCase() === normStr(selected).toLowerCase();
+
+    const progressType = normalizeProgressType(type);
 
     let progress = await TestProgress.findOne({
       userId,
-      testType: type
+      testType: progressType,
     });
 
     if (!progress) {
       progress = await TestProgress.create({
         userId,
-        testType: type,
+        testType: progressType,
         currentLevel: 1,
-        attemptedQuestions: []
+        attemptedQuestions: [],
       });
     }
 
@@ -127,14 +143,15 @@ export const submitAnswer = async (req, res) => {
     progress.attemptedQuestions.push(questionId);
     await progress.save();
 
-    // Save attempt for analytics
+    // Save attempt for analytics (use question DB type, normalized)
+    const attemptType = normalizeProgressType(question.type);
     await TestAttempt.create({
       userId,
       questionId,
-      type,
+      type: attemptType,
       level: question.level,
       isCorrect,
-      timeTaken
+      timeTaken,
     });
 
     res.json({
@@ -164,10 +181,11 @@ export const resetTest = async (req, res) => {
   try {
     const userId = req.auth().userId;
     const { type, mode } = req.body;
+    const progressType = normalizeProgressType(type);
 
     const progress = await TestProgress.findOne({
       userId,
-      testType: type
+      testType: progressType,
     });
 
     if (!progress) {
@@ -205,10 +223,11 @@ export const getAnalytics = async (req, res) => {
   try {
     const userId = req.auth().userId;
     const { type } = req.query;
+    const t = normalizeProgressType(type);
 
     const attempts = await TestAttempt.find({
       userId,
-      type
+      type: t,
     });
 
     if (!attempts.length) {
@@ -257,8 +276,9 @@ export const getRecommendations = async (req, res) => {
   try {
     const userId = req.auth().userId;
     const { type } = req.query;
+    const t = normalizeProgressType(type);
 
-    const attempts = await TestAttempt.find({ userId, type });
+    const attempts = await TestAttempt.find({ userId, type: t });
 
     const levelStats = {};
 

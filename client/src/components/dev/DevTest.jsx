@@ -1,9 +1,12 @@
 // src/components/dev/DevTest.jsx — matches AptitudeTest: server-side grading + explanations
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '@clerk/clerk-react';
 import { AlertCircle, CheckCircle, XCircle, ArrowRight, ArrowLeft } from 'lucide-react';
 import axios from '../../utils/axios';
+import { withClerkAuth } from '../../utils/testApiAuth';
 
 const DevTest = ({ level, questions: questionsProp, onComplete, onExit }) => {
+  const { getToken } = useAuth();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -17,9 +20,11 @@ const DevTest = ({ level, questions: questionsProp, onComplete, onExit }) => {
     setIsSubmitted(false);
   }, [questionsProp]);
 
+  const qKey = (q) => q._id || q.id;
+
   const handleOptionSelect = (optionIndex) => {
     if (isSubmitted || submitting) return;
-    setAnswers({ ...answers, [questions[currentIndex].id]: optionIndex });
+    setAnswers({ ...answers, [qKey(questions[currentIndex])]: optionIndex });
   };
 
   const handleSubmit = async () => {
@@ -28,20 +33,28 @@ const DevTest = ({ level, questions: questionsProp, onComplete, onExit }) => {
     const next = questions.map((q) => ({ ...q }));
     for (let i = 0; i < next.length; i++) {
       const q = next[i];
-      const idx = answers[q.id];
+      const idx = answers[qKey(q)];
       const selectedText =
         typeof idx === 'number' && q.options?.[idx] !== undefined ? q.options[idx] : idx;
       try {
-        const { data } = await axios.post('/api/test/submit', {
-          questionId: q.id,
-          selectedAnswer: selectedText,
-          type: 'dev'
-        });
+        const { data } = await axios.post(
+          '/api/test/submit',
+          {
+            questionId: qKey(q),
+            selectedAnswer: selectedText,
+            type: 'dev',
+          },
+          await withClerkAuth(getToken)
+        );
 
         if (data.success && data.correct) correctCount++;
         if (data.explanation) q.explanation = data.explanation;
         if (data.correctAnswer != null && q.options) {
-          q.correctAnswer = q.options.indexOf(data.correctAnswer);
+          const cidx = q.options.findIndex(
+            (o) =>
+              String(o).trim().toLowerCase() === String(data.correctAnswer).trim().toLowerCase()
+          );
+          if (cidx >= 0) q.correctAnswer = cidx;
         }
       } catch (err) {
         console.error('submit error', err);
@@ -96,8 +109,10 @@ const DevTest = ({ level, questions: questionsProp, onComplete, onExit }) => {
 
         <div className="space-y-3">
           {currentQuestion.options.map((option, idx) => {
-            const isSelected = answers[currentQuestion.id] === idx;
-            const isCorrect = currentQuestion.correctAnswer === idx;
+            const isSelected = answers[qKey(currentQuestion)] === idx;
+            const isCorrect =
+              Number.isInteger(currentQuestion.correctAnswer) &&
+              currentQuestion.correctAnswer === idx;
 
             let buttonStyle = 'border-slate-600 hover:bg-slate-700/50 hover:border-blue-500';
             if (isSubmitted) {

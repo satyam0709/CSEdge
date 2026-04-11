@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 import axios from "../utils/axios";
+import { withClerkAuth } from "../utils/testApiAuth";
 import BackButton from "../components/BackButton";
 import TestControls from "../tests/TestControls";
 import TestPage from "../tests/TestPage";
@@ -9,6 +11,7 @@ import LevelCompletionScreen from "../tests/LevelCompletionScreen";
 import { LayoutGrid, CheckCircle2, Lock, PlayCircle } from "lucide-react";
 
 export default function CodingTest() {
+  const { getToken } = useAuth();
   const navigate = useNavigate();
   const [view, setView] = useState("levels"); // "levels", "testing", or "completion"
   const [levels, setLevels] = useState([]);
@@ -31,25 +34,31 @@ export default function CodingTest() {
   const fetchLevels = async () => {
     try {
       setLoading(true);
-      // Try 'dsa' first, fallback to 'coding'
-      let lvlData, recData;
+      let levelsRes;
+      let primary = "dsa";
       try {
-        [lvlData, recData] = await Promise.all([
-          axios.get(`/api/test/levels?type=dsa`),
-          axios.get(`/api/test/recommendations?type=dsa`)
-        ]);
+        levelsRes = await axios.get(`/api/test/levels?type=dsa`);
         setTestType("dsa");
       } catch {
-        // Fallback to 'coding' if 'dsa' doesn't work
-        [lvlData, recData] = await Promise.all([
-          axios.get(`/api/test/levels?type=coding`),
-          axios.get(`/api/test/recommendations?type=coding`)
-        ]);
+        levelsRes = await axios.get(`/api/test/levels?type=coding`);
         setTestType("coding");
+        primary = "coding";
       }
 
-      const available = (lvlData.data?.levels || lvlData.levels || []).map(n => Number(n)).filter(n => !Number.isNaN(n)).sort((a,b)=>a-b);
-      const recs = (recData.data?.recommendations || recData.recommendations || []).reduce((acc, r) => { acc[r.level] = r; return acc; }, {});
+      let recData = { recommendations: [] };
+      try {
+        const r = await axios.get(
+          `/api/test/recommendations?type=${primary}`,
+          await withClerkAuth(getToken)
+        );
+        recData = r.data || recData;
+      } catch {
+        /* optional when signed out */
+      }
+
+      const lvlPayload = levelsRes.data || levelsRes;
+      const available = (lvlPayload.levels || []).map(n => Number(n)).filter(n => !Number.isNaN(n)).sort((a,b)=>a-b);
+      const recs = (recData.recommendations || []).reduce((acc, r) => { acc[r.level] = r; return acc; }, {});
       const built = available.map((lvl) => {
         const fromRec = recs[lvl] || {};
         const difficulty = lvl <= 10 ? 'Beginner' : lvl <= 25 ? 'Intermediate' : lvl <= 40 ? 'Advanced' : 'Expert';
@@ -96,7 +105,10 @@ export default function CodingTest() {
     try {
       setLoading(true);
       const idx = questionIndex !== null ? questionIndex : currentQuestionIndex;
-      const { data } = await axios.get(`/api/test/question?type=${testType}&level=${level}&index=${idx}`);
+      const { data } = await axios.get(
+        `/api/test/question?type=${testType}&level=${level}&index=${idx}`,
+        await withClerkAuth(getToken)
+      );
       
       if (!data.success) {
         calculateLevelStats();
@@ -116,11 +128,15 @@ export default function CodingTest() {
     const finalAnswer = overrideAnswer !== null ? overrideAnswer : selectedAnswer;
     try {
       setLoading(true);
-      const { data } = await axios.post("/api/test/submit", {
-        questionId: currentQuestion._id,
-        selectedAnswer: finalAnswer,
-        type: testType
-      });
+      const { data } = await axios.post(
+        "/api/test/submit",
+        {
+          questionId: currentQuestion._id,
+          selectedAnswer: finalAnswer,
+          type: testType,
+        },
+        await withClerkAuth(getToken)
+      );
       if (data.success) {
         setCurrentQuestion((prev) => {
           const idx =

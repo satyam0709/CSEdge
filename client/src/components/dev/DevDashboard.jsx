@@ -69,8 +69,8 @@ const DevDashboard = () => {
                   try {
                     const { data } = await axios.get('/api/test/questions', { params: { type: 'dev', level: level.id, limit: 10 } });
                     if (data.success && data.questions?.length) {
-                      const mapped = data.questions.map(q => ({
-                        id: q._id,
+                      const mapped = data.questions.map((q) => ({
+                        _id: q._id,
                         question: q.question,
                         options: q.options,
                       }));

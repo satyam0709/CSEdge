@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 import axios from "../utils/axios";
+import { withClerkAuth } from "../utils/testApiAuth";
 import BackButton from "../components/BackButton";
 import TestControls from "../tests/TestControls";
 import TestPage from "../tests/TestPage";
@@ -9,6 +11,7 @@ import LevelCompletionScreen from "../tests/LevelCompletionScreen";
 import { LayoutGrid, CheckCircle2, Lock, PlayCircle } from "lucide-react";
 
 export default function AptitudeTest() {
+  const { getToken } = useAuth();
   const navigate = useNavigate();
   const [view, setView] = useState("levels"); // "levels", "testing", or "completion"
   const [levels, setLevels] = useState([]);
@@ -30,11 +33,17 @@ export default function AptitudeTest() {
   const fetchLevels = async () => {
     try {
       setLoading(true);
-      // fetch available levels (from questions collection)
-      const [{ data: lvlData }, { data: recData }] = await Promise.all([
-        axios.get(`/api/test/levels?type=aptitude`),
-        axios.get(`/api/test/recommendations?type=aptitude`)
-      ]);
+      const { data: lvlData } = await axios.get(`/api/test/levels?type=aptitude`);
+      let recData = { recommendations: [] };
+      try {
+        const r = await axios.get(
+          `/api/test/recommendations?type=aptitude`,
+          await withClerkAuth(getToken)
+        );
+        recData = r.data || recData;
+      } catch {
+        /* signed-out or network — levels still work */
+      }
 
       const available = (lvlData.levels || []).map(n => Number(n)).filter(n => !Number.isNaN(n)).sort((a,b)=>a-b);
       const recs = (recData.recommendations || []).reduce((acc, r) => { acc[r.level] = r; return acc; }, {});
@@ -96,7 +105,10 @@ export default function AptitudeTest() {
     try {
       setLoading(true);
       const idx = questionIndex !== null ? questionIndex : currentQuestionIndex;
-      const { data } = await axios.get(`/api/test/question?type=aptitude&level=${level}&index=${idx}`);
+      const { data } = await axios.get(
+        `/api/test/question?type=aptitude&level=${level}&index=${idx}`,
+        await withClerkAuth(getToken)
+      );
       
       if (!data.success) {
         // Level completed
@@ -117,11 +129,15 @@ export default function AptitudeTest() {
     const finalAnswer = overrideAnswer !== null ? overrideAnswer : selectedAnswer;
     try {
       setLoading(true);
-      const { data } = await axios.post("/api/test/submit", {
-        questionId: currentQuestion._id,
-        selectedAnswer: finalAnswer,
-        type: "aptitude"
-      });
+      const { data } = await axios.post(
+        "/api/test/submit",
+        {
+          questionId: currentQuestion._id,
+          selectedAnswer: finalAnswer,
+          type: "aptitude",
+        },
+        await withClerkAuth(getToken)
+      );
       if (data.success) {
         setCurrentQuestion((prev) => {
           const idx =
