@@ -7,10 +7,12 @@ import CallToAction from '../../components/student/CallToAction'
 import Footer from '../../components/student/Footer'
 import PracticeSection from '../../components/student/PracticeSection'
 import TopicExplorerSection from '../../components/student/TopicExplorerSection'
+import WeeklySprintSection from '../../components/student/WeeklySprintSection'
 const Home = () => {
   return (
     <div className="flex flex-col items-center space-y-7 text-center">
       <Hero />
+      <WeeklySprintSection />
       <Companies />
       <PracticeSection />
       <TopicExplorerSection />

@@ -15,6 +15,11 @@ import {
   exportReadinessLeaderboardCsv,
 } from "../controllers/adminAnalyticsController.js";
 import {
+  createWeeklySprint,
+  updateWeeklySprint,
+  listWeeklySprintsAdmin,
+} from "../controllers/sprintController.js";
+import {
   createCourse,
   getAllCoursesAdmin,
   updateCourse,
@@ -57,5 +62,10 @@ router.get("/analytics/skill-heatmap", getSkillHeatmap);
 router.get("/analytics/predictive-readiness", getPredictivePlacementScore);
 router.get("/analytics/readiness-leaderboard", getReadinessLeaderboard);
 router.get("/analytics/readiness-leaderboard/export.csv", exportReadinessLeaderboardCsv);
+
+// Weekly sprints (admin-managed, public-facing leaderboards)
+router.post("/sprints", createWeeklySprint);
+router.get("/sprints", listWeeklySprintsAdmin);
+router.put("/sprints/:id", updateWeeklySprint);
 
 export default router;

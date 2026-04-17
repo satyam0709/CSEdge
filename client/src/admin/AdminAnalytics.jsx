@@ -32,6 +32,14 @@ export default function AdminAnalytics() {
   const [branchFilter, setBranchFilter] = useState("");
   const [yearFilter, setYearFilter] = useState("");
   const [collegeFilter, setCollegeFilter] = useState("");
+  const [sprints, setSprints] = useState([]);
+  const [newSprint, setNewSprint] = useState({
+    title: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    featuredCount: 5,
+  });
 
   const readiness = snapshot?.readiness;
   const points = snapshot?.heatmap?.points || [];
@@ -145,8 +153,61 @@ export default function AdminAnalytics() {
     }
   };
 
+  const fetchSprints = async () => {
+    try {
+      const token = await getToken();
+      const { data } = await axios.get("/api/admin/sprints", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (data.success) setSprints(data.sprints || []);
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
+  };
+
+  const createSprint = async () => {
+    try {
+      if (!newSprint.title || !newSprint.startDate || !newSprint.endDate) {
+        toast.error("Title, start date and end date are required");
+        return;
+      }
+      const token = await getToken();
+      const { data } = await axios.post("/api/admin/sprints", newSprint, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!data.success) throw new Error(data.message || "Failed to create sprint");
+      toast.success("Weekly sprint created");
+      setNewSprint({
+        title: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+        featuredCount: 5,
+      });
+      fetchSprints();
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
+  };
+
+  const toggleSprintPublish = async (sprint) => {
+    try {
+      const token = await getToken();
+      const { data } = await axios.put(
+        `/api/admin/sprints/${sprint._id}`,
+        { isPublished: !sprint.isPublished },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (!data.success) throw new Error(data.message || "Failed to update sprint");
+      fetchSprints();
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
+    fetchSprints();
   }, []);
 
   useEffect(() => {
@@ -274,6 +335,70 @@ export default function AdminAnalytics() {
           <p className="text-xs text-gray-500 mt-1">
             Live updates trigger when this user submits new attempts.
           </p>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">Weekly Sprint Management</h2>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-2 mb-4">
+          <input
+            value={newSprint.title}
+            onChange={(e) => setNewSprint((p) => ({ ...p, title: e.target.value }))}
+            placeholder="Sprint title"
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+          />
+          <input
+            value={newSprint.description}
+            onChange={(e) => setNewSprint((p) => ({ ...p, description: e.target.value }))}
+            placeholder="Description"
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+          />
+          <input
+            type="date"
+            value={newSprint.startDate}
+            onChange={(e) => setNewSprint((p) => ({ ...p, startDate: e.target.value }))}
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+          />
+          <input
+            type="date"
+            value={newSprint.endDate}
+            onChange={(e) => setNewSprint((p) => ({ ...p, endDate: e.target.value }))}
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+          />
+          <button
+            type="button"
+            onClick={createSprint}
+            className="bg-indigo-600 text-white px-3 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700"
+          >
+            Create Sprint
+          </button>
+        </div>
+        <div className="space-y-2">
+          {sprints.slice(0, 5).map((s) => (
+            <div
+              key={s._id}
+              className="flex flex-wrap items-center justify-between gap-2 border border-gray-200 rounded-lg px-3 py-2"
+            >
+              <div>
+                <p className="text-sm font-semibold text-gray-900">{s.title}</p>
+                <p className="text-xs text-gray-500">
+                  {new Date(s.startDate).toLocaleDateString()} -{" "}
+                  {new Date(s.endDate).toLocaleDateString()}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => toggleSprintPublish(s)}
+                className={`px-3 py-1 rounded text-xs font-semibold ${
+                  s.isPublished
+                    ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                    : "bg-gray-100 text-gray-700 border border-gray-200"
+                }`}
+              >
+                {s.isPublished ? "Published" : "Draft"}
+              </button>
+            </div>
+          ))}
         </div>
       </div>
 

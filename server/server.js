@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import { createServer } from "http";
 import { attachPresenceSocket } from "./socket/presenceSocket.js";
 import { attachAdminAnalyticsSocket } from "./socket/adminAnalyticsSocket.js";
+import { attachWeeklySprintSocket } from "./socket/weeklySprintSocket.js";
 import {
   getAllowedOriginStrings,
   createExpressOriginCallback,
@@ -33,6 +34,7 @@ import chatRoutes from "./routes/app-chat-routes.js";
 import studyShareRoutes from "./routes/app-study-share-routes.js";
 import mockInterviewRoutes from "./routes/app-mock-interview-routes.js";
 import resumeRoutes from "./routes/app-resume-routes.js";
+import sprintRoutes from "./routes/app-sprint-routes.js";
 import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
 import { seedSqlQuestions } from "./controllers/adminController.js";
 
@@ -78,6 +80,7 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/study-share", studyShareRoutes);
 app.use("/api/mock-interview", mockInterviewRoutes);
 app.use("/api/resume", resumeRoutes);
+app.use("/api/sprint", sprintRoutes);
 
 app.get("/", (_, res) => res.send("LMS API Running"));
 
@@ -94,6 +97,7 @@ const PORT = process.env.PORT || 5000;
 const httpServer = createServer(app);
 attachPresenceSocket(httpServer, allowedOrigins);
 attachAdminAnalyticsSocket(httpServer, allowedOrigins);
+attachWeeklySprintSocket(httpServer, allowedOrigins);
 
 httpServer.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT} (HTTP + Socket.io presence)`);

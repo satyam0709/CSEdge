@@ -31,6 +31,7 @@ import StudyShare from "./pages/student/StudyShare.jsx";
 import MockInterview from "./pages/MockInterview.jsx";
 import ResumeBuilder from "./pages/ResumeBuilder.jsx";
 import SqlTest from "./pages/SqlTest.jsx";
+import ArenaPage from "./pages/ArenaPage.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -49,6 +50,7 @@ function App() {
         <Route path="/login/*" element={<Login />} />
         <Route path="/sign-up/*" element={<SignUpPage />} />
         <Route path="/contests" element={<ContestPage />} />
+        <Route path="/arena" element={<ArenaPage />} />
 
         {/* Student (auth required) */}
         <Route
