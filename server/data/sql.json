@@ -1,0 +1,893 @@
+[
+  {
+    "type": "sql",
+    "level": 1,
+    "topic": "SQL Basics - SELECT",
+    "question": "Which keyword is used to retrieve data from a database table?",
+    "options": ["GET", "RETRIEVE", "SELECT", "EXTRACT"],
+    "correctAnswer": "SELECT",
+    "explanation": "SELECT is the SQL keyword used to query and retrieve data from database tables."
+  },
+  {
+    "type": "sql",
+    "level": 1,
+    "topic": "SQL Basics - SELECT",
+    "question": "What does the '*' symbol mean in a SELECT statement?",
+    "options": ["Multiply all values", "Select all columns", "Select primary key", "Select distinct values"],
+    "correctAnswer": "Select all columns",
+    "explanation": "The asterisk (*) is a wildcard that selects every column from the table."
+  },
+  {
+    "type": "sql",
+    "level": 1,
+    "topic": "SQL Basics - WHERE",
+    "question": "Which clause filters rows based on a condition?",
+    "options": ["FILTER", "WHERE", "HAVING", "CONDITION"],
+    "correctAnswer": "WHERE",
+    "explanation": "WHERE clause is used to filter records based on specified conditions."
+  },
+  {
+    "type": "sql",
+    "level": 1,
+    "topic": "SQL Basics - Comparison",
+    "question": "Which operator is used to check if a value is not equal to another in SQL?",
+    "options": ["!=", "<>", "NOT =", "All of the above"],
+    "correctAnswer": "All of the above",
+    "explanation": "SQL supports multiple not-equal operators: !=, <>, and NOT =."
+  },
+  {
+    "type": "sql",
+    "level": 1,
+    "topic": "SQL Basics - ORDER BY",
+    "question": "Which keyword sorts results in descending order?",
+    "options": ["ASC", "DESC", "SORT DOWN", "DOWN"],
+    "correctAnswer": "DESC",
+    "explanation": "DESC (descending) sorts results from highest to lowest."
+  },
+  {
+    "type": "sql",
+    "level": 1,
+    "topic": "SQL Basics - SCOTT Schema",
+    "question": "In the SCOTT schema, which table stores employee information?",
+    "options": ["DEPT", "EMP", "SALGRADE", "EMPLOYEES"],
+    "correctAnswer": "EMP",
+    "explanation": "The EMP table in SCOTT schema contains employee details like name, job, salary, and department."
+  },
+  {
+    "type": "sql",
+    "level": 1,
+    "topic": "SQL Basics - SCOTT Schema",
+    "question": "Which column in the EMP table represents the employee's unique identifier?",
+    "options": ["ENAME", "EMPID", "EMPNO", "EMPLOYEE_ID"],
+    "correctAnswer": "EMPNO",
+    "explanation": "EMPNO (Employee Number) is the primary key column in the EMP table."
+  },
+  {
+    "type": "sql",
+    "level": 1,
+    "topic": "SQL Basics - HR Schema",
+    "question": "In the HR schema, which table contains job titles and salary ranges?",
+    "options": ["JOBS", "EMPLOYEES", "JOB_TITLES", "POSITIONS"],
+    "correctAnswer": "JOBS",
+    "explanation": "The JOBS table stores job_id, job_title, min_salary, and max_salary."
+  },
+  {
+    "type": "sql",
+    "level": 1,
+    "topic": "SQL Basics - HR Schema",
+    "question": "What is the primary key column of the DEPARTMENTS table in HR schema?",
+    "options": ["DEPT_ID", "DEPTNO", "DEPARTMENT_ID", "DEPT_NAME"],
+    "correctAnswer": "DEPARTMENT_ID",
+    "explanation": "DEPARTMENT_ID is the primary key column in the HR DEPARTMENTS table."
+  },
+  {
+    "type": "sql",
+    "level": 1,
+    "topic": "SQL Basics - String Functions",
+    "question": "Which function converts text to uppercase in Oracle SQL?",
+    "options": ["UPPER()", "TO_UPPER()", "UCASE()", "UP()"],
+    "correctAnswer": "UPPER()",
+    "explanation": "UPPER() function converts all characters in a string to uppercase."
+  },
+  {
+    "type": "sql",
+    "level": 2,
+    "topic": "SQL - Aggregation",
+    "question": "Which function calculates the average of a numeric column?",
+    "options": ["SUM()", "COUNT()", "AVG()", "TOTAL()"],
+    "correctAnswer": "AVG()",
+    "explanation": "AVG() returns the average value of a numeric column."
+  },
+  {
+    "type": "sql",
+    "level": 2,
+    "topic": "SQL - GROUP BY",
+    "question": "Which clause is used with GROUP BY to filter grouped results?",
+    "options": ["WHERE", "HAVING", "FILTER", "GROUP FILTER"],
+    "correctAnswer": "HAVING",
+    "explanation": "HAVING filters groups after aggregation, unlike WHERE which filters rows before grouping."
+  },
+  {
+    "type": "sql",
+    "level": 2,
+    "topic": "SQL - Joins",
+    "question": "Which JOIN returns all records from the left table and matching records from the right?",
+    "options": ["INNER JOIN", "RIGHT JOIN", "LEFT JOIN", "FULL JOIN"],
+    "correctAnswer": "LEFT JOIN",
+    "explanation": "LEFT JOIN returns all rows from the left table, with NULLs where no match exists in the right table."
+  },
+  {
+    "type": "sql",
+    "level": 2,
+    "topic": "SQL - SCOTT Schema",
+    "question": "What query displays employee names along with their department names?",
+    "options": ["SELECT ENAME, DNAME FROM EMP, DEPT", "SELECT ENAME, DNAME FROM EMP JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO", "SELECT ENAME, DNAME FROM EMP INNER JOIN DEPT", "Both B and simple join work"],
+    "correctAnswer": "Both B and simple join work",
+    "explanation": "Both explicit JOIN syntax and implicit comma join with WHERE condition work correctly."
+  },
+  {
+    "type": "sql",
+    "level": 2,
+    "topic": "SQL - SCOTT Schema",
+    "question": "How do you find the number of employees in each department from SCOTT.EMP?",
+    "options": ["SELECT DEPTNO, COUNT(*) FROM EMP", "SELECT DEPTNO, COUNT(*) FROM EMP GROUP BY DEPTNO", "SELECT DEPTNO, SUM(*) FROM EMP GROUP BY DEPTNO", "SELECT DEPTNO, TOTAL(*) FROM EMP"],
+    "correctAnswer": "SELECT DEPTNO, COUNT(*) FROM EMP GROUP BY DEPTNO",
+    "explanation": "GROUP BY DEPTNO with COUNT(*) gives employee count per department."
+  },
+  {
+    "type": "sql",
+    "level": 2,
+    "topic": "SQL - HR Schema",
+    "question": "Which query finds the average salary for each job in HR schema?",
+    "options": ["SELECT JOB_ID, AVG(SALARY) FROM EMPLOYEES", "SELECT JOB_ID, AVG(SALARY) FROM EMPLOYEES GROUP BY JOB_ID", "SELECT JOB_TITLE, AVG(SALARY) FROM EMPLOYEES GROUP BY JOB_TITLE", "SELECT JOB_ID, MEAN(SALARY) FROM EMPLOYEES GROUP BY JOB_ID"],
+    "correctAnswer": "SELECT JOB_ID, AVG(SALARY) FROM EMPLOYEES GROUP BY JOB_ID",
+    "explanation": "GROUP BY JOB_ID with AVG(SALARY) calculates average salary per job."
+  },
+  {
+    "type": "sql",
+    "level": 2,
+    "topic": "SQL - HR Schema",
+    "question": "What is the correct way to find departments with maximum salary greater than 5000?",
+    "options": ["SELECT DEPARTMENT_ID, MAX(SALARY) FROM EMPLOYEES WHERE MAX(SALARY) > 5000 GROUP BY DEPARTMENT_ID", "SELECT DEPARTMENT_ID, MAX(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID HAVING MAX(SALARY) > 5000", "SELECT DEPARTMENT_ID, MAX(SALARY) FROM EMPLOYEES HAVING MAX(SALARY) > 5000", "SELECT DEPARTMENT_ID, MAX(SALARY) FROM EMPLOYEES WHERE SALARY > 5000"],
+    "correctAnswer": "SELECT DEPARTMENT_ID, MAX(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID HAVING MAX(SALARY) > 5000",
+    "explanation": "HAVING filters groups after aggregation; WHERE cannot use aggregate functions directly."
+  },
+  {
+    "type": "sql",
+    "level": 2,
+    "topic": "SQL - String Functions",
+    "question": "Which function capitalizes the first letter of each word in a string?",
+    "options": ["UPPER()", "CAPITALIZE()", "INITCAP()", "PROPER()"],
+    "correctAnswer": "INITCAP()",
+    "explanation": "INITCAP() returns a string with the first letter of each word in uppercase."
+  },
+  {
+    "type": "sql",
+    "level": 2,
+    "topic": "SQL - Subqueries",
+    "question": "What type of subquery returns a single value?",
+    "options": ["Column subquery", "Row subquery", "Scalar subquery", "Table subquery"],
+    "correctAnswer": "Scalar subquery",
+    "explanation": "A scalar subquery returns exactly one row with one column, used where a single value is expected."
+  },
+  {
+    "type": "sql",
+    "level": 2,
+    "topic": "SQL - Date Functions",
+    "question": "Which function returns the current date and time in Oracle SQL?",
+    "options": ["NOW()", "GETDATE()", "SYSDATE", "CURRENT_TIMESTAMP"],
+    "correctAnswer": "SYSDATE",
+    "explanation": "SYSDATE returns the current date and time from the database server."
+  },
+  {
+    "type": "sql",
+    "level": 3,
+    "topic": "SQL - Multiple Tables",
+    "question": "Which query displays employees with their country and region from HR schema?",
+    "options": ["Single table query", "Two-table join", "Four-table join (EMPLOYEES→DEPARTMENTS→LOCATIONS→COUNTRIES→REGIONS)", "Three-table join"],
+    "correctAnswer": "Four-table join (EMPLOYEES→DEPARTMENTS→LOCATIONS→COUNTRIES→REGIONS)",
+    "explanation": "Requires joining EMPLOYEES, DEPARTMENTS, LOCATIONS, COUNTRIES, and REGIONS tables."
+  },
+  {
+    "type": "sql",
+    "level": 3,
+    "topic": "SQL - Subqueries",
+    "question": "How do you find employees earning more than the average salary of the IT department?",
+    "options": ["Subquery with =", "Subquery with > and nested subquery for IT department average", "Simple WHERE condition", "JOIN with DEPARTMENT table"],
+    "correctAnswer": "Subquery with > and nested subquery for IT department average",
+    "explanation": "Requires finding IT department ID, then its average salary, then comparing employee salaries."
+  },
+  {
+    "type": "sql",
+    "level": 3,
+    "topic": "SQL - Set Operations",
+    "question": "Which operator combines results from two queries and returns only distinct rows?",
+    "options": ["UNION ALL", "UNION", "INTERSECT", "MINUS"],
+    "correctAnswer": "UNION",
+    "explanation": "UNION combines results and removes duplicate rows; UNION ALL keeps duplicates."
+  },
+  {
+    "type": "sql",
+    "level": 3,
+    "topic": "SQL - SCOTT Schema",
+    "question": "What is the correct query to increase salaries of department 30 employees by 10% in SCOTT schema?",
+    "options": ["UPDATE EMP SET SAL = SAL * 1.1", "UPDATE EMP SET SAL = SAL * 1.1 WHERE DEPTNO = 30", "ALTER EMP SET SAL = SAL * 1.1 WHERE DEPTNO = 30", "MODIFY EMP SET SAL = SAL * 1.1 WHERE DEPTNO = 30"],
+    "correctAnswer": "UPDATE EMP SET SAL = SAL * 1.1 WHERE DEPTNO = 30",
+    "explanation": "UPDATE statement with WHERE clause targets specific department, multiplication updates salaries."
+  },
+  {
+    "type": "sql",
+    "level": 3,
+    "topic": "SQL - SCOTT Schema",
+    "question": "How do you delete employees with salary less than 1000 in SCOTT schema?",
+    "options": ["DROP EMP WHERE SAL < 1000", "DELETE FROM EMP WHERE SAL < 1000", "REMOVE FROM EMP WHERE SAL < 1000", "TRUNCATE EMP WHERE SAL < 1000"],
+    "correctAnswer": "DELETE FROM EMP WHERE SAL < 1000",
+    "explanation": "DELETE statement with WHERE condition removes specific rows meeting the criteria."
+  },
+  {
+    "type": "sql",
+    "level": 3,
+    "topic": "SQL - HR Schema",
+    "question": "Which query finds departments that have no employees?",
+    "options": ["SELECT DEPARTMENT_NAME FROM DEPARTMENTS WHERE DEPARTMENT_ID NOT IN (SELECT DISTINCT DEPARTMENT_ID FROM EMPLOYEES)", "SELECT DEPARTMENT_NAME FROM DEPARTMENTS LEFT JOIN EMPLOYEES ON DEPARTMENTS.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID WHERE EMPLOYEES.EMPLOYEE_ID IS NULL", "SELECT DEPARTMENT_NAME FROM DEPARTMENTS WHERE NOT EXISTS (SELECT 1 FROM EMPLOYEES WHERE EMPLOYEES.DEPARTMENT_ID = DEPARTMENTS.DEPARTMENT_ID)", "All of the above"],
+    "correctAnswer": "All of the above",
+    "explanation": "All three approaches correctly identify departments without employees using NOT IN, LEFT JOIN, or NOT EXISTS."
+  },
+  {
+    "type": "sql",
+    "level": 3,
+    "topic": "SQL - HR Schema",
+    "question": "How do you insert a new employee named Alice Johnson into department 20 with salary 6000?",
+    "options": ["INSERT INTO EMPLOYEES VALUES (300, 'Alice', 'Johnson', 'AJOHNSON', SYSDATE, 'IT_PROG', 6000, 20)", "INSERT INTO EMPLOYEES (EMPLOYEE_ID, FIRST_NAME, LAST_NAME, EMAIL, HIRE_DATE, JOB_ID, SALARY, DEPARTMENT_ID) VALUES (300, 'Alice', 'Johnson', 'AJOHNSON', SYSDATE, 'IT_PROG', 6000, 20)", "Both A and B if columns match", "INSERT EMPLOYEE Alice Johnson"],
+    "correctAnswer": "Both A and B if columns match",
+    "explanation": "Both syntaxes work if column order matches VALUES order in first approach."
+  },
+  {
+    "type": "sql",
+    "level": 3,
+    "topic": "SQL - Correlated Subqueries",
+    "question": "What is a correlated subquery?",
+    "options": ["A subquery that runs independently", "A subquery that references columns from the outer query", "A subquery that uses UNION", "A subquery that returns multiple rows"],
+    "correctAnswer": "A subquery that references columns from the outer query",
+    "explanation": "Correlated subqueries depend on the outer query and execute once per outer row."
+  },
+  {
+    "type": "sql",
+    "level": 3,
+    "topic": "SQL - SCOTT Schema",
+    "question": "How do you find employees whose salary is greater than their department's average salary in SCOTT?",
+    "options": ["Using GROUP BY only", "Using a correlated subquery comparing SAL to department AVG(SAL)", "Using HAVING clause", "Using ORDER BY"],
+    "correctAnswer": "Using a correlated subquery comparing SAL to department AVG(SAL)",
+    "explanation": "Correlated subquery calculates average for each employee's department and compares with their salary."
+  },
+  {
+    "type": "sql",
+    "level": 4,
+    "topic": "SQL - Window Functions",
+    "question": "Which function assigns a unique sequential integer to each row within a partition?",
+    "options": ["ROWNUM", "ROW_NUMBER()", "RANK()", "DENSE_RANK()"],
+    "correctAnswer": "ROW_NUMBER()",
+    "explanation": "ROW_NUMBER() assigns a unique number to each row starting from 1 within each partition."
+  },
+  {
+    "type": "sql",
+    "level": 4,
+    "topic": "SQL - Window Functions",
+    "question": "What is the difference between RANK() and DENSE_RANK()?",
+    "options": ["No difference", "RANK() leaves gaps, DENSE_RANK() does not", "DENSE_RANK() leaves gaps, RANK() does not", "Both skip numbers"],
+    "correctAnswer": "RANK() leaves gaps, DENSE_RANK() does not",
+    "explanation": "RANK() skips numbers after ties (1,2,2,4), DENSE_RANK() gives consecutive ranks (1,2,2,3)."
+  },
+  {
+    "type": "sql",
+    "level": 4,
+    "topic": "SQL - SCOTT Schema",
+    "question": "What is the annual salary calculation for employees in SCOTT?",
+    "options": ["SAL * 12", "SAL + COMM", "SAL * 12 + NVL(COMM, 0)", "SAL * 365"],
+    "correctAnswer": "SAL * 12",
+    "explanation": "Annual salary is monthly salary multiplied by 12 months."
+  },
+  {
+    "type": "sql",
+    "level": 4,
+    "topic": "SQL - SCOTT Schema",
+    "question": "Which query finds employees whose salary belongs to salary grade 4?",
+    "options": ["WHERE SAL BETWEEN 2001 AND 3000", "JOIN with SALGRADE table using BETWEEN", "WHERE GRADE = 4", "Both A and B"],
+    "correctAnswer": "Both A and B",
+    "explanation": "Grade 4 corresponds to salary range 2001-3000, can be found with direct BETWEEN or JOIN with SALGRADE."
+  },
+  {
+    "type": "sql",
+    "level": 4,
+    "topic": "SQL - HR Schema",
+    "question": "How do you find the department with the highest total salary?",
+    "options": ["GROUP BY department_id ORDER BY SUM(salary) DESC FETCH FIRST 1 ROW ONLY", "SELECT MAX(SUM(salary)) FROM employees", "Both A and using MAX with subquery", "Using HAVING MAX(salary)"],
+    "correctAnswer": "Both A and using MAX with subquery",
+    "explanation": "Can use FETCH FIRST or subquery with MAX on aggregated total to find highest."
+  },
+  {
+    "type": "sql",
+    "level": 4,
+    "topic": "SQL - Views",
+    "question": "Which statement creates a virtual table based on a SELECT query?",
+    "options": ["CREATE TABLE AS", "CREATE VIEW", "CREATE INDEX", "CREATE SYNONYM"],
+    "correctAnswer": "CREATE VIEW",
+    "explanation": "A view is a stored query that behaves like a virtual table."
+  },
+  {
+    "type": "sql",
+    "level": 4,
+    "topic": "SQL - Indexes",
+    "question": "What is the purpose of a database index?",
+    "options": ["To slow down queries", "To speed up data retrieval", "To store data", "To backup data"],
+    "correctAnswer": "To speed up data retrieval",
+    "explanation": "Indexes provide fast access paths to data, similar to a book's index."
+  },
+  {
+    "type": "sql",
+    "level": 4,
+    "topic": "SQL - Transactions",
+    "question": "Which command permanently saves all transaction changes to the database?",
+    "options": ["SAVE", "COMMIT", "ROLLBACK", "SAVEPOINT"],
+    "correctAnswer": "COMMIT",
+    "explanation": "COMMIT makes all changes from the current transaction permanent."
+  },
+  {
+    "type": "sql",
+    "level": 4,
+    "topic": "SQL - String Functions",
+    "question": "Which function extracts a substring from a string in Oracle?",
+    "options": ["SUBSTRING()", "SUBSTR()", "MID()", "EXTRACT()"],
+    "correctAnswer": "SUBSTR()",
+    "explanation": "SUBSTR(string, start_position, length) extracts a portion of a string."
+  },
+  {
+    "type": "sql",
+    "level": 4,
+    "topic": "SQL - Date Functions",
+    "question": "Which function calculates the number of months between two dates in Oracle?",
+    "options": ["MONTHS_BETWEEN()", "DATEDIFF()", "DATE_DIFF()", "MONTH_DIFF()"],
+    "correctAnswer": "MONTHS_BETWEEN()",
+    "explanation": "MONTHS_BETWEEN(date1, date2) returns number of months between two dates."
+  },
+  {
+    "type": "sql",
+    "level": 5,
+    "topic": "SQL - Advanced Joins",
+    "question": "What does a FULL OUTER JOIN return?",
+    "options": ["Only matching rows", "All rows from left table", "All rows from right table", "All rows from both tables with NULLs where no match"],
+    "correctAnswer": "All rows from both tables with NULLs where no match",
+    "explanation": "FULL OUTER JOIN combines LEFT JOIN and RIGHT JOIN results."
+  },
+  {
+    "type": "sql",
+    "level": 5,
+    "topic": "SQL - Self Join",
+    "question": "How do you find employees who earn more than their managers?",
+    "options": ["Using GROUP BY", "Using self join on EMP with MGR column", "Using subquery only", "Using UNION"],
+    "correctAnswer": "Using self join on EMP with MGR column",
+    "explanation": "Self join joins employee table to itself: employee to manager relationship via MGR column."
+  },
+  {
+    "type": "sql",
+    "level": 5,
+    "topic": "SQL - SCOTT Schema",
+    "question": "What is the hierarchical relationship in SCOTT.EMP table?",
+    "options": ["Department to employees", "Manager to subordinates via MGR column", "Job to employees", "Salary grade to employees"],
+    "correctAnswer": "Manager to subordinates via MGR column",
+    "explanation": "MGR column references EMPNO of the manager, creating employee-manager hierarchy."
+  },
+  {
+    "type": "sql",
+    "level": 5,
+    "topic": "SQL - HR Schema",
+    "question": "Which query displays employee names with their job titles and department names?",
+    "options": ["Single join", "Two joins: EMPLOYEES→JOBS and EMPLOYEES→DEPARTMENTS", "Three-way join", "Subquery only"],
+    "correctAnswer": "Two joins: EMPLOYEES→JOBS and EMPLOYEES→DEPARTMENTS",
+    "explanation": "EMPLOYEES joins with JOBS on JOB_ID and with DEPARTMENTS on DEPARTMENT_ID."
+  },
+  {
+    "type": "sql",
+    "level": 5,
+    "topic": "SQL - EXISTS vs IN",
+    "question": "When is EXISTS more efficient than IN?",
+    "options": ["Always", "When subquery returns many rows and NULLs", "Never", "When subquery returns few rows"],
+    "correctAnswer": "When subquery returns many rows and NULLs",
+    "explanation": "EXISTS stops processing after first match, handles NULLs better, often faster for large datasets."
+  },
+  {
+    "type": "sql",
+    "level": 5,
+    "topic": "SQL - Case Statements",
+    "question": "Which statement allows conditional logic in SQL queries?",
+    "options": ["IF-THEN", "CASE", "SWITCH", "DECODE only"],
+    "correctAnswer": "CASE",
+    "explanation": "CASE expression provides if-then-else logic in SQL statements."
+  },
+  {
+    "type": "sql",
+    "level": 5,
+    "topic": "SQL - Pivot Operations",
+    "question": "Which Oracle clause converts rows to columns?",
+    "options": ["UNPIVOT", "PIVOT", "TRANSPOSE", "ROTATE"],
+    "correctAnswer": "PIVOT",
+    "explanation": "PIVOT transforms row data into columns for cross-tabulation reports."
+  },
+  {
+    "type": "sql",
+    "level": 5,
+    "topic": "SQL - Recursive Queries",
+    "question": "Which clause enables recursive queries in Oracle?",
+    "options": ["WITH RECURSIVE", "CONNECT BY", "START WITH", "Both CONNECT BY and WITH RECURSIVE"],
+    "correctAnswer": "Both CONNECT BY and WITH RECURSIVE",
+    "explanation": "Oracle supports hierarchical queries with CONNECT BY and recursive WITH clause."
+  },
+  {
+    "type": "sql",
+    "level": 5,
+    "topic": "SQL - SCOTT Schema",
+    "question": "How do you find employees who have no subordinates?",
+    "options": ["WHERE MGR IS NULL", "NOT EXISTS subquery on MGR column", "WHERE EMPNO NOT IN (SELECT MGR FROM EMP WHERE MGR IS NOT NULL)", "Both B and C"],
+    "correctAnswer": "Both B and C",
+    "explanation": "Employees without subordinates are those whose EMPNO never appears as MGR in other rows."
+  },
+  {
+    "type": "sql",
+    "level": 5,
+    "topic": "SQL - Analytic Functions",
+    "question": "Which function calculates a running total within a partition?",
+    "options": ["SUM() with ORDER BY in OVER clause", "ROW_NUMBER()", "RANK()", "LEAD()"],
+    "correctAnswer": "SUM() with ORDER BY in OVER clause",
+    "explanation": "SUM(salary) OVER (ORDER BY hire_date) calculates cumulative running total."
+  },
+  {
+    "type": "sql",
+    "level": 6,
+    "topic": "SQL - Query Optimization",
+    "question": "Which operation should generally be performed first in query execution?",
+    "options": ["JOIN", "WHERE filtering", "GROUP BY", "ORDER BY"],
+    "correctAnswer": "WHERE filtering",
+    "explanation": "Filtering early reduces data volume for subsequent operations."
+  },
+  {
+    "type": "sql",
+    "level": 6,
+    "topic": "SQL - Execution Plan",
+    "question": "Which command shows how Oracle executes a query?",
+    "options": ["EXPLAIN PLAN", "DESCRIBE", "SHOW EXECUTION", "ANALYZE"],
+    "correctAnswer": "EXPLAIN PLAN",
+    "explanation": "EXPLAIN PLAN displays the execution plan chosen by Oracle optimizer."
+  },
+  {
+    "type": "sql",
+    "level": 6,
+    "topic": "SQL - Constraints",
+    "question": "Which constraint ensures a column cannot have NULL values?",
+    "options": ["UNIQUE", "PRIMARY KEY", "NOT NULL", "CHECK"],
+    "correctAnswer": "NOT NULL",
+    "explanation": "NOT NULL constraint requires a column to have a value in every row."
+  },
+  {
+    "type": "sql",
+    "level": 6,
+    "topic": "SQL - Foreign Keys",
+    "question": "What does ON DELETE CASCADE do?",
+    "options": ["Deletes parent row only", "Deletes parent and all related child rows", "Prevents deletion", "Updates child rows"],
+    "correctAnswer": "Deletes parent and all related child rows",
+    "explanation": "ON DELETE CASCADE automatically removes child records when parent is deleted."
+  },
+  {
+    "type": "sql",
+    "level": 6,
+    "topic": "SQL - MERGE Statement",
+    "question": "What does MERGE (UPSERT) do?",
+    "options": ["Only insert", "Only update", "Insert or update based on condition", "Delete and insert"],
+    "correctAnswer": "Insert or update based on condition",
+    "explanation": "MERGE updates existing rows and inserts new rows in one statement."
+  },
+  {
+    "type": "sql",
+    "level": 6,
+    "topic": "SQL - HR Schema",
+    "question": "How do you find employees earning more than average salary of employees in 'IT' department using a single query?",
+    "options": ["Subquery with AVG and department filter", "Join with departments", "Correlated subquery", "All of the above work"],
+    "correctAnswer": "All of the above work",
+    "explanation": "Multiple approaches: subquery, join with aggregation, or correlated subquery."
+  },
+  {
+    "type": "sql",
+    "level": 6,
+    "topic": "SQL - SCOTT Schema",
+    "question": "What is the purpose of the SALGRADE table in SCOTT schema?",
+    "options": ["Store salary history", "Define salary ranges for grades", "Store commission rates", "Store bonus amounts"],
+    "correctAnswer": "Define salary ranges for grades",
+    "explanation": "SALGRADE maps salary ranges (LOSAL to HISAL) to grade levels."
+  },
+  {
+    "type": "sql",
+    "level": 6,
+    "topic": "SQL - Data Types",
+    "question": "Which Oracle data type stores variable-length character strings up to 4000 bytes?",
+    "options": ["CHAR", "VARCHAR2", "CLOB", "NUMBER"],
+    "correctAnswer": "VARCHAR2",
+    "explanation": "VARCHAR2 stores variable-length character data up to 4000 bytes (or 32767 in PL/SQL)."
+  },
+  {
+    "type": "sql",
+    "level": 6,
+    "topic": "SQL - Sequences",
+    "question": "Which pseudocolumn returns the last generated sequence value?",
+    "options": ["CURRVAL", "NEXTVAL", "LASTVAL", "SEQVAL"],
+    "correctAnswer": "CURRVAL",
+    "explanation": "CURRVAL returns the current value of a sequence in the current session."
+  },
+  {
+    "type": "sql",
+    "level": 6,
+    "topic": "SQL - Synonyms",
+    "question": "What is a synonym in Oracle?",
+    "options": ["A table copy", "An alias for database objects", "A backup", "An index"],
+    "correctAnswer": "An alias for database objects",
+    "explanation": "Synonyms provide alternative names for tables, views, sequences, and other objects."
+  },
+  {
+    "type": "sql",
+    "level": 7,
+    "topic": "SQL - Performance Tuning",
+    "question": "Which is generally faster for large tables: WHERE or HAVING?",
+    "options": ["WHERE", "HAVING", "Same speed", "Depends on data"],
+    "correctAnswer": "WHERE",
+    "explanation": "WHERE filters before aggregation, reducing rows; HAVING filters after, often slower."
+  },
+  {
+    "type": "sql",
+    "level": 7,
+    "topic": "SQL - Index Types",
+    "question": "Which index type stores column data along with rowid?",
+    "options": ["Bitmap index", "B-tree index", "Function-based index", "All indexes"],
+    "correctAnswer": "B-tree index",
+    "explanation": "B-tree indexes store indexed column values and corresponding rowids for fast lookups."
+  },
+  {
+    "type": "sql",
+    "level": 7,
+    "topic": "SQL - Partitioning",
+    "question": "What is table partitioning?",
+    "options": ["Splitting a table into smaller physical pieces", "Creating multiple tables", "Indexing all columns", "Compressing data"],
+    "correctAnswer": "Splitting a table into smaller physical pieces",
+    "explanation": "Partitioning divides large tables into smaller, manageable segments for performance and maintenance."
+  },
+  {
+    "type": "sql",
+    "level": 7,
+    "topic": "SQL - Materialized Views",
+    "question": "What makes a materialized view different from a regular view?",
+    "options": ["It stores data physically", "It's faster always", "It cannot be indexed", "It's read-only"],
+    "correctAnswer": "It stores data physically",
+    "explanation": "Materialized views store query results physically, refreshing periodically for fast access."
+  },
+  {
+    "type": "sql",
+    "level": 7,
+    "topic": "SQL - SCOTT Schema",
+    "question": "What is the maximum salary grade in SCOTT.SALGRADE?",
+    "options": ["Grade 5", "Grade 4", "Grade 6", "Grade 3"],
+    "correctAnswer": "Grade 5",
+    "explanation": "SALGRADE has grades 1 through 5, with grade 5 covering salaries from 3001 to 9999."
+  },
+  {
+    "type": "sql",
+    "level": 7,
+    "topic": "SQL - HR Schema",
+    "question": "Which HR tables have foreign key relationships?",
+    "options": ["EMPLOYEES references DEPARTMENTS and JOBS", "DEPARTMENTS references LOCATIONS", "LOCATIONS references COUNTRIES", "All of the above"],
+    "correctAnswer": "All of the above",
+    "explanation": "HR schema has chain: REGIONS←COUNTRIES←LOCATIONS←DEPARTMENTS←EMPLOYEES."
+  },
+  {
+    "type": "sql",
+    "level": 7,
+    "topic": "SQL - Analytic Functions",
+    "question": "What does LAG() function do?",
+    "options": ["Access next row", "Access previous row within partition", "Skip rows", "Rank rows"],
+    "correctAnswer": "Access previous row within partition",
+    "explanation": "LAG() accesses data from a preceding row without self-join."
+  },
+  {
+    "type": "sql",
+    "level": 7,
+    "topic": "SQL - Flashback",
+    "question": "Which Oracle feature allows querying data as it existed at a previous time?",
+    "options": ["Flashback Query", "Rollback", "Recovery Manager", "Archive Log"],
+    "correctAnswer": "Flashback Query",
+    "explanation": "Flashback Query uses AS OF TIMESTAMP to see past data states."
+  },
+  {
+    "type": "sql",
+    "level": 7,
+    "topic": "SQL - WITH Clause",
+    "question": "What is the advantage of WITH clause (Common Table Expression)?",
+    "options": ["Readability and reuse of subqueries", "Faster execution always", "Automatic indexing", "Data compression"],
+    "correctAnswer": "Readability and reuse of subqueries",
+    "explanation": "WITH defines named subqueries that can be referenced multiple times, improving readability."
+  },
+  {
+    "type": "sql",
+    "level": 7,
+    "topic": "SQL - Triggers",
+    "question": "When does an AFTER trigger execute?",
+    "options": ["Before DML operation", "After DML operation completes", "Instead of DML operation", "During SELECT"],
+    "correctAnswer": "After DML operation completes",
+    "explanation": "AFTER triggers fire after the triggering DML statement successfully completes."
+  },
+  {
+    "type": "sql",
+    "level": 8,
+    "topic": "SQL - Advanced Optimization",
+    "question": "What is a full table scan?",
+    "options": ["Reading entire table sequentially", "Using index only", "Reading first 100 rows", "Parallel reading"],
+    "correctAnswer": "Reading entire table sequentially",
+    "explanation": "Full table scan reads every block in a table, efficient for large percentage of rows."
+  },
+  {
+    "type": "sql",
+    "level": 8,
+    "topic": "SQL - Hints",
+    "question": "What are Oracle optimizer hints?",
+    "options": ["Comments that force execution path", "Automatic optimizations", "Index suggestions", "Query rewrites"],
+    "correctAnswer": "Comments that force execution path",
+    "explanation": "Hints are special comments (/*+ ... */) that instruct optimizer on join methods, indexes, etc."
+  },
+  {
+    "type": "sql",
+    "level": 8,
+    "topic": "SQL - SCOTT Schema",
+    "question": "What is the salary of PRESIDENT in SCOTT schema?",
+    "options": ["5000", "2975", "3000", "2450"],
+    "correctAnswer": "5000",
+    "explanation": "King (PRESIDENT) has salary 5000 in the EMP table."
+  },
+  {
+    "type": "sql",
+    "level": 8,
+    "topic": "SQL - HR Schema",
+    "question": "Which employee has the highest salary in HR schema?",
+    "options": ["Steven King", "Neena Kochhar", "Lex De Haan", "John Chen"],
+    "correctAnswer": "Steven King",
+    "explanation": "Steven King (AD_PRES) has salary 24000, highest in HR schema."
+  },
+  {
+    "type": "sql",
+    "level": 8,
+    "topic": "SQL - Pivot/Unpivot",
+    "question": "Which clause converts columns to rows?",
+    "options": ["PIVOT", "UNPIVOT", "TRANSPOSE", "CONVERT"],
+    "correctAnswer": "UNPIVOT",
+    "explanation": "UNPIVOT transforms columns into rows, opposite of PIVOT."
+  },
+  {
+    "type": "sql",
+    "level": 8,
+    "topic": "SQL - JSON Support",
+    "question": "Which function returns JSON data in Oracle?",
+    "options": ["JSON_OBJECT", "TO_JSON", "JSON_VALUE", "Both JSON_OBJECT and JSON_VALUE"],
+    "correctAnswer": "Both JSON_OBJECT and JSON_VALUE",
+    "explanation": "Oracle provides JSON_OBJECT for generation and JSON_VALUE for extraction."
+  },
+  {
+    "type": "sql",
+    "level": 8,
+    "topic": "SQL - XML Support",
+    "question": "Which function converts SQL query results to XML?",
+    "options": ["XMLAGG", "XMLSEQUENCE", "XMLFOREST", "XMLROOT"],
+    "correctAnswer": "XMLAGG",
+    "explanation": "XMLAGG aggregates XML fragments into a single XML document."
+  },
+  {
+    "type": "sql",
+    "level": 8,
+    "topic": "SQL - Regular Expressions",
+    "question": "Which function performs regular expression matching in Oracle?",
+    "options": ["REGEXP_LIKE", "LIKE_REGEX", "MATCH_REGEX", "REGEX_MATCH"],
+    "correctAnswer": "REGEXP_LIKE",
+    "explanation": "REGEXP_LIKE uses POSIX regular expressions for pattern matching."
+  },
+  {
+    "type": "sql",
+    "level": 8,
+    "topic": "SQL - Hierarchical Queries",
+    "question": "Which pseudocolumn shows the level of a node in a tree?",
+    "options": ["LEVEL", "CONNECT_BY_LEVEL", "HIERARCHY_LEVEL", "NODE_LEVEL"],
+    "correctAnswer": "LEVEL",
+    "explanation": "LEVEL pseudocolumn returns the depth (1 for root, 2 for child, etc.) in hierarchical queries."
+  },
+  {
+    "type": "sql",
+    "level": 8,
+    "topic": "SQL - Model Clause",
+    "question": "What does Oracle's MODEL clause enable?",
+    "options": ["Spreadsheet-like calculations", "Data modeling", "Table creation", "Index management"],
+    "correctAnswer": "Spreadsheet-like calculations",
+    "explanation": "MODEL clause performs spreadsheet-style calculations with cell references."
+  },
+  {
+    "type": "sql",
+    "level": 9,
+    "topic": "SQL - Data Warehouse",
+    "question": "What is a star schema?",
+    "options": ["One fact table with dimension tables", "Multiple fact tables", "Snowflake design", "Denormalized single table"],
+    "correctAnswer": "One fact table with dimension tables",
+    "explanation": "Star schema has central fact table surrounded by denormalized dimension tables."
+  },
+  {
+    "type": "sql",
+    "level": 9,
+    "topic": "SQL - Analytic Functions",
+    "question": "What does FIRST_VALUE() analytic function return?",
+    "options": ["First row in partition", "Last row in partition", "Random row", "Sorted row"],
+    "correctAnswer": "First row in partition",
+    "explanation": "FIRST_VALUE() returns the first value in an ordered partition."
+  },
+  {
+    "type": "sql",
+    "level": 9,
+    "topic": "SQL - Performance",
+    "question": "What is bind variable peeking?",
+    "options": ["Optimizer examining bind values for plan", "Variable hiding", "Query caching", "Index peeking"],
+    "correctAnswer": "Optimizer examining bind values for plan",
+    "explanation": "Optimizer peeks at bind values during first execution to determine optimal plan."
+  },
+  {
+    "type": "sql",
+    "level": 9,
+    "topic": "SQL - Compression",
+    "question": "Which table compression offers highest compression ratio?",
+    "options": ["Basic compression", "OLTP compression", "Hybrid Columnar Compression", "Row compression"],
+    "correctAnswer": "Hybrid Columnar Compression",
+    "explanation": "HCC provides highest compression (10-50x) but requires Exadata or ZFS storage."
+  },
+  {
+    "type": "sql",
+    "level": 9,
+    "topic": "SQL - SCOTT Schema",
+    "question": "What is the total number of employees in SCOTT.EMP?",
+    "options": ["14", "12", "10", "15"],
+    "correctAnswer": "14",
+    "explanation": "SCOTT.EMP has 14 employee records after all inserts."
+  },
+  {
+    "type": "sql",
+    "level": 9,
+    "topic": "SQL - HR Schema",
+    "question": "How many departments are in HR schema?",
+    "options": ["11", "12", "10", "13"],
+    "correctAnswer": "12",
+    "explanation": "HR DEPARTMENTS table has 12 departments including Treasury with no manager."
+  },
+  {
+    "type": "sql",
+    "level": 9,
+    "topic": "SQL - Parallel Execution",
+    "question": "Which hint enables parallel query execution?",
+    "options": ["/*+ PARALLEL */", "/*+ FAST */", "/*+ MULTI */", "/*+ CONCURRENT */"],
+    "correctAnswer": "/*+ PARALLEL */",
+    "explanation": "PARALLEL hint uses multiple processes to execute query faster on large tables."
+  },
+  {
+    "type": "sql",
+    "level": 9,
+    "topic": "SQL - Advanced Features",
+    "question": "What does SQL Plan Management do?",
+    "options": ["Prevents plan regression", "Creates plans", "Drops plans", "Shows plans"],
+    "correctAnswer": "Prevents plan regression",
+    "explanation": "SPM maintains plan history and uses only accepted, verified execution plans."
+  },
+  {
+    "type": "sql",
+    "level": 9,
+    "topic": "SQL - Real Application Testing",
+    "question": "What does SQL Performance Analyzer do?",
+    "options": ["Compares SQL performance before/after changes", "Analyzes syntax", "Tests security", "Validates data"],
+    "correctAnswer": "Compares SQL performance before/after changes",
+    "explanation": "SPA measures and compares SQL performance across system changes."
+  },
+  {
+    "type": "sql",
+    "level": 9,
+    "topic": "SQL - In-Memory",
+    "question": "Which Oracle feature stores tables in columnar format in memory?",
+    "options": ["Database In-Memory", "TimesTen", "Exadata", "Column Store"],
+    "correctAnswer": "Database In-Memory",
+    "explanation": "In-Memory option stores tables in dual row/columnar format for analytics acceleration."
+  },
+  {
+    "type": "sql",
+    "level": 10,
+    "topic": "SQL - Exadata",
+    "question": "What is Smart Scan in Exadata?",
+    "options": ["Storage-level filtering", "Index scan", "Table scan", "Parallel scan"],
+    "correctAnswer": "Storage-level filtering",
+    "explanation": "Smart Scan offloads WHERE clause filtering to Exadata storage cells."
+  },
+  {
+    "type": "sql",
+    "level": 10,
+    "topic": "SQL - Sharding",
+    "question": "What is database sharding?",
+    "options": ["Horizontal partitioning across databases", "Vertical partitioning", "Data replication", "Index sharding"],
+    "correctAnswer": "Horizontal partitioning across databases",
+    "explanation": "Sharding distributes data across independent databases for scalability."
+  },
+  {
+    "type": "sql",
+    "level": 10,
+    "topic": "SQL - Multitenant",
+    "question": "What is a PDB in Oracle Multitenant?",
+    "options": ["Pluggable Database", "Primary Database", "Physical Database", "Parallel Database"],
+    "correctAnswer": "Pluggable Database",
+    "explanation": "PDBs are self-contained databases plugged into CDB (Container Database)."
+  },
+  {
+    "type": "sql",
+    "level": 10,
+    "topic": "SQL - Blockchain Tables",
+    "question": "What makes blockchain tables tamper-resistant?",
+    "options": ["Cryptographic chaining", "Read-only", "Encryption", "Compression"],
+    "correctAnswer": "Cryptographic chaining",
+    "explanation": "Rows are cryptographically chained with hash links preventing tampering."
+  },
+  {
+    "type": "sql",
+    "level": 10,
+    "topic": "SQL - Machine Learning",
+    "question": "Which function creates machine learning models in Oracle?",
+    "options": ["DBMS_DATA_MINING", "DBMS_ML", "DBMS_AI", "DBMS_ANALYTICS"],
+    "correctAnswer": "DBMS_DATA_MINING",
+    "explanation": "DBMS_DATA_MINING package builds, tests, and applies ML models in-database."
+  },
+  {
+    "type": "sql",
+    "level": 10,
+    "topic": "SQL - Spatial",
+    "question": "Which data type stores spatial geometry in Oracle?",
+    "options": ["SDO_GEOMETRY", "GEOMETRY", "SHAPE", "SPATIAL_TYPE"],
+    "correctAnswer": "SDO_GEOMETRY",
+    "explanation": "SDO_GEOMETRY is Oracle Spatial's native data type for vector geometry."
+  },
+  {
+    "type": "sql",
+    "level": 10,
+    "topic": "SQL - Graph",
+    "question": "What does SQL Property Graph enable?",
+    "options": ["Graph queries with SQL", "JSON storage", "XML queries", "Full-text search"],
+    "correctAnswer": "Graph queries with SQL",
+    "explanation": "Property Graph queries treat tables as vertices and edges for graph analysis."
+  },
+  {
+    "type": "sql",
+    "level": 10,
+    "topic": "SQL - AutoML",
+    "question": "Which feature automates machine learning in Oracle?",
+    "options": ["AutoML", "AutoML in Oracle Autonomous Database", "AutoML in Data Warehouse", "All of the above"],
+    "correctAnswer": "AutoML in Oracle Autonomous Database",
+    "explanation": "Autonomous Database includes AutoML for automated algorithm selection and tuning."
+  },
+  {
+    "type": "sql",
+    "level": 10,
+    "topic": "SQL - GoldenGate",
+    "question": "What is Oracle GoldenGate primarily used for?",
+    "options": ["Real-time data replication", "Backup recovery", "Query optimization", "Data compression"],
+    "correctAnswer": "Real-time data replication",
+    "explanation": "GoldenGate provides low-impact, real-time data replication across heterogeneous systems."
+  },
+  {
+    "type": "sql",
+    "level": 10,
+    "topic": "SQL - Advanced Security",
+    "question": "Which feature encrypts data in Oracle tablespaces?",
+    "options": ["Transparent Data Encryption", "Data Redaction", "Virtual Private Database", "Fine-Grained Access"],
+    "correctAnswer": "Transparent Data Encryption",
+    "explanation": "TDE encrypts data at rest in tablespaces without application changes."
+  }
+]

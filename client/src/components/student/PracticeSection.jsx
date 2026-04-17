@@ -1,7 +1,27 @@
 // src/components/student/PracticeSection.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Brain, Code2, Laptop, Building2, ArrowRight, BarChart3, BookOpen } from 'lucide-react';
+import { Brain, Code2, Laptop, Building2, ArrowRight, BarChart3, BookOpen, Trophy, Mic, FileUser, Database } from 'lucide-react';
+
+const Card = ({ item, navigate }) => (
+  <div
+    onClick={() => navigate(item.path)}
+    className={`p-6 rounded-2xl border border-gray-100 shadow-sm cursor-pointer transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl ${item.border} group bg-white`}
+  >
+    <div className={`w-14 h-14 rounded-xl ${item.color} flex items-center justify-center mb-4 transition-colors group-hover:scale-110 duration-300`}>
+      {item.icon}
+    </div>
+    <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+      {item.title}
+    </h3>
+    <p className="text-sm text-gray-500 mb-4 leading-relaxed">
+      {item.desc}
+    </p>
+    <div className="flex items-center font-semibold text-gray-700 text-sm group-hover:text-blue-600">
+      {item.cta || 'Start'} <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+    </div>
+  </div>
+);
 
 const PracticeSection = () => {
   const navigate = useNavigate();
@@ -14,7 +34,7 @@ const PracticeSection = () => {
       icon: <Brain className="w-8 h-8 text-purple-600" />,
       color: 'bg-purple-50',
       border: 'hover:border-purple-500',
-      path: '/practice/aptitude'
+      path: '/practice/aptitude',
     },
     {
       id: 'dsa',
@@ -23,7 +43,7 @@ const PracticeSection = () => {
       icon: <Code2 className="w-8 h-8 text-blue-600" />,
       color: 'bg-blue-50',
       border: 'hover:border-blue-500',
-      path: '/practice/dsa'
+      path: '/practice/dsa',
     },
     {
       id: 'dev',
@@ -32,8 +52,20 @@ const PracticeSection = () => {
       icon: <Laptop className="w-8 h-8 text-green-600" />,
       color: 'bg-green-50',
       border: 'hover:border-green-500',
-      path: '/practice/dev'
+      path: '/practice/dev',
     },
+    {
+      id: 'sql',
+      title: 'SQL & Database Lab',
+      desc: 'Master complex queries, joins, indexes and database design across 50 levels.',
+      icon: <Database className="w-8 h-8 text-emerald-600" />,
+      color: 'bg-emerald-50',
+      border: 'hover:border-emerald-500',
+      path: '/practice/sql',
+    },
+  ];
+
+  const careerItems = [
     {
       id: 'companies',
       title: 'Company Interview',
@@ -41,66 +73,91 @@ const PracticeSection = () => {
       icon: <Building2 className="w-8 h-8 text-orange-600" />,
       color: 'bg-orange-50',
       border: 'hover:border-orange-500',
-      path: '/practice/companies'
+      path: '/practice/companies',
+      cta: 'Explore',
     },
     {
       id: 'study-share',
-      title: 'Community study notes',
+      title: 'Community Notes',
       desc: 'Share your own notes, screenshots & PDFs — help others prep (no pirated material).',
       icon: <BookOpen className="w-8 h-8 text-teal-600" />,
       color: 'bg-teal-50',
       border: 'hover:border-teal-500',
-      path: '/study-share'
-    }
+      path: '/study-share',
+      cta: 'Browse',
+    },
+    {
+      id: 'mock-interview',
+      title: 'Mock Interview Simulator',
+      desc: 'AI-driven interview practice with real-time feedback. Pick your role and get graded answers.',
+      icon: <Mic className="w-8 h-8 text-indigo-600" />,
+      color: 'bg-indigo-50',
+      border: 'hover:border-indigo-500',
+      path: '/mock-interview',
+      cta: 'Practice Now',
+    },
+    {
+      id: 'resume-builder',
+      title: 'Resume & Portfolio Builder',
+      desc: 'Build a job-ready resume with live preview, auto-save, and PDF export — tailored for CSE students.',
+      icon: <FileUser className="w-8 h-8 text-rose-600" />,
+      color: 'bg-rose-50',
+      border: 'hover:border-rose-500',
+      path: '/resume-builder',
+      cta: 'Build Resume',
+    },
   ];
 
   return (
-    <div className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900">Practice Arena</h2>
-          <p className="text-gray-500 mt-2">Choose a track and start leveling up your skills today.</p>
-        </div>
+    <>
+      {/* ── Practice Arena ───────────────────────────────────────────── */}
+      <div className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900">Practice Arena</h2>
+            <p className="text-gray-500 mt-2">Choose a track and start leveling up your skills today.</p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-          {practices.map((item) => (
-            <div 
-              key={item.id}
-              onClick={() => navigate(item.path)}
-              className={`p-6 rounded-2xl border border-gray-100 shadow-sm cursor-pointer transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl ${item.border} group bg-white`}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {practices.map((item) => (
+              <Card key={item.id} item={item} navigate={navigate} />
+            ))}
+          </div>
+
+          {/* Dashboard Button */}
+          <div className="mt-12 flex justify-center">
+            <button
+              onClick={() => navigate("/dashboard")}
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1"
             >
-              <div className={`w-14 h-14 rounded-xl ${item.color} flex items-center justify-center mb-4 transition-colors group-hover:scale-110 duration-300`}>
-                {item.icon}
-              </div>
-              
-              <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                {item.title}
-              </h3>
-              
-              <p className="text-sm text-gray-500 mb-4 leading-relaxed">
-                {item.desc}
-              </p>
-              
-              <div className="flex items-center font-semibold text-gray-700 text-sm group-hover:text-blue-600">
-                Start <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Dashboard Button */}
-        <div className="mt-12 flex justify-center">
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1"
-          >
-            <BarChart3 className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-            View Your Dashboard
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
+              <BarChart3 className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+              View Your Dashboard
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* ── Career Excellence ─────────────────────────────────────────── */}
+      <div className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 mb-3 rounded-full bg-amber-50 px-4 py-1.5 text-sm font-semibold text-amber-700 ring-1 ring-amber-200">
+              <Trophy className="w-4 h-4" />
+              Career Excellence
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900">Go Beyond the Basics</h2>
+            <p className="text-gray-500 mt-2">Real interview prep and community-powered resources to land your dream job.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {careerItems.map((item) => (
+              <Card key={item.id} item={item} navigate={navigate} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

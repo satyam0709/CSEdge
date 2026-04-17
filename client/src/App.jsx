@@ -27,6 +27,9 @@ import ContestPage from "./pages/ContestPage";
 import ContestPotdPromo from "./components/ContestPotdPromo";
 import GlobalChatAssistant from "./components/student/GlobalChatAssistant.jsx";
 import StudyShare from "./pages/student/StudyShare.jsx";
+import MockInterview from "./pages/MockInterview.jsx";
+import ResumeBuilder from "./pages/ResumeBuilder.jsx";
+import SqlTest from "./pages/SqlTest.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -148,7 +151,31 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/practice/sql"
+          element={
+            <ProtectedRoute>
+              <SqlTest />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/study-share" element={<StudyShare />} />
+        <Route
+          path="/mock-interview"
+          element={
+            <ProtectedRoute>
+              <MockInterview />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/resume-builder"
+          element={
+            <ProtectedRoute>
+              <ResumeBuilder />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/company/:companyId"
           element={

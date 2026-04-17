@@ -28,6 +28,7 @@ const loadJSON = (file) => {
 const aptitude = loadJSON("aptitude.json");
 const dsa = loadJSON("dsa.json");
 const dev = loadJSON("dev.json");
+const sql = loadJSON("sql.json");
 
 const normalize = (str) => str.trim();
 
@@ -56,7 +57,8 @@ const seed = async () => {
     const allQuestions = [
       ...aptitude,
       ...dsa,
-      ...dev
+      ...dev,
+      ...sql
     ];
 
     allQuestions.forEach(validateQuestion);

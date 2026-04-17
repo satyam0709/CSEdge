@@ -30,7 +30,10 @@ import contestRoutes from "./routes/app-contest-routes.js";
 import testimonialRoutes from "./routes/app-testimonial-routes.js";
 import chatRoutes from "./routes/app-chat-routes.js";
 import studyShareRoutes from "./routes/app-study-share-routes.js";
+import mockInterviewRoutes from "./routes/app-mock-interview-routes.js";
+import resumeRoutes from "./routes/app-resume-routes.js";
 import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
+import { seedSqlQuestions } from "./controllers/adminController.js";
 
 const app = express();
 
@@ -72,8 +75,19 @@ app.use("/api/contest", contestRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/study-share", studyShareRoutes);
+app.use("/api/mock-interview", mockInterviewRoutes);
+app.use("/api/resume", resumeRoutes);
 
 app.get("/", (_, res) => res.send("LMS API Running"));
+
+// ── Dev-only seed route (no Clerk auth — key protected) ──────────────────────
+app.post("/api/seed/sql", (req, res, next) => {
+  const key = req.headers["x-seed-key"] || req.query.key;
+  if (!key || key !== (process.env.SEED_SECRET || "lms-seed-sql-2025")) {
+    return res.status(403).json({ success: false, message: "Invalid seed key" });
+  }
+  return seedSqlQuestions(req, res, next);
+});
 
 const PORT = process.env.PORT || 5000;
 const httpServer = createServer(app);

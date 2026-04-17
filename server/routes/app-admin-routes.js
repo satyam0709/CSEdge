@@ -4,7 +4,8 @@ import {
   addQuestion,
   getQuestions,
   updateQuestion,
-  deleteQuestion
+  deleteQuestion,
+  seedSqlQuestions,
 } from "../controllers/adminController.js";
 import {
   createCourse,
@@ -33,6 +34,9 @@ router.post("/question", addQuestion);
 router.get("/questions", getQuestions);
 router.put("/question/:id", updateQuestion);
 router.delete("/question/:id", deleteQuestion);
+
+// Seed SQL questions from server/data/sql.json (educator auth)
+router.post("/seed-sql", seedSqlQuestions);
 
 // Course management
 router.post("/course", createCourse);

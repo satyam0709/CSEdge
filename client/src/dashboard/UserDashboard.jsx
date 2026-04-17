@@ -5,6 +5,7 @@ import axios from "../utils/axios";
 import { withClerkAuth } from "../utils/testApiAuth";
 import TestStatsCard from "./TestStatsCard";
 import CourseStatsCard from "./CourseStatsCard";
+import InterviewStatsCard from "./InterviewStatsCard";
 import ExternalProblems from "../components/student/ExternalProblems";
 import { Loader, RefreshCw, Radio } from "lucide-react";
 
@@ -182,6 +183,12 @@ export default function UserDashboard() {
           </div>
         </div>
 
+        {/* ── Mock Interview Tracker (full-width) ── */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 mb-6">
+          <InterviewStatsCard data={dashboard?.mockInterview || {}} />
+        </div>
+
+        {/* ── Test / Course / External Problems ── */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <TestStatsCard tests={dashboard?.tests || {}} />
           <CourseStatsCard courses={dashboard?.courses || {}} />

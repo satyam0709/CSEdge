@@ -6,12 +6,14 @@ import TestimonialsSection from '../../components/student/TestimonialsSection'
 import CallToAction from '../../components/student/CallToAction'
 import Footer from '../../components/student/Footer'
 import PracticeSection from '../../components/student/PracticeSection'
+import TopicExplorerSection from '../../components/student/TopicExplorerSection'
 const Home = () => {
   return (
     <div className="flex flex-col items-center space-y-7 text-center">
       <Hero />
       <Companies />
       <PracticeSection />
+      <TopicExplorerSection />
       <CoursesSection />
       <TestimonialsSection />
       <CallToAction />

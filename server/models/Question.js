@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const questionSchema = new mongoose.Schema({
   type: {
     type: String,
-    enum: ["aptitude", "dsa", "dev", "development", "coding"],
+    enum: ["aptitude", "dsa", "dev", "development", "coding", "sql"],
     required: true
   },
   level: {

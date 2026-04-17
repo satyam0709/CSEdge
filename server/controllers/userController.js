@@ -6,6 +6,7 @@ import Stripe from "stripe"
 import { clerkClient } from '@clerk/express'
 import TestAttempt from "../models/TestAttempt.js";
 import TestProgress from "../models/TestProgress.js";
+import MockInterview from "../models/MockInterview.js";
 import ExternalProblem from "../models/ExternalProblem.js";
 import LectureNote from "../models/LectureNote.js";
 import { scoreFlashPrepAnswers } from "../lib/flashPrepScore.js";
@@ -717,6 +718,72 @@ export const getUserDashboard = async (req, res) => {
       activeCourses = 0;
     }
 
+    // ---------------- MOCK INTERVIEW ANALYTICS ----------------
+    let interviewStats = {
+      totalSessions: 0,
+      completedSessions: 0,
+      averageScore: 0,
+      bestScore: 0,
+      recentSessions: [],
+      roleBreakdown: {},
+      difficultyBreakdown: { easy: 0, medium: 0, hard: 0 },
+      scoreTrend: [],
+    };
+
+    try {
+      const allSessions = await MockInterview.find({ userId })
+        .sort({ createdAt: -1 })
+        .lean();
+
+      const completed = allSessions.filter(s => s.status === "completed");
+
+      interviewStats.totalSessions = allSessions.length;
+      interviewStats.completedSessions = completed.length;
+
+      if (completed.length > 0) {
+        const scores = completed.map(s => s.overallScore || 0);
+        interviewStats.averageScore = parseFloat(
+          (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2)
+        );
+        interviewStats.bestScore = Math.max(...scores);
+
+        // Role breakdown
+        allSessions.forEach(s => {
+          const role = s.role || "Other";
+          interviewStats.roleBreakdown[role] = (interviewStats.roleBreakdown[role] || 0) + 1;
+        });
+
+        // Difficulty breakdown
+        allSessions.forEach(s => {
+          const d = s.difficulty || "medium";
+          if (interviewStats.difficultyBreakdown[d] !== undefined) {
+            interviewStats.difficultyBreakdown[d]++;
+          }
+        });
+
+        // Score trend (last 7 completed)
+        interviewStats.scoreTrend = completed.slice(0, 7).reverse().map(s => ({
+          score: s.overallScore || 0,
+          role: s.role,
+          date: s.completedAt || s.createdAt,
+        }));
+      }
+
+      // Recent 4 sessions (any status)
+      interviewStats.recentSessions = allSessions.slice(0, 4).map(s => ({
+        id: s._id,
+        role: s.role,
+        difficulty: s.difficulty,
+        status: s.status,
+        overallScore: s.overallScore || 0,
+        totalQuestions: s.totalQuestions,
+        createdAt: s.createdAt,
+        completedAt: s.completedAt,
+      }));
+    } catch (interviewError) {
+      console.error("Error fetching mock interview stats:", interviewError);
+    }
+
     // ---------------- DASHBOARD OBJECT ----------------
     res.json({
       success: true,
@@ -730,7 +797,8 @@ export const getUserDashboard = async (req, res) => {
         courses: {
           completed: completedCourses,
           active: activeCourses
-        }
+        },
+        mockInterview: interviewStats,
       }
     });
 
