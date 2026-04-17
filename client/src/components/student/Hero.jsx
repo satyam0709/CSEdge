@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Code2, LayoutGrid } from 'lucide-react'
 import { assets } from '../../assets/assets'
 
 const PLATFORMS = [
@@ -138,6 +139,25 @@ const Hero = () => {
       <p className="text-gray-500 max-w-sm mx-auto text-xl">
         We bring everything together to help you achieve your personal and professional goals.
       </p>
+
+      <div className="flex flex-wrap items-center justify-center gap-3 pt-4 relative z-20">
+        <button
+          type="button"
+          onClick={() => navigate('/practice/dsa')}
+          className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 hover:shadow-xl md:text-base"
+        >
+          <Code2 className="h-5 w-5 shrink-0" aria-hidden />
+          DSA practice — questions &amp; IDE
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate('/dashboard')}
+          className="inline-flex items-center gap-2 rounded-full border-2 border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-800 transition hover:border-blue-300 hover:bg-gray-50 md:text-base"
+        >
+          <LayoutGrid className="h-5 w-5 shrink-0 text-indigo-600" aria-hidden />
+          Dashboard
+        </button>
+      </div>
     </div>
   )
 }

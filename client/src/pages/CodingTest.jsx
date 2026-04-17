@@ -269,7 +269,7 @@ export default function CodingTest() {
       </nav>
 
       {/* Main Content */}
-      <div className="max-w-5xl mx-auto mt-8 px-4 md:px-6">
+      <div className="max-w-7xl mx-auto mt-8 px-4 md:px-6">
         {currentQuestion && (
           <>
             <TestPage
@@ -281,7 +281,7 @@ export default function CodingTest() {
               currentQuestionNumber={currentQuestionIndex + 1}
               totalQuestions={questionsInLevel.length || 15}
               onBack={() => setView("levels")}
-              dsaLayout={testType === "dsa" || testType === "coding"}
+              dsaLayout
             />
             
             <div className="mt-8 bg-white rounded-3xl border-2 border-slate-200 p-6 md:p-8 shadow-lg">

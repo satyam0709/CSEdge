@@ -73,7 +73,9 @@ const Navbar = () => {
 
             </div>
             : (
-              <button type='button' onClick={() => navigate('/login')} className='bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition'>Login</button>
+              <>
+                <button type='button' onClick={() => navigate('/login')} className='bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition'>Login</button>
+              </>
             )}
 
         </div>
@@ -117,9 +119,11 @@ const Navbar = () => {
             <UserButton />
           </>
         ) : (
-          <button type='button' onClick={() => navigate('/login')} aria-label='Login' className='cursor-pointer'>
-            <img src={assets.user_icon} alt="" />
-          </button>
+          <div className='flex items-center gap-2'>
+            <button type='button' onClick={() => navigate('/login')} aria-label='Login' className='cursor-pointer'>
+              <img src={assets.user_icon} alt="" />
+            </button>
+          </div>
         )}
 
       </div>

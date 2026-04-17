@@ -13,7 +13,7 @@ int main() {
 }
 `;
 
-export default function DsaIdePanel({ starterCode, questionKey }) {
+export default function DsaIdePanel({ starterCode, questionKey, platformLabel = "DSA" }) {
   const initial =
     (starterCode && String(starterCode).trim()) || DEFAULT_CPP;
   const [source, setSource] = useState(initial);
@@ -24,7 +24,7 @@ export default function DsaIdePanel({ starterCode, questionKey }) {
 
   return (
     <section className="flex flex-col rounded-2xl border border-slate-800 bg-[#0d1117] shadow-lg overflow-hidden min-h-[320px] lg:min-h-[420px]">
-      <header className="flex items-center justify-between gap-3 border-b border-slate-700/80 bg-[#161b22] px-4 py-2.5">
+      <header className="flex flex-col gap-1 border-b border-slate-700/80 bg-[#161b22] px-4 py-2.5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f56]" />
@@ -36,9 +36,14 @@ export default function DsaIdePanel({ starterCode, questionKey }) {
             solution.cpp
           </span>
         </div>
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
-          IDE
-        </span>
+        <div className="flex flex-col items-start gap-0.5 sm:items-end">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+            IDE
+          </span>
+          <span className="text-[11px] font-medium text-indigo-300/90">
+            {platformLabel} · practice editor
+          </span>
+        </div>
       </header>
       <div className="flex-1 flex flex-col min-h-0">
         <textarea

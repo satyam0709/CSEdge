@@ -1,6 +1,7 @@
 import { CheckCircle, XCircle, AlertCircle, Lightbulb, ListChecks } from "lucide-react";
 import DsaQuestionPanel from "../components/dsa/DsaQuestionPanel";
 import DsaIdePanel from "../components/dsa/DsaIdePanel";
+import { resolveDsaPlatform } from "../components/dsa/dsaPlatformUtils";
 
 export default function TestPage({
   question,
@@ -134,7 +135,7 @@ export default function TestPage({
 
       {dsaLayout ? (
         <>
-          <div className="mb-10 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8 lg:items-start">
+          <div className="mb-10 grid grid-cols-1 gap-6 xl:grid-cols-2 xl:gap-8 xl:items-start">
             <DsaQuestionPanel
               question={question}
               currentQuestionNumber={currentQuestionNumber}
@@ -143,6 +144,7 @@ export default function TestPage({
             <DsaIdePanel
               starterCode={question.starterCode}
               questionKey={question._id}
+              platformLabel={resolveDsaPlatform(question, currentQuestionNumber).active.label}
             />
           </div>
           <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-6 md:p-8">
