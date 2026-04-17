@@ -1,6 +1,7 @@
 import Question from "../models/Question.js";
 import TestProgress from "../models/TestProgress.js";
 import TestAttempt from "../models/TestAttempt.js";
+import { emitUserAnalyticsUpdate } from "../socket/adminAnalyticsSocket.js";
 
 /** Single canonical type for TestProgress + consistent analytics. */
 function normalizeProgressType(type) {
@@ -159,6 +160,11 @@ export const submitAnswer = async (req, res) => {
       level: question.level,
       isCorrect,
       timeTaken,
+    });
+
+    // Push live admin analytics updates for this user, if any admin is subscribed.
+    emitUserAnalyticsUpdate(userId).catch((err) => {
+      console.error("[admin-analytics] emitUserAnalyticsUpdate failed:", err.message);
     });
 
     res.json({

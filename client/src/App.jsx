@@ -22,6 +22,7 @@ import MyCourses from "./pages/educator/MyCourses";
 import AddCourse from "./pages/educator/AddCourse";
 import StudentEnrolled from "./pages/educator/StudentEnrolled";
 import AdminCourses from "./admin/AdminCourses";
+import AdminAnalytics from "./admin/AdminAnalytics";
 import Player from "./pages/student/Player";
 import ContestPage from "./pages/ContestPage";
 import ContestPotdPromo from "./components/ContestPotdPromo";
@@ -201,6 +202,7 @@ function App() {
           <Route path="student-enrolled" element={<StudentEnrolled />} />
           <Route path="students" element={<StudentEnrolled />} />
           <Route path="admin-courses" element={<AdminCourses />} />
+          <Route path="admin-analytics" element={<AdminAnalytics />} />
         </Route>
 
         {/* 404 */}

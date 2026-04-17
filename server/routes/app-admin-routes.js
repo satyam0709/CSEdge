@@ -8,6 +8,13 @@ import {
   seedSqlQuestions,
 } from "../controllers/adminController.js";
 import {
+  getSkillHeatmap,
+  getPredictivePlacementScore,
+  getAnalyticsUserOptions,
+  getReadinessLeaderboard,
+  exportReadinessLeaderboardCsv,
+} from "../controllers/adminAnalyticsController.js";
+import {
   createCourse,
   getAllCoursesAdmin,
   updateCourse,
@@ -43,5 +50,12 @@ router.post("/course", createCourse);
 router.get("/courses", getAllCoursesAdmin);
 router.put("/course/:id", updateCourse);
 router.delete("/course/:id", deleteCourse);
+
+// Admin / Analytics layer
+router.get("/analytics/users", getAnalyticsUserOptions);
+router.get("/analytics/skill-heatmap", getSkillHeatmap);
+router.get("/analytics/predictive-readiness", getPredictivePlacementScore);
+router.get("/analytics/readiness-leaderboard", getReadinessLeaderboard);
+router.get("/analytics/readiness-leaderboard/export.csv", exportReadinessLeaderboardCsv);
 
 export default router;

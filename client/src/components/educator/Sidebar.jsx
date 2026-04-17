@@ -13,6 +13,7 @@ export const Sidebar = () => {
     { name: "Student Enrolled", path: "/educator/student-enrolled", icon: assets.person_tick_icon },
     // Admin course management (add/edit/delete courses with thumbnails)
     { name: "Manage Courses", path: "/educator/admin-courses", icon: assets.my_course_icon },
+    { name: "Admin Analytics", path: "/educator/admin-analytics", icon: assets.home_icon },
   ];
 
   return (

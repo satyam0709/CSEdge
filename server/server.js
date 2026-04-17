@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { createServer } from "http";
 import { attachPresenceSocket } from "./socket/presenceSocket.js";
+import { attachAdminAnalyticsSocket } from "./socket/adminAnalyticsSocket.js";
 import {
   getAllowedOriginStrings,
   createExpressOriginCallback,
@@ -92,6 +93,7 @@ app.post("/api/seed/sql", (req, res, next) => {
 const PORT = process.env.PORT || 5000;
 const httpServer = createServer(app);
 attachPresenceSocket(httpServer, allowedOrigins);
+attachAdminAnalyticsSocket(httpServer, allowedOrigins);
 
 httpServer.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT} (HTTP + Socket.io presence)`);

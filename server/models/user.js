@@ -18,6 +18,18 @@ const userSchema = new mongoose.Schema(
             type : String ,
             default: ""
         },
+        branch: {
+            type: String,
+            default: ""
+        },
+        year: {
+            type: String,
+            default: ""
+        },
+        college: {
+            type: String,
+            default: ""
+        },
         enrolledCourses :[
             {
                 type : mongoose.Schema.Types.ObjectId,
