@@ -6,7 +6,7 @@ import { Brain, Code2, Laptop, Building2, ArrowRight, BarChart3, BookOpen, Troph
 const Card = ({ item, navigate, index }) => (
   <div
     onClick={() => navigate(item.path)}
-    className={`stagger-card p-6 rounded-2xl border border-slate-100 shadow-sm cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-xl ${item.border} group bg-white/95 backdrop-blur`}
+    className={`stagger-card p-4 sm:p-5 md:p-6 rounded-2xl border border-slate-100 shadow-sm cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-xl ${item.border} group bg-white/95 backdrop-blur`}
     style={{ '--d': `${index * 70}ms` }}
   >
     <div className={`w-14 h-14 rounded-xl ${item.color} flex items-center justify-center mb-4 transition-colors group-hover:scale-110 duration-300`}>
@@ -112,11 +112,11 @@ const PracticeSection = () => {
   return (
     <>
       {/* ── Practice Arena ───────────────────────────────────────────── */}
-      <div className="py-14 md:py-16 bg-transparent">
+      <div className="py-10 md:py-16 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Practice Arena</h2>
-            <p className="text-slate-500 mt-2">Choose a track and start leveling up your skills today.</p>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900">Practice Arena</h2>
+            <p className="text-slate-500 mt-2 text-sm sm:text-base">Choose a track and start leveling up your skills today.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -140,15 +140,15 @@ const PracticeSection = () => {
       </div>
 
       {/* ── Career Excellence ─────────────────────────────────────────── */}
-      <div className="py-14 md:py-16 bg-white/70 border-y border-slate-200/70">
+      <div className="py-10 md:py-16 bg-white/70 border-y border-slate-200/70">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 md:mb-12">
             <div className="inline-flex items-center gap-2 mb-3 rounded-full bg-amber-50 px-4 py-1.5 text-sm font-semibold text-amber-700 ring-1 ring-amber-200">
               <Trophy className="w-4 h-4" />
               Career Excellence
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">Go Beyond the Basics</h2>
-            <p className="text-gray-500 mt-2">Real interview prep and community-powered resources to land your dream job.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Go Beyond the Basics</h2>
+            <p className="text-gray-500 mt-2 text-sm sm:text-base">Real interview prep and community-powered resources to land your dream job.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

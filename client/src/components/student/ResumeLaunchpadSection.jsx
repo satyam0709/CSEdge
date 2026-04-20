@@ -106,13 +106,13 @@ export default function ResumeLaunchpadSection() {
   };
 
   return (
-    <section className="ui-section-wrap py-12 md:py-16">
-      <div className="relative overflow-hidden rounded-3xl border border-blue-200/70 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-8 sm:px-6 md:px-8 shadow-[0_18px_45px_rgba(37,99,235,0.15)]">
+    <section className="ui-section-wrap py-8 md:py-16">
+      <div className="relative overflow-hidden rounded-3xl border border-blue-200/70 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-3 py-6 sm:px-6 md:px-8 shadow-[0_18px_45px_rgba(37,99,235,0.15)]">
         <div className="pointer-events-none absolute -left-20 top-8 h-64 w-64 rounded-full bg-blue-300/25 blur-3xl animate-float-soft" />
         <div className="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-indigo-300/20 blur-3xl animate-float-soft" />
 
         <div className="relative z-10 text-left">
-          <h2 className="text-2xl font-extrabold leading-tight text-slate-900 md:text-4xl">
+          <h2 className="text-xl sm:text-2xl font-extrabold leading-tight text-slate-900 md:text-4xl">
             Build ATS-Optimized Resume in 4 Steps
           </h2>
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 md:text-base">
@@ -195,7 +195,7 @@ export default function ResumeLaunchpadSection() {
           </a>
         </div>
 
-        <div className="relative z-10 mt-7 grid grid-cols-1 gap-5 xl:grid-cols-5">
+        <div className="relative z-10 mt-6 grid grid-cols-1 gap-4 md:gap-5 xl:grid-cols-5">
           <div className="xl:col-span-3 rounded-2xl border border-blue-200 bg-white p-4">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
               <p className="text-sm font-bold text-slate-900">ATS Prompt Editor</p>
@@ -222,7 +222,7 @@ export default function ResumeLaunchpadSection() {
               value={promptText}
               onChange={(e) => setPromptText(e.target.value)}
               spellCheck={false}
-              className="h-72 w-full resize-y rounded-xl border border-blue-200 bg-slate-950 p-3 font-mono text-xs leading-relaxed text-slate-200 outline-none focus:border-blue-400"
+              className="h-60 sm:h-72 w-full resize-y rounded-xl border border-blue-200 bg-slate-950 p-3 font-mono text-xs leading-relaxed text-slate-200 outline-none focus:border-blue-400"
             />
           </div>
 

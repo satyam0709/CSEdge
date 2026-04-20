@@ -8,20 +8,20 @@ const CoursesSection = () => {
   const { allCourses } = useContext(AppContext)
 
   return (
-    <div className='section-shell py-16 px-6 md:px-10'>
+    <div className='section-shell py-10 md:py-16 px-4 sm:px-6 md:px-10'>
       {/* Course search — lives with the catalog, not the hero */}
-      <div className='flex flex-col items-center mb-10'>
+      <div className='flex flex-col items-center mb-7 md:mb-10'>
         <p className='section-accent mb-3'>Find a course</p>
         <SearchBar />
       </div>
 
       {/* Heading — centered */}
-      <h2 className='text-3xl md:text-4xl font-bold text-slate-900 text-center'>
+      <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 text-center'>
         Some Best Suggested Courses
       </h2>
 
       {/* Sub-description — centered */}
-      <p className='text-sm md:text-base text-slate-500 mt-3 text-center max-w-2xl mx-auto leading-relaxed'>
+      <p className='text-sm md:text-base text-slate-500 mt-2.5 md:mt-3 text-center max-w-2xl mx-auto leading-relaxed'>
         Explore our top recommended courses designed to enhance your skills and
         knowledge. Whether you're looking to advance your career or learn
         something new, these courses offer valuable insights and practical
@@ -29,7 +29,7 @@ const CoursesSection = () => {
       </p>
 
       {/* ─── Course Cards sit BETWEEN heading and button ─── */}
-      <div className='mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+      <div className='mt-7 md:mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6'>
         {allCourses.length > 0
           ? allCourses.slice(0, 3).map((course, index) => (
               <div key={course._id || index} className='stagger-card' style={{ '--d': `${index * 80}ms` }}>

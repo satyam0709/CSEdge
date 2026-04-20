@@ -81,17 +81,17 @@ const Navbar = () => {
 
       </div>
 
-      <div className='flex items-center gap-2 sm:gap-3 md:hidden'>
+      <div className='flex items-center gap-2 sm:gap-3 md:hidden min-w-0'>
 
         {user ? (
           <>
-            <nav className='flex items-center gap-1.5 text-xs text-gray-600 mr-1 overflow-x-auto max-w-[66vw] no-scrollbar' aria-label='Account'>
+            <nav className='flex items-center gap-1.5 text-[11px] text-gray-600 mr-1 overflow-x-auto max-w-[62vw] no-scrollbar' aria-label='Account'>
               {showHomeButton && (
                 <Link to='/' className='whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1 font-medium text-slate-700 hover:border-blue-300 hover:text-blue-700 transition'>
                   Home
                 </Link>
               )}
-              <Link to='/my-enrollments' className='whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1 text-slate-700 hover:border-blue-300 hover:text-blue-700 transition'>My Enrollments</Link>
+              <Link to='/my-enrollments' className='whitespace-nowrap rounded-full border border-slate-200 bg-white px-2 py-1 text-slate-700 hover:border-blue-300 hover:text-blue-700 transition'>Enrollments</Link>
               <Link to='/study-share' className='whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1 text-slate-700 hover:border-blue-300 hover:text-blue-700 transition'>Study hub</Link>
               {isEducator ? (
                 <Link to='/educator' className='whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1 text-slate-700 hover:border-blue-300 hover:text-blue-700 transition'>Educator</Link>

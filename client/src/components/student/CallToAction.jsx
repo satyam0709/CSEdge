@@ -6,7 +6,7 @@ const CallToAction = () => {
   const navigate = useNavigate()
 
   return (
-    <div className='w-full max-w-7xl mx-auto rounded-3xl border border-blue-200/70 bg-gradient-to-br from-blue-50 via-white to-indigo-50 text-slate-900 px-6 md:px-12 py-14 md:py-16 my-10 shadow-[0_18px_45px_rgba(37,99,235,0.15)] relative overflow-hidden'>
+    <div className='w-full max-w-7xl mx-auto rounded-3xl border border-blue-200/70 bg-gradient-to-br from-blue-50 via-white to-indigo-50 text-slate-900 px-4 sm:px-6 md:px-12 py-10 md:py-16 my-8 md:my-10 shadow-[0_18px_45px_rgba(37,99,235,0.15)] relative overflow-hidden'>
       <style>{`
         @keyframes cta-float-a {
           0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.45; }
@@ -34,24 +34,24 @@ const CallToAction = () => {
         style={{ animation: 'cta-shimmer 5.5s ease-in-out infinite' }}
       />
       <div className='flex flex-col items-center space-y-7 text-center gap-3'>
-        <h1 className='md:text-big text-small relative font-extrabold max-w-3xl text-4xl md:text-5xl mx-auto leading-tight'>
+        <h1 className='md:text-big text-small relative font-extrabold max-w-3xl text-2xl sm:text-3xl md:text-5xl mx-auto leading-tight'>
           Ready to Elevate Your Learning Journey?
         </h1>
-        <p className='text-slate-600 max-w-xl mx-auto text-lg md:text-xl leading-relaxed'>
+        <p className='text-slate-600 max-w-xl mx-auto text-sm sm:text-base md:text-xl leading-relaxed'>
           Join us today and unlock your potential with expert-led courses, guided practice tracks, and placement-focused resources.
         </p>
-        <div className='flex flex-wrap items-center justify-center gap-4 mt-4 font-medium text-base'>
+        <div className='flex flex-wrap items-center justify-center gap-3 mt-3 md:mt-4 font-medium text-sm sm:text-base'>
           <button
             type='button'
             onClick={() => navigate('/course-list')}
-            className='btn-base btn-primary px-8 py-3'
+            className='btn-base btn-primary px-6 sm:px-8 py-2.5 sm:py-3'
           >
             Get started
           </button>
           <button
             type='button'
             onClick={() => navigate('/dashboard')}
-            className='btn-base rounded-full border border-blue-200 bg-white px-7 py-3 text-blue-700 hover:bg-blue-50'
+            className='btn-base rounded-full border border-blue-200 bg-white px-6 sm:px-7 py-2.5 sm:py-3 text-blue-700 hover:bg-blue-50'
           >
             Learn More <img src={assets.arrow_icon} alt='arrow icon' />
           </button>

@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className='w-full mt-10 md:mt-14'>
       <div className='ui-section-wrap'>
         <div className='bg-slate-950 text-left rounded-3xl overflow-hidden border border-slate-800 shadow-[0_18px_45px_rgba(2,6,23,0.45)]'>
-      <div className='flex flex-col md:flex-row items-start px-6 sm:px-8 md:px-10 lg:px-12 justify-between gap-10 md:gap-16 py-12 border-b border-white/15'>
+      <div className='flex flex-col md:flex-row items-start px-5 sm:px-8 md:px-10 lg:px-12 justify-between gap-8 md:gap-16 py-9 md:py-12 border-b border-white/15'>
 
         {/* Logo + Text Section */}
         <div className='flex flex-col md:items-start text-center w-full max-w-md'>
@@ -22,7 +22,7 @@ const Footer = () => {
           <h2 className='font-semibold text-white mb-5 tracking-wide'>
             Company
           </h2>
-          <ul className='grid grid-cols-2 gap-x-8 gap-y-2 md:flex md:flex-col w-full text-sm text-white/80 md:space-y-2'>
+          <ul className='grid grid-cols-2 gap-x-6 gap-y-2 md:flex md:flex-col w-full text-sm text-white/80 md:space-y-2'>
             <li><Link to='/' className='hover:text-white transition'>Home</Link></li>
             <li><Link to='/course-list' className='hover:text-white transition'>Courses</Link></li>
             <li><Link to='/practice/dsa' className='hover:text-white transition'>DSA Practice</Link></li>

@@ -76,17 +76,17 @@ export default function JobApplyHubSection() {
   }, [lastRefresh, now]);
 
   return (
-    <section className="ui-section-wrap py-10 md:py-12">
-      <div className="relative overflow-hidden rounded-3xl border border-blue-200/70 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-8 sm:px-6 md:px-8 shadow-[0_18px_45px_rgba(37,99,235,0.15)]">
+    <section className="ui-section-wrap py-8 md:py-12">
+      <div className="relative overflow-hidden rounded-3xl border border-blue-200/70 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-3 py-6 sm:px-6 md:px-8 shadow-[0_18px_45px_rgba(37,99,235,0.15)]">
         <div className="pointer-events-none absolute -top-14 right-0 h-56 w-56 rounded-full bg-blue-300/25 blur-3xl animate-float-soft" />
         <div className="pointer-events-none absolute -bottom-16 left-0 h-60 w-60 rounded-full bg-indigo-300/20 blur-3xl animate-float-soft" />
 
         <div className="relative z-10 flex justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-extrabold text-slate-900 md:text-4xl">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 md:text-4xl">
               Apply to Jobs on Top Platforms
             </h2>
-            <p className="mt-2 max-w-3xl text-sm text-slate-600 md:text-base mx-auto">
+            <p className="mt-2 max-w-3xl text-xs sm:text-sm text-slate-600 md:text-base mx-auto">
               Open curated platforms instantly and start applying to software
               roles. Blue-themed, animated, and optimized for phone/tablet/laptop.
             </p>

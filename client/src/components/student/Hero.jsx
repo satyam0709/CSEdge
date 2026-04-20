@@ -63,7 +63,7 @@ const Hero = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center w-full md:pt-32 pt-20 px-6 md:px-0 space-y-7 text-center relative overflow-hidden"
+      className="flex flex-col items-center justify-center w-full md:pt-32 pt-16 px-4 sm:px-6 md:px-0 space-y-6 md:space-y-7 text-center relative overflow-hidden"
       onMouseMove={handleMove}
       onMouseLeave={() => setPointer({ x: 0, y: 0 })}
     >
@@ -107,7 +107,7 @@ const Hero = () => {
           onClick={() => navigate('/contests')}
           title={`${p.name} — View contests & POTD`}
           className={`
-            absolute ${p.animation}
+            absolute ${p.animation} hidden lg:flex
             flex flex-col items-center justify-center gap-1.5
             w-20 h-20 cursor-pointer rounded-2xl border-2
             ${p.bg} ${p.border} shadow-lg ${p.shadow}
@@ -142,7 +142,7 @@ const Hero = () => {
       ))}
 
       {/* ── Main heading ─────────────────────────────────────────────────── */}
-      <h1 className="md:text-big text-small relative font-extrabold text-gray-900 max-w-4xl text-5xl md:text-6xl mx-auto leading-tight">
+      <h1 className="relative font-extrabold text-gray-900 max-w-4xl text-3xl sm:text-4xl md:text-6xl mx-auto leading-tight">
         Build Skills Faster.
         <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600">
           Prepare with Confidence. Get Placement Ready.
@@ -154,7 +154,7 @@ const Hero = () => {
         />
       </h1>
 
-      <p className="text-slate-600 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
+      <p className="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg md:text-xl leading-relaxed px-1">
         One focused workspace for coding practice, mock interviews, guided courses, and real placement preparation.
       </p>
 

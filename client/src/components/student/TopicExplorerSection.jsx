@@ -141,17 +141,17 @@ export default function TopicExplorerSection() {
   const hasMore = !showAll && !search && activeTab === 'all' && filtered.length > 42;
 
   return (
-    <section className="ui-section-wrap py-10 md:py-14">
-      <div className="ui-soft-card overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800 px-4 py-10 sm:px-6 md:px-8">
+    <section className="ui-section-wrap py-8 md:py-14">
+      <div className="ui-soft-card overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800 px-3 py-8 sm:px-6 md:px-8">
 
         {/* ── Header ──────────────────────────────────────────────────── */}
         <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl font-black text-black tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight leading-tight">
             Practice by Topic On LeetCode
             </h1>
 
           {/* Stats bar */}
-          <div className="flex flex-wrap items-center justify-center gap-6 mt-6 text-sm">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mt-5 text-xs sm:text-sm">
             <span className="text-slate-300"><span className="text-white font-bold">{ALL_TOPICS.length}</span> topics</span>
             <span className="text-slate-500">·</span>
             <span className="text-slate-300"><span className="text-white font-bold">{ALL_TOPICS.reduce((a, t) => a + t.count, 0).toLocaleString()}+</span> problems</span>
@@ -168,8 +168,8 @@ export default function TopicExplorerSection() {
         </div>
 
         {/* ── Search + filter row ──────────────────────────────────────── */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-8">
-          <div className="relative flex-1 max-w-md">
+        <div className="flex flex-col sm:flex-row gap-3 mb-6 md:mb-8">
+          <div className="relative flex-1 sm:max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
@@ -190,13 +190,13 @@ export default function TopicExplorerSection() {
           </div>
 
           {/* Category tabs */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
             {FILTER_TABS.map(tab => (
               <button
                 key={tab.id}
                 type="button"
                 onClick={() => { setActiveTab(tab.id); setShowAll(false); }}
-                className={`rounded-lg px-3 py-2 text-xs font-bold transition whitespace-nowrap ${
+                className={`rounded-lg px-3 py-2 text-xs font-bold transition whitespace-nowrap shrink-0 ${
                   activeTab === tab.id
                     ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30'
                     : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white border border-slate-600'
@@ -215,7 +215,7 @@ export default function TopicExplorerSection() {
             <p className="font-medium">No topics match "{search}"</p>
           </div>
         ) : (
-          <div className="flex flex-wrap gap-2.5">
+          <div className="flex flex-wrap gap-2">
             {visible.map(topic => {
               const s = TIER_STYLE[topic.tier];
               return (
@@ -224,7 +224,7 @@ export default function TopicExplorerSection() {
                   href={lcUrl(topic.slug)}
                   target="_blank"
                   rel="noopener noreferrer"
-                className={`group inline-flex items-center gap-2 rounded-xl border px-3.5 py-2 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-400 ${s.bg} ${s.text}`}
+                className={`group inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-400 ${s.bg} ${s.text}`}
                 >
                   <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${s.dot}`} />
                   <span>{topic.name}</span>
@@ -263,7 +263,7 @@ export default function TopicExplorerSection() {
         )}
 
         {/* ── Legend ───────────────────────────────────────────────────── */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <div className="mt-8 md:mt-10 flex flex-wrap items-center justify-center gap-2.5 sm:gap-4">
           {Object.entries(TIER_LABELS).map(([tier, { label, icon }]) => {
             const s = TIER_STYLE[Number(tier)];
             return (

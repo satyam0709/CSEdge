@@ -61,7 +61,7 @@ export default function WeeklySprintSection() {
 
   return (
     <section className="ui-section-wrap py-6 md:py-8">
-      <div className="ui-soft-card ui-hover-lift p-5 md:p-6 text-left">
+      <div className="ui-soft-card ui-hover-lift p-4 sm:p-5 md:p-6 text-left">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Weekly Sprint Arena</h2>
@@ -108,7 +108,7 @@ export default function WeeklySprintSection() {
         ) : null}
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[560px] text-xs sm:text-sm">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
                 <th className="text-left px-3 py-2 font-semibold text-gray-600">Rank</th>
