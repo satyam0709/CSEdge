@@ -146,7 +146,7 @@ export default function TopicExplorerSection() {
 
         {/* ── Header ──────────────────────────────────────────────────── */}
         <div className="text-center mb-10">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-black tracking-tight leading-tight">
             Practice by Topic On LeetCode
             </h1>
 
