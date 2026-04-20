@@ -78,13 +78,14 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <div className="pb-14 px-8 md:px-0">
-      <h2 className="text-3xl font-medium text-gray-800">Testimonials</h2>
-      <p className="md:text-base text-gray-500 mt-3">
+    <div className="section-shell ui-hover-lift pb-10 md:pb-14 px-5 md:px-10 pt-10 md:pt-12 mt-8">
+      <div className="section-accent mb-4">Student Voices</div>
+      <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">Testimonials</h2>
+      <p className="text-sm md:text-base text-slate-500 mt-3">
         Hear from our learners about their experiences with our courses and how <br />
         it has helped them achieve their goals.
       </p>
-      <p className="text-sm text-gray-500 mt-2">
+      <p className="text-sm text-slate-500 mt-2">
         These testimonials are public — anyone who visits this page can read them. You need to sign in to add yours.
       </p>
 
@@ -95,13 +96,14 @@ const TestimonialsSection = () => {
           No testimonials yet. Share your experience below.
         </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-14">
-          {items.map((t) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-7 mt-10 md:mt-14">
+          {items.map((t, index) => {
             const avatarSrc = t.imageUrl?.trim() ? t.imageUrl : assets.user_icon;
             return (
             <div
               key={t._id || t.userId}
-              className="border border-gray-300 rounded-lg p-6 my-6 md:w-2/3 mx-auto overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+              className="stagger-card border border-slate-200 rounded-2xl p-5 md:p-6 my-1 overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-blue-300"
+              style={{ '--d': `${index * 70}ms` }}
             >
               <div className="flex items-center gap-3 mb-4">
                 <img
@@ -145,7 +147,7 @@ const TestimonialsSection = () => {
         <button
           type="button"
           onClick={openModal}
-          className="bg-blue-600 text-white px-6 py-2.5 rounded-full hover:bg-blue-700 transition text-sm font-medium shadow-sm"
+          className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2.5 rounded-full hover:from-blue-700 hover:to-indigo-700 transition text-sm font-medium shadow-md hover:shadow-lg"
         >
           {isSignedIn ? 'Add testimonial' : 'Sign in to add testimonial'}
         </button>

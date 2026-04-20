@@ -141,21 +141,14 @@ export default function TopicExplorerSection() {
   const hasMore = !showAll && !search && activeTab === 'all' && filtered.length > 42;
 
   return (
-    <div className="w-full bg-gradient-to-b from-slate-900 to-slate-800 py-16">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="ui-section-wrap py-10 md:py-14">
+      <div className="ui-soft-card overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800 px-4 py-10 sm:px-6 md:px-8">
 
         {/* ── Header ──────────────────────────────────────────────────── */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 rounded-full bg-orange-500/20 border border-orange-500/30 px-4 py-1.5 text-sm font-semibold text-orange-400 mb-4">
-            <Flame className="w-4 h-4" />
-            LeetCode Topic Explorer
-          </div>
-          <h2 className="text-3xl md:text-4xl font-black text-white">
-            Practice by Topic
-          </h2>
-          <p className="text-slate-400 mt-3 text-base max-w-xl mx-auto">
-            Jump directly to topic-wise problems on LeetCode. Click any topic to open the filtered problem set instantly.
-          </p>
+          <h1 className="text-3xl md:text-4xl font-black text-black tracking-tight leading-tight">
+            Practice by Topic On LeetCode
+            </h1>
 
           {/* Stats bar */}
           <div className="flex flex-wrap items-center justify-center gap-6 mt-6 text-sm">
@@ -183,7 +176,7 @@ export default function TopicExplorerSection() {
               value={search}
               onChange={e => { setSearch(e.target.value); setShowAll(true); }}
               placeholder="Search topics… e.g. Tree, DP, Graph"
-              className="w-full rounded-xl bg-slate-700 border border-slate-600 pl-10 pr-10 py-2.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+              className="w-full rounded-xl bg-slate-700/90 border border-slate-600 pl-10 pr-10 py-2.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
             />
             {search && (
               <button
@@ -231,7 +224,7 @@ export default function TopicExplorerSection() {
                   href={lcUrl(topic.slug)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`group inline-flex items-center gap-2 rounded-xl border px-3.5 py-2 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg ${s.bg} ${s.text}`}
+                className={`group inline-flex items-center gap-2 rounded-xl border px-3.5 py-2 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-400 ${s.bg} ${s.text}`}
                 >
                   <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${s.dot}`} />
                   <span>{topic.name}</span>
@@ -286,6 +279,6 @@ export default function TopicExplorerSection() {
           })}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

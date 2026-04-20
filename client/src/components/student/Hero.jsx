@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Code2, LayoutGrid } from 'lucide-react'
 import { assets } from '../../assets/assets'
 
 const PLATFORMS = [
@@ -53,9 +52,26 @@ const PLATFORMS = [
 
 const Hero = () => {
   const navigate = useNavigate()
+  const [pointer, setPointer] = useState({ x: 0, y: 0 })
+
+  const handleMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 14
+    setPointer({ x, y })
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full md:pt-36 pt-20 px-7 md:px-0 space-y-7 text-center bg-white relative overflow-hidden">
+    <div
+      className="flex flex-col items-center justify-center w-full md:pt-32 pt-20 px-6 md:px-0 space-y-7 text-center relative overflow-hidden"
+      onMouseMove={handleMove}
+      onMouseLeave={() => setPointer({ x: 0, y: 0 })}
+    >
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-blue-50 via-white to-transparent" />
+      <div
+        className="absolute -top-28 left-1/2 w-[42rem] h-[42rem] bg-blue-200/25 blur-3xl rounded-full -z-10 transition-transform duration-300 ease-out"
+        style={{ transform: `translate(calc(-50% + ${pointer.x}px), ${pointer.y}px)` }}
+      />
 
       {/* ── Floating platform boxes ─────────────────────────────────────── */}
       <style>{`
@@ -126,18 +142,20 @@ const Hero = () => {
       ))}
 
       {/* ── Main heading ─────────────────────────────────────────────────── */}
-      <h1 className="md:text-big text-small relative font-bold text-gray-800 max-w-3xl text-5xl mx-auto">
-        Learn Smart.
-        <span className="text-blue-600 text-5xl"> Prepare Right. Succeed Big </span>
+      <h1 className="md:text-big text-small relative font-extrabold text-gray-900 max-w-4xl text-5xl md:text-6xl mx-auto leading-tight">
+        Build Skills Faster.
+        <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600">
+          Prepare with Confidence. Get Placement Ready.
+        </span>
         <img
           src={assets.sketch}
           alt="sketch"
-          className="md:block hidden absolute -bottom-7 right-0"
+          className="md:block hidden absolute -bottom-7 right-0 opacity-80"
         />
       </h1>
 
-      <p className="text-gray-500 max-w-sm mx-auto text-xl">
-        We bring everything together to help you achieve your personal and professional goals.
+      <p className="text-slate-600 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
+        One focused workspace for coding practice, mock interviews, guided courses, and real placement preparation.
       </p>
 
     </div>

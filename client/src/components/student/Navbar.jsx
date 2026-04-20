@@ -1,14 +1,13 @@
 import React, { useContext } from 'react'
 import { assets } from '../../assets/assets'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { useClerk, UserButton, useUser } from '@clerk/clerk-react'
+import { UserButton, useUser } from '@clerk/clerk-react'
 import { AppContext } from '../../context/AppContext'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 
 const Navbar = () => {
   const { user } = useUser()
-  const { signOut } = useClerk()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { isEducator, setIsEducator, backendUrl, getToken } = useContext(AppContext)
@@ -39,30 +38,30 @@ const Navbar = () => {
   }
 
   return (
-    <div className='flex items-center justify-between py-3 px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-200 bg-white sticky top-0 z-50 shadow-sm'>
+    <div className='flex items-center justify-between py-3 px-4 sm:px-8 md:px-12 lg:px-24 border-b border-slate-200/80 bg-white/90 sticky top-0 z-50 shadow-[0_8px_30px_rgba(15,23,42,0.06)] backdrop-blur-lg'>
 
       <div className='flex items-center gap-2 sm:gap-3 min-w-0'>
         <img onClick={() => navigate('/')} src={assets.logo} alt="logo" className='w-28 lg:w-32 cursor-pointer shrink-0' />
         {showHomeButton && (
           <Link
             to='/'
-            className='text-sm font-medium text-gray-600 hover:text-gray-900 border border-gray-200 rounded-full px-3 py-1.5 hover:bg-gray-50 transition whitespace-nowrap shrink-0'
+            className='text-sm font-medium text-slate-600 hover:text-slate-900 border border-slate-200 rounded-full px-3 py-1.5 hover:bg-slate-50 transition whitespace-nowrap shrink-0'
           >
             Home
           </Link>
         )}
       </div>
 
-      <div className='hidden md:flex items-center gap-5 text-gray-500'>
+      <div className='hidden md:flex items-center gap-5 text-slate-500'>
 
         <div className='flex items-center gap-4'>
 
           {user ?
             <div className='flex items-center gap-4'>
 
-              <Link to='/my-enrollments' className='text-gray-500 hover:text-gray-700 transition'>My Enrollments</Link>
+              <Link to='/my-enrollments' className='text-slate-500 hover:text-slate-900 transition font-medium'>My Enrollments</Link>
 
-              <button onClick={isEducator ? () => navigate('/educator') : becomeEducator} className='flex items-center gap-2 border border-gray-500/30 px-3 py-1.5 rounded-full hover:bg-gray-50 transition'>
+              <button onClick={isEducator ? () => navigate('/educator') : becomeEducator} className='flex items-center gap-2 border border-slate-300 px-3 py-1.5 rounded-full hover:bg-slate-50 hover:border-slate-400 transition font-medium'>
 
                 {isEducator ? 'Educator Dashboard' : 'Become Educator'}
                 <img src={assets.user_icon} alt="" className='w-4 h-4' />
@@ -74,7 +73,7 @@ const Navbar = () => {
             </div>
             : (
               <>
-                <button type='button' onClick={() => navigate('/login')} className='bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition'>Login</button>
+                <button type='button' onClick={() => navigate('/login')} className='bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2 rounded-full hover:from-blue-700 hover:to-indigo-700 transition shadow-md hover:shadow-lg'>Login</button>
               </>
             )}
 
@@ -86,34 +85,24 @@ const Navbar = () => {
 
         {user ? (
           <>
-            <nav className='flex items-center gap-2 text-xs text-gray-600 mr-1' aria-label='Account'>
+            <nav className='flex items-center gap-1.5 text-xs text-gray-600 mr-1 overflow-x-auto max-w-[66vw] no-scrollbar' aria-label='Account'>
               {showHomeButton && (
-                <>
-                  <Link to='/' className='whitespace-nowrap hover:text-gray-900 font-medium'>
-                    Home
-                  </Link>
-                  <span className='text-gray-300' aria-hidden>|</span>
-                </>
+                <Link to='/' className='whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1 font-medium text-slate-700 hover:border-blue-300 hover:text-blue-700 transition'>
+                  Home
+                </Link>
               )}
-              <Link to='/my-enrollments' className='whitespace-nowrap hover:text-gray-900'>My Enrollments</Link>
-              <span className='text-gray-300' aria-hidden>|</span>
-              <Link to='/study-share' className='whitespace-nowrap hover:text-gray-900'>Study hub</Link>
+              <Link to='/my-enrollments' className='whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1 text-slate-700 hover:border-blue-300 hover:text-blue-700 transition'>My Enrollments</Link>
+              <Link to='/study-share' className='whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1 text-slate-700 hover:border-blue-300 hover:text-blue-700 transition'>Study hub</Link>
               {isEducator ? (
-                <>
-                  <span className='text-gray-300' aria-hidden>|</span>
-                  <Link to='/educator' className='whitespace-nowrap hover:text-gray-900'>Educator</Link>
-                </>
+                <Link to='/educator' className='whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1 text-slate-700 hover:border-blue-300 hover:text-blue-700 transition'>Educator</Link>
               ) : (
-                <>
-                  <span className='text-gray-300' aria-hidden>|</span>
-                  <button
-                    type='button'
-                    onClick={becomeEducator}
-                    className='whitespace-nowrap hover:text-gray-900 text-left'
-                  >
-                    Become educator
-                  </button>
-                </>
+                <button
+                  type='button'
+                  onClick={becomeEducator}
+                  className='whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1 text-left text-slate-700 hover:border-blue-300 hover:text-blue-700 transition'
+                >
+                  Educator
+                </button>
               )}
             </nav>
             <UserButton />

@@ -49,8 +49,8 @@ export default function WeeklySprintSection() {
 
   if (loading) {
     return (
-      <section className="w-full max-w-6xl px-4 py-8">
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 text-left">
+      <section className="ui-section-wrap py-6 md:py-8">
+        <div className="ui-soft-card p-6 text-left">
           <p className="text-sm text-gray-500">Loading Weekly Sprint leaderboard...</p>
         </div>
       </section>
@@ -60,24 +60,23 @@ export default function WeeklySprintSection() {
   if (!sprint) return null;
 
   return (
-    <section className="w-full max-w-6xl px-4 py-8">
-      <div className="bg-white border border-gray-200 rounded-2xl p-6 text-left shadow-sm">
+    <section className="ui-section-wrap py-6 md:py-8">
+      <div className="ui-soft-card ui-hover-lift p-5 md:p-6 text-left">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Weekly Sprint Arena</h2>
-            <p className="text-sm text-gray-500 mt-1">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Weekly Sprint Arena</h2>
+            <p className="text-sm text-slate-500 mt-1">
               {sprint.title} · Live competition · {sprint.totalParticipants || 0} participants
             </p>
           </div>
-          <span className="px-3 py-1 text-xs font-semibold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
-            Realtime Public Leaderboard
-          </span>
+        
         </div>
-        <div className="mb-4">
+        <div className="mb-4 flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse-soft" />
           <button
             type="button"
             onClick={() => navigate("/arena")}
-            className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700"
+            className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition hover:-translate-y-0.5"
           >
             Open Full Arena
           </button>
@@ -86,8 +85,8 @@ export default function WeeklySprintSection() {
         {sprint.featured?.length ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
             {sprint.featured.slice(0, 3).map((row) => (
-              <div key={row.userId} className="border border-gray-200 rounded-xl p-4 bg-gray-50">
-                <p className="text-xs text-gray-500">Featured Student</p>
+              <div key={row.userId} className="border border-slate-200 rounded-xl p-4 bg-slate-50/80 ui-hover-lift">
+                <p className="text-xs text-slate-500">Featured Student</p>
                 <div className="flex items-center gap-3 mt-2">
                   <img
                     src={row.imageUrl || "https://placehold.co/80x80?text=User"}
