@@ -14,6 +14,7 @@ export const Sidebar = () => {
     // Admin course management (add/edit/delete courses with thumbnails)
     { name: "Manage Courses", path: "/educator/admin-courses", icon: assets.my_course_icon },
     { name: "Admin Analytics", path: "/educator/admin-analytics", icon: assets.home_icon },
+    { name: "1:1 Mentor setup", path: "/educator/mentor-setup", icon: assets.person_tick_icon },
   ];
 
   return (

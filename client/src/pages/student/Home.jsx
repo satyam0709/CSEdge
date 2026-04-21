@@ -11,6 +11,7 @@ import WeeklySprintSection from '../../components/student/WeeklySprintSection'
 import RevealOnScroll from '../../components/student/RevealOnScroll'
 import ResumeLaunchpadSection from '../../components/student/ResumeLaunchpadSection'
 import JobApplyHubSection from '../../components/student/JobApplyHubSection'
+import MentorOneOnOneSection from '../../components/student/MentorOneOnOneSection'
 const Home = () => {
   return (
     <div className="flex flex-col items-center text-center pb-10 md:pb-14">
@@ -32,6 +33,9 @@ const Home = () => {
       </RevealOnScroll>
       <RevealOnScroll className="w-full" delayMs={170}>
         <JobApplyHubSection />
+      </RevealOnScroll>
+      <RevealOnScroll className="w-full" delayMs={185}>
+        <MentorOneOnOneSection />
       </RevealOnScroll>
       <div className="section-divider my-4 md:my-6" />
       <RevealOnScroll className="w-full" delayMs={160}>

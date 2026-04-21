@@ -23,6 +23,7 @@ import AddCourse from "./pages/educator/AddCourse";
 import StudentEnrolled from "./pages/educator/StudentEnrolled";
 import AdminCourses from "./admin/AdminCourses";
 import AdminAnalytics from "./admin/AdminAnalytics";
+import MentorSetup from "./admin/MentorSetup";
 import Player from "./pages/student/Player";
 import ContestPage from "./pages/ContestPage";
 import ContestPotdPromo from "./components/ContestPotdPromo";
@@ -205,6 +206,7 @@ function App() {
           <Route path="students" element={<StudentEnrolled />} />
           <Route path="admin-courses" element={<AdminCourses />} />
           <Route path="admin-analytics" element={<AdminAnalytics />} />
+          <Route path="mentor-setup" element={<MentorSetup />} />
         </Route>
 
         {/* 404 */}

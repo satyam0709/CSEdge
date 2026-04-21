@@ -20,6 +20,11 @@ import {
   listWeeklySprintsAdmin,
 } from "../controllers/sprintController.js";
 import {
+  getMentorSettingsAdmin,
+  putMentorSettingsAdmin,
+  listMentorSessionRequestsAdmin,
+} from "../controllers/mentorController.js";
+import {
   createCourse,
   getAllCoursesAdmin,
   updateCourse,
@@ -67,5 +72,10 @@ router.get("/analytics/readiness-leaderboard/export.csv", exportReadinessLeaderb
 router.post("/sprints", createWeeklySprint);
 router.get("/sprints", listWeeklySprintsAdmin);
 router.put("/sprints/:id", updateWeeklySprint);
+
+// Free 1:1 career mentor (settings + inbound requests)
+router.get("/mentor-settings", getMentorSettingsAdmin);
+router.put("/mentor-settings", putMentorSettingsAdmin);
+router.get("/mentor-session-requests", listMentorSessionRequestsAdmin);
 
 export default router;
