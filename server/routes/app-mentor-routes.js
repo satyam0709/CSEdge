@@ -6,6 +6,7 @@ import {
 
 const router = express.Router();
 
+// Public/student-facing endpoints
 router.get("/info", getMentorPublicInfo);
 router.post("/session-request", postMentorSessionRequest);
 

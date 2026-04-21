@@ -10,16 +10,12 @@ const mentorSessionRequestSchema = new mongoose.Schema(
       type: String,
       enum: ["pending", "seen", "resolved"],
       default: "pending",
-      index: true,
     },
   },
   { timestamps: true }
 );
 
 mentorSessionRequestSchema.index({ createdAt: -1 });
+mentorSessionRequestSchema.index({ status: 1, createdAt: -1 });
 
-const MentorSessionRequest = mongoose.model(
-  "MentorSessionRequest",
-  mentorSessionRequestSchema
-);
-export default MentorSessionRequest;
+export default mongoose.model("MentorSessionRequest", mentorSessionRequestSchema);

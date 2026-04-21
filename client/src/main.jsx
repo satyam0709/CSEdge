@@ -13,6 +13,21 @@ if (!PUBLISHABLE_KEY) {
   throw new Error('Missing Publishable Key')
 }
 
+/**
+ * Clerk dev instance is configured for localhost:5173.
+ * If the app opens on another local Vite fallback port (e.g. 5174),
+ * force redirect to 5173 so Clerk CORS/cookie handshake works.
+ */
+function normalizeLocalDevPort() {
+  if (typeof window === 'undefined') return
+  const { protocol, hostname, port, pathname, search, hash } = window.location
+  const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1'
+  if (!isLocalhost) return
+  if (port === '5173' || port === '') return
+  const target = `${protocol}//${hostname}:5173${pathname}${search}${hash}`
+  window.location.replace(target)
+}
+
 /** True only for browser hard refresh (F5 / reload button), not first visit or SPA. */
 function isHardReload() {
   if (typeof window === 'undefined') return false
@@ -46,6 +61,7 @@ function shouldPlayCoinSplash() {
 }
 
 function Root() {
+  normalizeLocalDevPort()
   const [splashDone, setSplashDone] = useState(() => !shouldPlayCoinSplash())
 
   return (

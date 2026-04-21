@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useUser } from "@clerk/clerk-react";
 import {
   Video,
@@ -7,17 +7,26 @@ import {
   Sparkles,
   Loader2,
   ExternalLink,
+  RefreshCw,
+  Radio,
 } from "lucide-react";
 import axios from "../../utils/axios";
 import { toast } from "react-toastify";
 
+const POLL_INTERVAL_MS = 30_000;
+
 export default function MentorOneOnOneSection() {
   const { user, isLoaded } = useUser();
+
   const [info, setInfo] = useState({
     googleMeetLink: "",
     availabilityText: "",
+    isLive: false,
+    updatedAt: null,
   });
   const [loadingInfo, setLoadingInfo] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [secondsUntilRefresh, setSecondsUntilRefresh] = useState(POLL_INTERVAL_MS / 1000);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     fromName: "",
@@ -26,27 +35,50 @@ export default function MentorOneOnOneSection() {
     message: "",
   });
 
-  const loadInfo = useCallback(async () => {
-    setLoadingInfo(true);
+  const intervalRef = useRef(null);
+  const countdownRef = useRef(null);
+
+  const fetchInfo = useCallback(async (silent = false) => {
+    if (!silent) setRefreshing(true);
     try {
       const { data } = await axios.get("/api/mentor/info");
       if (data?.success) {
         setInfo({
           googleMeetLink: data.googleMeetLink || "",
           availabilityText: data.availabilityText || "",
+          isLive: data.isLive ?? false,
+          updatedAt: data.updatedAt || null,
         });
       }
     } catch {
-      toast.error("Could not load mentor session details.");
+      if (!silent) toast.error("Could not refresh mentor info.");
     } finally {
       setLoadingInfo(false);
+      if (!silent) setRefreshing(false);
+      setSecondsUntilRefresh(POLL_INTERVAL_MS / 1000);
     }
   }, []);
 
+  // Initial load
   useEffect(() => {
-    loadInfo();
-  }, [loadInfo]);
+    fetchInfo(false);
+  }, [fetchInfo]);
 
+  // Auto-poll every 30s
+  useEffect(() => {
+    intervalRef.current = setInterval(() => fetchInfo(true), POLL_INTERVAL_MS);
+    return () => clearInterval(intervalRef.current);
+  }, [fetchInfo]);
+
+  // Countdown ticker
+  useEffect(() => {
+    countdownRef.current = setInterval(() => {
+      setSecondsUntilRefresh((s) => (s <= 1 ? POLL_INTERVAL_MS / 1000 : s - 1));
+    }, 1000);
+    return () => clearInterval(countdownRef.current);
+  }, []);
+
+  // Pre-fill form from Clerk user
   useEffect(() => {
     if (!isLoaded || !user) return;
     const email =
@@ -76,26 +108,25 @@ export default function MentorOneOnOneSection() {
         toast.error(data?.message || "Something went wrong.");
       }
     } catch (err) {
-      const msg =
-        err?.response?.data?.message ||
-        err?.message ||
-        "Could not send request.";
-      toast.error(msg);
+      toast.error(
+        err?.response?.data?.message || err?.message || "Could not send request."
+      );
     } finally {
       setSubmitting(false);
     }
   };
 
   const meetReady =
-    info.googleMeetLink &&
-    /^https:\/\//i.test(info.googleMeetLink.trim());
+    info.googleMeetLink && /^https:\/\//i.test(info.googleMeetLink.trim());
 
   return (
     <section className="ui-section-wrap py-8 md:py-12">
       <div className="relative overflow-hidden rounded-3xl border border-emerald-200/70 bg-gradient-to-br from-emerald-50/90 via-white to-teal-50/80 px-3 py-6 sm:px-6 md:px-8 shadow-[0_18px_45px_rgba(16,185,129,0.12)]">
+        {/* Background blobs */}
         <div className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-emerald-200/30 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -left-12 h-48 w-48 rounded-full bg-teal-200/25 blur-3xl" />
 
+        {/* Header */}
         <div className="relative text-center max-w-3xl mx-auto mb-8 md:mb-10">
           <div className="inline-flex items-center gap-2 mb-3 rounded-full bg-white/90 px-4 py-1.5 text-sm font-semibold text-emerald-800 ring-1 ring-emerald-200/80 shadow-sm">
             <Sparkles className="w-4 h-4 text-emerald-600" />
@@ -105,29 +136,61 @@ export default function MentorOneOnOneSection() {
             Talk to a company-side mentor
           </h2>
           <p className="mt-2 text-slate-600 text-sm sm:text-base leading-relaxed">
-            Book-style help for placements: resume, interviews, roadmap, or
-            anything blocking you. Join the live Meet when it is open, check
-            mentor hours, or send a message — the mentor gets notified on their
-            inbox when email is configured on the server.
+            Get help with resume, interviews, roadmap, or anything blocking you.
+            Join the live session when it's open, check mentor hours, or send a
+            message.
           </p>
+
+          {/* Live status badge + refresh */}
+          <div className="mt-4 flex items-center justify-center gap-3 flex-wrap">
+            {loadingInfo ? (
+              <span className="inline-flex items-center gap-1.5 text-xs text-slate-400">
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                Checking status…
+              </span>
+            ) : info.isLive ? (
+              <span className="inline-flex items-center gap-2 rounded-full bg-emerald-500 px-3.5 py-1 text-xs font-bold text-white shadow-md animate-pulse-soft">
+                <Radio className="h-3.5 w-3.5" />
+                Session is live now — join!
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-500 font-medium">
+                <span className="h-2 w-2 rounded-full bg-slate-400 inline-block" />
+                Session offline
+              </span>
+            )}
+
+            <button
+              onClick={() => fetchInfo(false)}
+              disabled={refreshing}
+              className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-emerald-600 transition-colors disabled:opacity-50"
+              title="Refresh now"
+            >
+              <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin" : ""}`} />
+              {refreshing ? "Refreshing…" : `Refreshes in ${secondsUntilRefresh}s`}
+            </button>
+          </div>
         </div>
 
+        {/* Grid */}
         <div className="relative grid gap-5 lg:grid-cols-2 lg:gap-6">
           <div className="space-y-5">
+            {/* Meet link card */}
             <div
               className="stagger-card rounded-2xl border border-white/80 bg-white/95 p-5 shadow-sm backdrop-blur text-left"
               style={{ "--d": "0ms" }}
             >
               <div className="flex items-start gap-3">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-colors ${info.isLive ? "bg-emerald-500 text-white" : "bg-emerald-100 text-emerald-700"}`}>
                   <Video className="h-6 w-6" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <h3 className="font-bold text-slate-900">Live session link</h3>
                   <p className="mt-1 text-sm text-slate-600 leading-relaxed">
-                    Your mentor publishes the current Google Meet here. Open it
-                    when it matches the hours on the right.
+                    Your mentor publishes the current Google Meet here. The
+                    green badge above tells you when they're live.
                   </p>
+
                   {loadingInfo ? (
                     <div className="mt-4 flex items-center gap-2 text-sm text-slate-500">
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -138,21 +201,34 @@ export default function MentorOneOnOneSection() {
                       href={info.googleMeetLink.trim()}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-4 inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-emerald-700 hover:shadow-lg"
+                      className={`mt-4 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:shadow-lg ${
+                        info.isLive
+                          ? "bg-emerald-500 hover:bg-emerald-600 ring-2 ring-emerald-300/60 ring-offset-1"
+                          : "bg-slate-600 hover:bg-slate-700"
+                      }`}
                     >
-                      Join Google Meet
-                      <ExternalLink className="h-4 w-4 opacity-90" />
+                      {info.isLive ? (
+                        <>
+                          <span className="h-2 w-2 rounded-full bg-white animate-ping inline-block" />
+                          Join Live Session
+                        </>
+                      ) : (
+                        <>
+                          Join Google Meet
+                          <ExternalLink className="h-4 w-4 opacity-90" />
+                        </>
+                      )}
                     </a>
                   ) : (
                     <p className="mt-4 text-sm text-amber-800 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2">
-                      Meet link not set yet. Ask your mentor to add it in
-                      Educator → 1:1 Mentor setup.
+                      Meet link not set yet. Ask your mentor to configure it.
                     </p>
                   )}
                 </div>
               </div>
             </div>
 
+            {/* Availability card */}
             <div
               className="stagger-card rounded-2xl border border-white/80 bg-white/95 p-5 shadow-sm backdrop-blur text-left"
               style={{ "--d": "70ms" }}
@@ -162,9 +238,7 @@ export default function MentorOneOnOneSection() {
                   <CalendarClock className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900">
-                    When the mentor is available
-                  </h3>
+                  <h3 className="font-bold text-slate-900">When the mentor is available</h3>
                   {loadingInfo ? (
                     <div className="mt-3 flex items-center gap-2 text-sm text-slate-500">
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -172,8 +246,7 @@ export default function MentorOneOnOneSection() {
                     </div>
                   ) : (
                     <p className="mt-2 text-sm text-slate-600 whitespace-pre-wrap leading-relaxed">
-                      {info.availabilityText ||
-                        "Hours will appear here once your mentor publishes them."}
+                      {info.availabilityText || "Hours will appear here once your mentor publishes them."}
                     </p>
                   )}
                 </div>
@@ -181,6 +254,7 @@ export default function MentorOneOnOneSection() {
             </div>
           </div>
 
+          {/* Request form */}
           <form
             onSubmit={onSubmit}
             className="stagger-card flex flex-col rounded-2xl border border-white/80 bg-white/95 p-5 sm:p-6 shadow-sm backdrop-blur text-left"
@@ -191,9 +265,8 @@ export default function MentorOneOnOneSection() {
               Request a 1:1 (email to mentor)
             </h3>
             <p className="mt-1 text-sm text-slate-600 leading-relaxed">
-              Describe your career question. The mentor receives an email when
-              SMTP is configured; every request is also listed in the educator
-              dashboard.
+              Describe your career question. The mentor will receive an email
+              notification and can reply directly.
             </p>
 
             <label className="mt-4 block text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -202,9 +275,7 @@ export default function MentorOneOnOneSection() {
                 required
                 minLength={2}
                 value={form.fromName}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, fromName: e.target.value }))
-                }
+                onChange={(e) => setForm((f) => ({ ...f, fromName: e.target.value }))}
                 className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
                 placeholder="e.g. Priya Sharma"
               />
@@ -216,9 +287,7 @@ export default function MentorOneOnOneSection() {
                 required
                 type="email"
                 value={form.fromEmail}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, fromEmail: e.target.value }))
-                }
+                onChange={(e) => setForm((f) => ({ ...f, fromEmail: e.target.value }))}
                 className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
                 placeholder="you@example.com"
               />
@@ -230,9 +299,7 @@ export default function MentorOneOnOneSection() {
                 required
                 minLength={3}
                 value={form.topic}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, topic: e.target.value }))
-                }
+                onChange={(e) => setForm((f) => ({ ...f, topic: e.target.value }))}
                 className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
                 placeholder="e.g. Final-year internship strategy"
               />
@@ -245,9 +312,7 @@ export default function MentorOneOnOneSection() {
                 minLength={10}
                 rows={5}
                 value={form.message}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, message: e.target.value }))
-                }
+                onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
                 className="mt-1.5 w-full resize-y rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
                 placeholder="Context, timeline, and what you have already tried…"
               />
