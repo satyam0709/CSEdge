@@ -1,7 +1,49 @@
 // src/components/student/PracticeSection.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Brain, Code2, Laptop, Building2, ArrowRight, BarChart3, BookOpen, Trophy, Mic, FileUser, Database } from 'lucide-react';
+import {
+  Brain,
+  Code2,
+  Laptop,
+  Building2,
+  ArrowRight,
+  BarChart3,
+  BookOpen,
+  Trophy,
+  Mic,
+  FileUser,
+  Database,
+  Medal,
+  ListChecks,
+  Library,
+  FileText,
+  LayoutGrid,
+  ExternalLink,
+} from 'lucide-react';
+
+const CpResourceCard = ({ item, index }) => (
+  <a
+    href={item.href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className={`stagger-card block p-4 sm:p-5 md:p-6 rounded-2xl border border-slate-100 shadow-sm cursor-pointer transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-xl ${item.border} group bg-white/95 backdrop-blur no-underline`}
+    style={{ '--d': `${index * 70}ms` }}
+  >
+    <div
+      className={`w-14 h-14 rounded-xl ${item.color} flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110`}
+    >
+      {item.icon}
+    </div>
+    <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-violet-600 transition-colors">
+      {item.title}
+    </h3>
+    <p className="text-sm text-gray-500 mb-4 leading-relaxed">{item.desc}</p>
+    <div className="flex items-center font-semibold text-gray-700 text-sm group-hover:text-violet-600">
+      Open resource
+      <ExternalLink className="w-4 h-4 ml-2 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+    </div>
+  </a>
+);
 
 const Card = ({ item, navigate, index }) => (
   <div
@@ -109,6 +151,45 @@ const PracticeSection = () => {
     },
   ];
 
+  const cpResources = [
+    {
+      id: 'cses',
+      title: 'CSES Problem Set',
+      desc: 'Classic tasks from intro to advanced — build speed, patterns, and contest stamina.',
+      href: 'https://cses.fi/problemset/',
+      icon: <ListChecks className="w-8 h-8 text-violet-600" />,
+      color: 'bg-violet-50',
+      border: 'hover:border-violet-500',
+    },
+    {
+      id: 'cp-algorithms',
+      title: 'CP-Algorithms',
+      desc: 'Clear write-ups on DS, graphs, strings, math, and more — your free reference library.',
+      href: 'https://cp-algorithms.com/',
+      icon: <Library className="w-8 h-8 text-indigo-600" />,
+      color: 'bg-indigo-50',
+      border: 'hover:border-indigo-500',
+    },
+    {
+      id: 'handbook',
+      title: 'Competitive Programmer’s Handbook',
+      desc: 'Antti Laaksonen’s book (PDF) — structured theory from basics to harder topics.',
+      href: 'https://cses.fi/book/book.pdf',
+      icon: <FileText className="w-8 h-8 text-fuchsia-600" />,
+      color: 'bg-fuchsia-50',
+      border: 'hover:border-fuchsia-500',
+    },
+    {
+      id: 'tle-sheet',
+      title: 'TLE Eliminators CP Sheet',
+      desc: 'A curated roadmap of problems — stay consistent and level up with a guided checklist.',
+      href: 'https://www.tle-eliminators.com/cp-sheet',
+      icon: <LayoutGrid className="w-8 h-8 text-sky-600" />,
+      color: 'bg-sky-50',
+      border: 'hover:border-sky-500',
+    },
+  ];
+
   return (
     <>
       {/* ── Practice Arena ───────────────────────────────────────────── */}
@@ -135,6 +216,30 @@ const PracticeSection = () => {
               View Your Dashboard
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Competitive programming resources ─────────────────────────── */}
+      <div className="py-10 md:py-16 bg-gradient-to-b from-slate-50/90 via-white/50 to-transparent border-t border-slate-200/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8 md:mb-12">
+            <div className="inline-flex items-center gap-2 mb-3 rounded-full bg-violet-50 px-4 py-1.5 text-sm font-semibold text-violet-700 ring-1 ring-violet-200/80">
+              <Medal className="w-4 h-4" />
+              For competitive programmers
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900">
+              Reading &amp; practice beyond the arena
+            </h2>
+            <p className="text-slate-500 mt-2 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+              Trusted problem banks, algorithms wiki, the classic handbook PDF, and a guided sheet — same polish as the rest of your journey, all in one place.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {cpResources.map((item, index) => (
+              <CpResourceCard key={item.id} item={item} index={index} />
+            ))}
           </div>
         </div>
       </div>
