@@ -79,32 +79,53 @@
   z-index: -1;
   filter: blur(14px);
   opacity: 0.75;
+  /* Let the glow breathe */
+  animation: glowPulse 4s ease-in-out infinite;
 }
 
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.6; filter: blur(14px); }
+  50%       { opacity: 0.95; filter: blur(18px); }
+}
+
+/* Float: uses a spring-like custom cubic so it eases in at both ends with a
+   slight hesitation at the peak — more natural than pure ease-in-out */
 @keyframes float-soft {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+  0%   { transform: translateY(0px) rotate(0deg); }
+  30%  { transform: translateY(-4px) rotate(0.4deg); }
+  50%  { transform: translateY(-7px) rotate(0deg); }
+  70%  { transform: translateY(-4px) rotate(-0.4deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
 }
 
+/* Pulse: asymmetric — fades in faster than it fades out */
 @keyframes pulse-soft {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 0.95; }
+  0%   { opacity: 0.45; transform: scale(1); }
+  40%  { opacity: 1;    transform: scale(1.03); }
+  100% { opacity: 0.45; transform: scale(1); }
+}
+
+/* Shimmer: left-to-right highlight sweep — apply to any element */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
 
 .animate-float-soft {
-  animation: float-soft 5.5s ease-in-out infinite;
+  animation: float-soft 5.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 .animate-pulse-soft {
-  animation: pulse-soft 3.8s ease-in-out infinite;
+  animation: pulse-soft 3.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* Reveal: faster out of the gate, springy settle */
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(22px) scale(0.99);
+  transform: translateY(28px) scale(0.97);
   transition:
-    opacity 560ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 580ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 580ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
 }
 
@@ -145,10 +166,11 @@
   background: #f8fafc;
 }
 
+/* Card enter: slight Y-lift + scale up, springy easing */
 @keyframes card-enter {
   from {
     opacity: 0;
-    transform: translateY(14px) scale(0.985);
+    transform: translateY(18px) scale(0.97);
   }
   to {
     opacity: 1;
@@ -158,7 +180,7 @@
 
 .stagger-card {
   opacity: 0;
-  animation: card-enter 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: card-enter 540ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: var(--d, 0ms);
 }
 
@@ -171,7 +193,7 @@
   scrollbar-width: none;
 }
 
-/* Global interaction smoothing across site */
+/* Global interaction smoothing */
 a,
 button,
 input,
@@ -197,15 +219,15 @@ select:focus-visible {
   outline-offset: 2px;
 }
 
-/* Motion calibration: mobile = lighter, desktop = richer */
+/* Mobile: lighter motion */
 @media (max-width: 767px) {
   .reveal-on-scroll {
-    transform: translateY(12px) scale(0.995);
-    transition-duration: 360ms;
+    transform: translateY(14px) scale(0.99);
+    transition-duration: 380ms;
   }
 
   .stagger-card {
-    animation-duration: 360ms;
+    animation-duration: 380ms;
   }
 
   .ui-hover-lift:hover {
@@ -218,18 +240,19 @@ select:focus-visible {
   }
 
   .animate-pulse-soft {
-    animation-duration: 4.6s;
+    animation-duration: 4.8s;
   }
 }
 
+/* Desktop: richer motion */
 @media (min-width: 1024px) {
   .reveal-on-scroll {
-    transform: translateY(26px) scale(0.988);
-    transition-duration: 620ms;
+    transform: translateY(32px) scale(0.985);
+    transition-duration: 640ms;
   }
 
   .stagger-card {
-    animation-duration: 620ms;
+    animation-duration: 640ms;
   }
 
   .ui-hover-lift:hover {
@@ -241,36 +264,36 @@ select:focus-visible {
     transform: translateY(-2px);
   }
 }
-*{
-    font-family: Outfit, sans-serif;
-    -webkit-tap-highlight-color: transparent;
-}
-@layer base{
-    html {
-        scroll-behavior: smooth;
-    }
 
-    body {
-      background:
-        radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.12), transparent 38%),
-        radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.1), transparent 34%),
-        #f8fafc;
-      color: #0f172a;
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      min-height: 100vh;
-    }
-
-    #root {
-      min-height: 100vh;
-    }
+* {
+  font-family: Outfit, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
-::-webkit-scrollbar{
-    display: none;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background:
+      radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.12), transparent 38%),
+      radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.1), transparent 34%),
+      #f8fafc;
+    color: #0f172a;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
 }
 
+/* Scrollbar — fixed: removed the conflicting display:none rule that was
+   overriding the custom styles below it */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -287,15 +310,6 @@ select:focus-visible {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, rgba(79, 70, 229, 0.82), rgba(37, 99, 235, 0.82));
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
 }
 
 .rich-text {
@@ -376,7 +390,7 @@ select:focus-visible {
 .rich-text h1,
 .rich-text h2,
 .rich-text h3 {
-  color: #1e3a8a; /* blue-800 */
+  color: #1e3a8a;
   font-weight: 600;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
@@ -385,6 +399,7 @@ select:focus-visible {
 .rich-text p {
   margin-bottom: 1rem;
 }
+
 .company-logo {
   max-height: 48px;
   max-width: 160px;
@@ -419,7 +434,7 @@ select:focus-visible {
   max-width: 100%;
   height: auto;
 }
-/* Fix for react-simple-star-rating horizontal layout */
+
 .react-simple-star-rating {
   display: flex !important;
   flex-direction: row !important;
