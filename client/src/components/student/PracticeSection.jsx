@@ -294,6 +294,57 @@ const PracticeSection = () => {
     },
   ]
 
+  const competitiveProgrammingResources = [
+    {
+      id: 'cses',
+      title: 'CSES Problem Set',
+      desc: 'Classic tasks from intro to advanced — build speed, patterns, and contest stamina.',
+      href: 'https://cses.fi/problemset/',
+      icon: <ListChecks className="w-8 h-8 text-violet-600" />,
+      color: 'bg-violet-50',
+      hoverText: 'group-hover:text-violet-600',
+      glowColor: 'rgba(124,58,237,0.35)',
+      shadowColor: 'rgba(124,58,237,0.12)',
+      bgGlow: 'rgba(124,58,237,0.04)',
+    },
+    {
+      id: 'cp-algorithms',
+      title: 'CP-Algorithms',
+      desc: 'Clear write-ups on DS, graphs, strings, math, and more — your free reference library.',
+      href: 'https://cp-algorithms.com/',
+      icon: <Library className="w-8 h-8 text-indigo-600" />,
+      color: 'bg-indigo-50',
+      hoverText: 'group-hover:text-indigo-600',
+      glowColor: 'rgba(79,70,229,0.35)',
+      shadowColor: 'rgba(79,70,229,0.12)',
+      bgGlow: 'rgba(79,70,229,0.04)',
+    },
+    {
+      id: 'cp-handbook',
+      title: 'CP Handbook (PDF)',
+      desc: "Antti Laaksonen's book — structured theory from basics to harder topics.",
+      href: 'https://cses.fi/book/book.pdf',
+      icon: <Target className="w-8 h-8 text-fuchsia-600" />,
+      color: 'bg-fuchsia-50',
+      hoverText: 'group-hover:text-fuchsia-600',
+      glowColor: 'rgba(192,38,211,0.35)',
+      shadowColor: 'rgba(192,38,211,0.12)',
+      bgGlow: 'rgba(192,38,211,0.04)',
+    },
+    {
+      id: 'tle-eliminators',
+      title: 'TLE Eliminators Sheet',
+      desc: 'A curated roadmap of problems — stay consistent and level up with a guided checklist.',
+      href: 'https://www.tle-eliminators.com/cp-sheet',
+      icon: <LayoutGrid className="w-8 h-8 text-sky-600" />,
+      color: 'bg-sky-50',
+      hoverText: 'group-hover:text-sky-600',
+      glowColor: 'rgba(2,132,199,0.35)',
+      shadowColor: 'rgba(2,132,199,0.12)',
+      bgGlow: 'rgba(2,132,199,0.04)',
+    },
+  ]
+
   return (
     <>
       {/* ── Practice Arena ──────────────────────────────────────────── */}
@@ -356,6 +407,34 @@ const PracticeSection = () => {
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
             {cpResources.map((item, index) => (
+              <LinkCard key={item.id} item={item} index={index} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Competitive Programming Resources (restored) ───────────── */}
+      <div
+        className="py-12 md:py-18 w-full"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(248,250,255,0.95) 0%, rgba(255,255,255,0.5) 100%)',
+          borderTop: '1px solid rgba(148,163,184,0.18)',
+          borderBottom: '1px solid rgba(148,163,184,0.12)',
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <SectionHeading
+            badge="For competitive programmers"
+            badgeIcon={<Medal className="w-4 h-4" />}
+            badgeColor="#7c3aed"
+            badgeBg="rgba(124,58,237,0.08)"
+            badgeBorder="rgba(124,58,237,0.25)"
+            title="Reading & Practice Beyond the Arena"
+            sub="Trusted problem banks, algorithms wiki, the classic handbook PDF, and a guided sheet — same polish as the rest of your journey."
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+            {competitiveProgrammingResources.map((item, index) => (
               <LinkCard key={item.id} item={item} index={index} />
             ))}
           </div>
