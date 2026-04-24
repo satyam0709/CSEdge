@@ -4,10 +4,15 @@ export function nameFromEmail(email, fallback = "Member") {
   return cleaned || fallback;
 }
 
+function isGenericName(name) {
+  const n = String(name || "").trim().toLowerCase();
+  return !n || n === "user" || n === "student" || n === "learner" || n === "member";
+}
+
 export function normalizeDisplayName({ fullName = "", username = "", email = "", fallback = "Member" } = {}) {
   const safeFull = String(fullName || "").trim();
-  if (safeFull) return safeFull;
+  if (!isGenericName(safeFull)) return safeFull;
   const safeUser = String(username || "").trim();
-  if (safeUser) return safeUser;
+  if (!isGenericName(safeUser)) return safeUser;
   return nameFromEmail(email, fallback);
 }
