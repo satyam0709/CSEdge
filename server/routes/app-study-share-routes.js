@@ -5,11 +5,13 @@ import {
   listStudyMaterials,
   uploadStudyMaterial,
   deleteStudyMaterial,
+  viewStudyMaterial,
 } from "../controllers/studyShareController.js";
 
 const router = express.Router();
 
 router.get("/", listStudyMaterials);
+router.get("/:id/view", viewStudyMaterial);
 
 router.post("/", requireAuth(), (req, res, next) => {
   uploadStudyFile.single("file")(req, res, (err) => {

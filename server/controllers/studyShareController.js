@@ -1,9 +1,65 @@
 import fs from "fs/promises";
+import path from "path";
 import { clerkClient } from "@clerk/express";
 import { v2 as cloudinary } from "cloudinary";
+import fetch from "node-fetch";
 import StudyMaterial from "../models/StudyMaterial.js";
 
 const FOLDER = "lms-study-share";
+
+function sanitizeFileName(name, fallback = "study-material") {
+  const base = String(name || fallback)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+  return base || fallback;
+}
+
+function extensionFromMaterial(material) {
+  if (material.fileType === "pdf") return ".pdf";
+  const ext = path.extname(material.fileUrl || "").toLowerCase();
+  if (ext && ext.length <= 8) return ext;
+  return ".bin";
+}
+
+async function streamMaterial(req, res, mode = "inline") {
+  const { id } = req.params;
+  const material = await StudyMaterial.findById(id).lean();
+  if (!material || !material.isVisible) {
+    return res.status(404).json({ success: false, message: "Material not found." });
+  }
+
+  const upstream = await fetch(material.fileUrl);
+  if (!upstream.ok || !upstream.body) {
+    return res.status(502).json({ success: false, message: "Could not fetch file." });
+  }
+
+  const extension = extensionFromMaterial(material);
+  const safeBase = sanitizeFileName(material.title, "study-material");
+  const fileName = `${safeBase}${extension}`;
+  const fallbackType =
+    material.fileType === "pdf" ? "application/pdf" : "application/octet-stream";
+  const contentType = upstream.headers.get("content-type") || fallbackType;
+
+  res.setHeader("Content-Type", contentType);
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("Cache-Control", "private, max-age=600");
+  res.setHeader("Content-Disposition", `${mode}; filename="${fileName}"`);
+  const contentLength = upstream.headers.get("content-length");
+  if (contentLength) res.setHeader("Content-Length", contentLength);
+
+  upstream.body.on("error", (err) => {
+    console.error("[study-share] stream", err);
+    if (!res.headersSent) {
+      res.status(500).end("Stream error.");
+    } else {
+      res.destroy(err);
+    }
+  });
+  upstream.body.pipe(res);
+  return undefined;
+}
 
 async function safeUnlink(filePath) {
   if (!filePath) return;
@@ -186,3 +242,12 @@ export const deleteStudyMaterial = async (req, res) => {
     res.status(500).json({ success: false, message: e.message });
   }
 };
+
+export const viewStudyMaterial = async (req, res) => {
+  try {
+    return await streamMaterial(req, res, "inline");
+  } catch (e) {
+    return res.status(500).json({ success: false, message: e.message });
+  }
+};
+

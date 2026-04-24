@@ -1,5 +1,6 @@
 import TestAttempt from "../models/TestAttempt.js";
 import User from "../models/user.js";
+import { clerkClient } from "@clerk/express";
 
 function clamp(n, min, max) {
   return Math.min(max, Math.max(min, n));
@@ -25,6 +26,38 @@ function computeRankScore({ attempts, correct, accuracy, avgLevel, typesCovered 
       2
     )
   );
+}
+
+function isGenericName(name) {
+  const n = String(name || "").trim().toLowerCase();
+  return !n || n === "student" || n === "user" || n === "learner";
+}
+
+function nameFromEmail(email) {
+  const local = String(email || "").split("@")[0] || "";
+  const cleaned = local.replace(/[._-]+/g, " ").trim();
+  return cleaned || "Student";
+}
+
+async function fetchClerkProfiles(userIds) {
+  const out = new Map();
+  if (!Array.isArray(userIds) || userIds.length === 0) return out;
+  try {
+    const clerkUsers = await clerkClient.users.getUserList({ userId: userIds, limit: userIds.length });
+    for (const cu of clerkUsers?.data || []) {
+      const email = cu.emailAddresses?.[0]?.emailAddress || "";
+      const full = `${cu.firstName || ""} ${cu.lastName || ""}`.trim();
+      const name = full || cu.username || nameFromEmail(email) || "Student";
+      out.set(String(cu.id), {
+        name,
+        email,
+        imageUrl: cu.imageUrl || "",
+      });
+    }
+  } catch {
+    // Keep graceful fallback to Mongo profile data.
+  }
+  return out;
 }
 
 export async function buildSprintLeaderboard({
@@ -67,9 +100,10 @@ export async function buildSprintLeaderboard({
 
   const userIds = Array.from(perUser.keys());
   const users = await User.find({ _id: { $in: userIds } })
-    .select("_id name imageUrl")
+    .select("_id name email imageUrl")
     .lean();
   const userMap = new Map(users.map((u) => [String(u._id), u]));
+  const clerkProfiles = await fetchClerkProfiles(userIds);
 
   const leaderboard = Array.from(perUser.values())
     .map((row) => {
@@ -84,12 +118,19 @@ export async function buildSprintLeaderboard({
         avgLevel,
         typesCovered,
       });
-      const profile = userMap.get(row.userId);
+      const profile = userMap.get(row.userId) || {};
+      const clerkProfile = clerkProfiles.get(row.userId) || {};
+      const chosenName = !isGenericName(profile?.name)
+        ? profile.name
+        : !isGenericName(clerkProfile?.name)
+          ? clerkProfile.name
+          : nameFromEmail(profile?.email || clerkProfile?.email);
+      const chosenImage = profile?.imageUrl || clerkProfile?.imageUrl || "";
 
       return {
         userId: row.userId,
-        name: profile?.name || "Student",
-        imageUrl: profile?.imageUrl || "",
+        name: chosenName || "Student",
+        imageUrl: chosenImage,
         attempts: row.attempts,
         correct: row.correct,
         accuracy: Number(accuracy.toFixed(2)),

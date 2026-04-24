@@ -44,6 +44,7 @@ export default function StudyShare() {
   const [description, setDescription] = useState('');
   const [examFocus, setExamFocus] = useState('placement');
   const [file, setFile] = useState(null);
+  const [pdfPreview, setPdfPreview] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -242,14 +243,29 @@ export default function StudyShare() {
                     By {m.uploaderName} · {new Date(m.createdAt).toLocaleDateString()}
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <a
-                      href={m.fileUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 hover:text-indigo-800"
-                    >
-                      Open <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
+                    {m.fileType === 'pdf' ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setPdfPreview({
+                            id: m._id,
+                            title: m.title,
+                          })
+                        }
+                        className="inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 hover:text-indigo-800"
+                      >
+                        Open <ExternalLink className="w-3.5 h-3.5" />
+                      </button>
+                    ) : (
+                      <a
+                        href={`/api/study-share/${m._id}/view`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 hover:text-indigo-800"
+                      >
+                        Open <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
                     {user?.id === m.uploaderId && (
                       <button
                         type="button"
@@ -327,7 +343,7 @@ export default function StudyShare() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
-                  File * (image or PDF, max ~12 MB)
+                  File * (image or PDF, max 10 MB)
                 </label>
                 <div className="flex items-center gap-3 flex-wrap">
                   <label className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-dashed border-slate-300 cursor-pointer hover:border-indigo-400 text-sm text-slate-600">
@@ -354,6 +370,44 @@ export default function StudyShare() {
                 Publish for community
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {pdfPreview && (
+        <div
+          className="fixed inset-0 z-[130] bg-black/70 p-3 sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-label="PDF preview"
+        >
+          <div className="w-full h-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <div className="px-4 sm:px-5 py-3 border-b flex items-center gap-3">
+              <h2 className="font-semibold text-slate-900 truncate">{pdfPreview.title}</h2>
+              <div className="ml-auto flex items-center gap-2">
+                <a
+                  href={`/api/study-share/${pdfPreview.id}/view`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                >
+                  Open in new tab
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setPdfPreview(null)}
+                  className="p-2 rounded-lg hover:bg-slate-100"
+                  aria-label="Close PDF preview"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+            <iframe
+              src={`/api/study-share/${pdfPreview.id}/view#toolbar=0&navpanes=0&scrollbar=1`}
+              title={pdfPreview.title}
+              className="w-full h-full border-0"
+            />
           </div>
         </div>
       )}

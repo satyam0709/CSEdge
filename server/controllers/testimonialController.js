@@ -5,8 +5,8 @@ import { clerkClient } from '@clerk/express';
 /** Display name + email + avatar from Clerk (source of truth for this user id). */
 async function getProfileFromClerk(userId) {
   const clerkUser = await clerkClient.users.getUser(userId);
-  const firstLast = `${clerkUser.first_name || ''} ${clerkUser.last_name || ''}`.trim();
-  const email = clerkUser.email_addresses?.[0]?.email_address || '';
+  const firstLast = `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim();
+  const email = clerkUser.emailAddresses?.[0]?.emailAddress || '';
   const name =
     firstLast ||
     clerkUser.username ||
@@ -14,6 +14,16 @@ async function getProfileFromClerk(userId) {
     'User';
   const imageUrl = clerkUser.image_url || '';
   return { name, email, imageUrl };
+}
+
+function isGenericName(name) {
+  const n = String(name || '').trim().toLowerCase();
+  return !n || n === 'user' || n === 'student' || n === 'learner';
+}
+
+function nameFromEmail(email) {
+  const local = String(email || '').split('@')[0] || '';
+  return local.replace(/[._-]+/g, ' ').trim();
 }
 
 /** Keep Mongo User in sync with Clerk (used elsewhere in the app). */
@@ -42,7 +52,37 @@ export const listTestimonials = async (req, res) => {
       .limit(50)
       .lean();
 
-    return res.json({ success: true, testimonials });
+    const normalized = await Promise.all(
+      testimonials.map(async (t) => {
+        let name = String(t.name || '').trim();
+        let email = String(t.email || '').trim();
+        let imageUrl = String(t.imageUrl || '').trim();
+
+        if (isGenericName(name) || !email || !imageUrl) {
+          try {
+            const profile = await getProfileFromClerk(t.userId);
+            name = !isGenericName(profile.name) ? profile.name : name;
+            email = email || profile.email || '';
+            imageUrl = imageUrl || profile.imageUrl || '';
+          } catch {
+            // Fallback handled below
+          }
+        }
+
+        if (isGenericName(name)) {
+          name = nameFromEmail(email) || 'Learner';
+        }
+
+        return {
+          ...t,
+          name,
+          email,
+          imageUrl,
+        };
+      })
+    );
+
+    return res.json({ success: true, testimonials: normalized });
   } catch (error) {
     console.error('listTestimonials:', error);
     return res.status(500).json({ success: false, message: error.message || 'Failed to load testimonials' });
