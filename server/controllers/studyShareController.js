@@ -138,6 +138,18 @@ export const uploadStudyMaterial = async (req, res) => {
   } catch (e) {
     await safeUnlink(file.path);
     console.error("[study-share] upload", e);
+    const msg = String(e?.message || "");
+    const isCloudinarySizeLimit =
+      e?.http_code === 400 &&
+      msg.toLowerCase().includes("file size too large");
+
+    if (isCloudinarySizeLimit) {
+      return res.status(413).json({
+        success: false,
+        message: "File too large. Please upload a file up to 10 MB.",
+      });
+    }
+
     return res.status(500).json({
       success: false,
       message: e.message || "Upload failed. Try a smaller file or different format.",

@@ -17,6 +17,7 @@ function fileFilter(req, file, cb) {
 
 export const uploadStudyFile = multer({
   storage,
-  limits: { fileSize: 12 * 1024 * 1024 },
+  // Keep this aligned with the current Cloudinary plan limit.
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter,
 });
