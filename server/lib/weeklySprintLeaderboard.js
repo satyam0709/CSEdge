@@ -1,6 +1,7 @@
 import TestAttempt from "../models/TestAttempt.js";
 import User from "../models/user.js";
 import { clerkClient } from "@clerk/express";
+import { normalizeDisplayName } from "./userDisplayName.js";
 
 function clamp(n, min, max) {
   return Math.min(max, Math.max(min, n));
@@ -33,12 +34,6 @@ function isGenericName(name) {
   return !n || n === "student" || n === "user" || n === "learner";
 }
 
-function nameFromEmail(email) {
-  const local = String(email || "").split("@")[0] || "";
-  const cleaned = local.replace(/[._-]+/g, " ").trim();
-  return cleaned || "Student";
-}
-
 async function fetchClerkProfiles(userIds) {
   const out = new Map();
   if (!Array.isArray(userIds) || userIds.length === 0) return out;
@@ -47,7 +42,12 @@ async function fetchClerkProfiles(userIds) {
     for (const cu of clerkUsers?.data || []) {
       const email = cu.emailAddresses?.[0]?.emailAddress || "";
       const full = `${cu.firstName || ""} ${cu.lastName || ""}`.trim();
-      const name = full || cu.username || nameFromEmail(email) || "Student";
+      const name = normalizeDisplayName({
+        fullName: full,
+        username: cu.username,
+        email,
+        fallback: "Member",
+      });
       out.set(String(cu.id), {
         name,
         email,
@@ -124,12 +124,15 @@ export async function buildSprintLeaderboard({
         ? profile.name
         : !isGenericName(clerkProfile?.name)
           ? clerkProfile.name
-          : nameFromEmail(profile?.email || clerkProfile?.email);
+          : normalizeDisplayName({
+              email: profile?.email || clerkProfile?.email,
+              fallback: "Member",
+            });
       const chosenImage = profile?.imageUrl || clerkProfile?.imageUrl || "";
 
       return {
         userId: row.userId,
-        name: chosenName || "Student",
+        name: chosenName || "Member",
         imageUrl: chosenImage,
         attempts: row.attempts,
         correct: row.correct,

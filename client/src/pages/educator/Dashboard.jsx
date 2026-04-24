@@ -7,6 +7,11 @@ import axiosInstance from "../../utils/axios";
 import { toast } from "react-toastify";
 
 const Dashboard = () => {
+  const getNameFromEmail = (email) =>
+    String(email || "")
+      .split("@")[0]
+      .replace(/[._-]+/g, " ")
+      .trim();
   const { getToken } = useAuth();
   const { currency, isEducator } = useContext(AppContext);
 
@@ -134,7 +139,7 @@ const Dashboard = () => {
                           className="w-9 h-9 rounded-full object-cover"
                         />
                         <span className="truncate font-medium text-gray-800">
-                          {item.student?.name || "Student"}
+                          {item.student?.name || getNameFromEmail(item.student?.email) || "Member"}
                         </span>
                       </div>
                     </td>

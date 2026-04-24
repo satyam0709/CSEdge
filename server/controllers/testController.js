@@ -9,6 +9,7 @@ function normalizeProgressType(type) {
   const t = String(type || "").toLowerCase();
   if (t === "coding" || t === "dsa") return "dsa";
   if (t === "development" || t === "dev") return "dev";
+  if (t === "sql" || t === "database") return "sql";
   if (t === "aptitude") return "aptitude";
   return t || "aptitude";
 }
@@ -33,7 +34,8 @@ export const getNextQuestion = async (req, res) => {
       'development': ['dev', 'development'],
       'dsa': ['dsa', 'coding'],
       'coding': ['dsa', 'coding'],
-      'aptitude': ['aptitude']
+      'aptitude': ['aptitude'],
+      'sql': ['sql']
     };
 
     const typesToCheck = typeMap[type] || [type];
@@ -161,6 +163,8 @@ export const submitAnswer = async (req, res) => {
       level: question.level,
       isCorrect,
       timeTaken,
+      selectedAnswer: normStr(selected),
+      correctAnswer: normStr(question.correctAnswer),
     });
 
     // Push live admin analytics updates for this user, if any admin is subscribed.
@@ -183,6 +187,84 @@ export const submitAnswer = async (req, res) => {
       success: false,
       message: error.message
     });
+  }
+};
+
+/*
+=====================================
+LEVEL SUMMARY (CORRECT/WRONG OVERVIEW)
+Returns latest attempt per question in the level
+=====================================
+*/
+export const getLevelSummary = async (req, res) => {
+  try {
+    const userId = req.auth().userId;
+    const { type, level, questionIds = [] } = req.body || {};
+    const t = normalizeProgressType(type);
+    const lvl = Number(level);
+    if (!lvl) {
+      return res.status(400).json({ success: false, message: "level is required" });
+    }
+
+    const qFilter = Array.isArray(questionIds) && questionIds.length
+      ? { questionId: { $in: questionIds } }
+      : {};
+
+    const attempts = await TestAttempt.find({
+      userId,
+      type: t,
+      level: lvl,
+      ...qFilter,
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const latestByQuestion = new Map();
+    for (const a of attempts) {
+      const qid = String(a.questionId || "");
+      if (!qid || latestByQuestion.has(qid)) continue;
+      latestByQuestion.set(qid, a);
+    }
+
+    const uniqueQuestionIds = Array.from(latestByQuestion.keys());
+    const questions = await Question.find({ _id: { $in: uniqueQuestionIds } })
+      .select("_id question options")
+      .lean();
+    const questionMap = new Map(questions.map((q) => [String(q._id), q]));
+
+    const rows = uniqueQuestionIds.map((qid) => {
+      const a = latestByQuestion.get(qid);
+      const q = questionMap.get(qid);
+      return {
+        questionId: qid,
+        question: q?.question || "Question",
+        options: Array.isArray(q?.options) ? q.options : [],
+        selectedAnswer: a?.selectedAnswer || "",
+        correctAnswer: a?.correctAnswer || "",
+        isCorrect: Boolean(a?.isCorrect),
+      };
+    });
+
+    const correctCount = rows.filter((r) => r.isCorrect).length;
+    const wrongCount = rows.length - correctCount;
+    const totalQuestions = rows.length;
+    const score = totalQuestions ? Math.round((correctCount / totalQuestions) * 100) : 0;
+
+    return res.json({
+      success: true,
+      summary: {
+        level: lvl,
+        type: t,
+        totalQuestions,
+        correctCount,
+        wrongCount,
+        score,
+        passed: score >= 60,
+        rows,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -353,7 +435,8 @@ export const getAvailableLevels = async (req, res) => {
       'development': ['dev', 'development'],
       'dsa': ['dsa', 'coding'],
       'coding': ['dsa', 'coding'],
-      'aptitude': ['aptitude']
+      'aptitude': ['aptitude'],
+      'sql': ['sql']
     };
 
     const typesToCheck = typeMap[type] || [type];
@@ -388,7 +471,8 @@ export const getQuestionsByLevel = async (req, res) => {
       development: ["dev", "development"],
       dsa: ["dsa", "coding"],
       coding: ["dsa", "coding"],
-      aptitude: ["aptitude"]
+      aptitude: ["aptitude"],
+      sql: ["sql"]
     };
 
     const typesToQuery = typeMap[type] || [type];

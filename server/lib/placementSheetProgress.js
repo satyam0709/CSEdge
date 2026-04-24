@@ -1,3 +1,5 @@
+import { normalizeDisplayName } from "./userDisplayName.js";
+
 export const PLACEMENT_SHEET_META = {
   striverSde191: {
     key: "striverSde191",
@@ -100,7 +102,11 @@ export function buildPlacementSheetLeaderboardRows(progressDocs = [], userMap = 
       const profile = userMap.get(String(doc.userId)) || {};
       return {
         userId: String(doc.userId),
-        name: profile.name || "Student",
+        name: normalizeDisplayName({
+          fullName: profile.name,
+          email: profile.email,
+          fallback: "Member",
+        }),
         imageUrl: profile.imageUrl || "",
         solved: snapshot.overall.solved,
         total: snapshot.overall.total,

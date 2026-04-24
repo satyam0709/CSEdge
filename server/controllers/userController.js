@@ -15,6 +15,7 @@ import { buildVideoLectureContext } from "../lib/buildVideoLectureContext.js";
 import { generateVideoFlashPrepMcqs } from "../lib/flashPrepVideoAi.js";
 import FlashPrepSession from "../models/FlashPrepSession.js";
 import { isUserEnrolledInCourse } from "../utils/enrollment.js";
+import { normalizeDisplayName } from "../lib/userDisplayName.js";
 import crypto from "crypto";
 
 // FIX: Lazy init — called inside functions so dotenv has already loaded by then
@@ -39,9 +40,14 @@ async function ensureUserDocumentForClerk(userId) {
     try {
         user = await User.create({
             _id: userId,
-            email: clerkUser.email_addresses?.[0]?.email_address || "",
-            name: `${clerkUser.first_name || ""} ${clerkUser.last_name || ""}`.trim() || "User",
-            imageUrl: clerkUser.image_url || ""
+            email: clerkUser.emailAddresses?.[0]?.emailAddress || "",
+            name: normalizeDisplayName({
+                fullName: `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`,
+                username: clerkUser.username || "",
+                email: clerkUser.emailAddresses?.[0]?.emailAddress || "",
+                fallback: "Member",
+            }),
+            imageUrl: clerkUser.imageUrl || ""
         });
         console.log("User created in DB:", user._id);
         return user;
@@ -994,9 +1000,14 @@ export const enrollFreeCourse = async (req, res) => {
                 const clerkUser = await clerkClient.users.getUser(userId);
                 userData = await User.create({
                     _id: userId,
-                    email: clerkUser.email_addresses?.[0]?.email_address || '',
-                    name: `${clerkUser.first_name || ''} ${clerkUser.last_name || ''}`.trim() || 'User',
-                    imageUrl: clerkUser.image_url || ''
+                    email: clerkUser.emailAddresses?.[0]?.emailAddress || '',
+                    name: normalizeDisplayName({
+                        fullName: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`,
+                        username: clerkUser.username || '',
+                        email: clerkUser.emailAddresses?.[0]?.emailAddress || '',
+                        fallback: 'Member',
+                    }),
+                    imageUrl: clerkUser.imageUrl || ''
                 });
             } catch (clerkError) {
                 return res.json({ success: false, message: 'User not found' });

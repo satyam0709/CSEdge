@@ -1,6 +1,7 @@
 import Testimonial from '../models/Testimonial.js';
 import User from '../models/user.js';
 import { clerkClient } from '@clerk/express';
+import { normalizeDisplayName } from '../lib/userDisplayName.js';
 
 /** Display name + email + avatar from Clerk (source of truth for this user id). */
 async function getProfileFromClerk(userId) {
@@ -22,8 +23,7 @@ function isGenericName(name) {
 }
 
 function nameFromEmail(email) {
-  const local = String(email || '').split('@')[0] || '';
-  return local.replace(/[._-]+/g, ' ').trim();
+  return normalizeDisplayName({ email, fallback: 'Member' });
 }
 
 /** Keep Mongo User in sync with Clerk (used elsewhere in the app). */
@@ -70,7 +70,7 @@ export const listTestimonials = async (req, res) => {
         }
 
         if (isGenericName(name)) {
-          name = nameFromEmail(email) || 'Learner';
+          name = nameFromEmail(email) || 'Member';
         }
 
         return {

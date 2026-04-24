@@ -6,6 +6,12 @@ import axios from '../../utils/axios';
 import { assets } from '../../assets/assets';
 
 const TestimonialsSection = () => {
+  const getNameFromEmail = (email) =>
+    String(email || '')
+      .split('@')[0]
+      .replace(/[._-]+/g, ' ')
+      .trim();
+
   const { isSignedIn, getToken } = useAuth();
   const { user } = useUser();
   const navigate = useNavigate();
@@ -160,7 +166,7 @@ const TestimonialsSection = () => {
                     />
                     <div className="text-left min-w-0 flex-1">
                       <p className="font-bold text-gray-900 text-base truncate" title={t.name}>
-                        {t.name?.trim() || 'Learner'}
+                        {t.name?.trim() || getNameFromEmail(t.email) || 'Member'}
                       </p>
                       <p className="text-xs text-gray-400 truncate" title={t.email}>
                         {t.email || '—'}
@@ -242,7 +248,9 @@ const TestimonialsSection = () => {
                   onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = assets.user_icon; }}
                 />
                 <div className="text-sm text-gray-600 min-w-0">
-                  <p className="font-semibold text-gray-800 truncate">{user.fullName || user.firstName || 'Learner'}</p>
+                  <p className="font-semibold text-gray-800 truncate">
+                    {user.fullName || user.firstName || getNameFromEmail(user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress) || 'Member'}
+                  </p>
                   <p className="truncate text-gray-500 text-xs">
                     {user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress}
                   </p>

@@ -4,6 +4,7 @@ import Stripe from "stripe";
 import { Purchase } from "../models/Purchase.js";
 import Course from '../models/course.js';
 import { isUserEnrolledInCourse } from "../utils/enrollment.js";
+import { normalizeDisplayName } from "../lib/userDisplayName.js";
 
 // FIX: Lazy init so dotenv loads before Stripe initializes
 let _stripe = null;
@@ -51,7 +52,12 @@ export const clerkWebhooks = async (req, res) => {
                 const newUser = await User.create({
                     _id: evt.data.id,
                     email: evt.data.email_addresses?.[0]?.email_address || "",
-                    name: `${evt.data.first_name || ""} ${evt.data.last_name || ""}`.trim() || "User",
+                    name: normalizeDisplayName({
+                        fullName: `${evt.data.first_name || ""} ${evt.data.last_name || ""}`,
+                        username: evt.data.username || "",
+                        email: evt.data.email_addresses?.[0]?.email_address || "",
+                        fallback: "Member",
+                    }),
                     imageUrl: evt.data.image_url || ""
                 });
                 console.log("User created:", newUser._id);
@@ -60,7 +66,12 @@ export const clerkWebhooks = async (req, res) => {
             case "user.updated":
                 await User.findByIdAndUpdate(evt.data.id, {
                     email: evt.data.email_addresses?.[0]?.email_address || "",
-                    name: `${evt.data.first_name || ""} ${evt.data.last_name || ""}`.trim(),
+                    name: normalizeDisplayName({
+                        fullName: `${evt.data.first_name || ""} ${evt.data.last_name || ""}`,
+                        username: evt.data.username || "",
+                        email: evt.data.email_addresses?.[0]?.email_address || "",
+                        fallback: "Member",
+                    }),
                     imageUrl: evt.data.image_url || ""
                 });
                 console.log("User updated:", evt.data.id);

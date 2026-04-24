@@ -4,6 +4,7 @@ import { v2 as cloudinary } from 'cloudinary'
 import { Purchase } from '../models/Purchase.js';
 import User from '../models/user.js';
 import ExternalProblem from '../models/ExternalProblem.js';
+import { normalizeDisplayName } from '../lib/userDisplayName.js';
 
 export const updateRoleToEducator = async (req, res) => {
     try {
@@ -99,12 +100,19 @@ export const educatorDashboardData = async (req, res) => {
         for (const course of courses) {
             const students = await User.find({
                 _id: { $in: course.enrolledStudents }
-            }, 'name imageUrl');
+            }, 'name email imageUrl');
 
             students.forEach(student => {
                 enrolledStudentData.push({
                     courseTitle: course.courseTitle,
-                    student
+                    student: {
+                        ...student.toObject(),
+                        name: normalizeDisplayName({
+                            fullName: student.name,
+                            email: student.email,
+                            fallback: 'Member',
+                        }),
+                    }
                 })
             });
         }
@@ -130,14 +138,21 @@ export const getEnrolledStudentData = async (req, res) => {
             courseId: { $in: courseIds },
             status: 'completed',
         })
-        .populate('userId', 'name imageUrl')
+        .populate('userId', 'name email imageUrl')
         .populate('courseId', 'courseTitle');
 
         // Filter out broken data (e.g., if a user or course was deleted)
         const enrolledStudents = purchases
             .filter(purchase => purchase.userId && purchase.courseId)
             .map(purchase => ({
-                student: purchase.userId,
+                student: {
+                    ...purchase.userId.toObject(),
+                    name: normalizeDisplayName({
+                        fullName: purchase.userId.name,
+                        email: purchase.userId.email,
+                        fallback: 'Member',
+                    }),
+                },
                 courseTitle: purchase.courseId.courseTitle,
                 purchaseDate: purchase.createdAt
             }));
@@ -157,9 +172,18 @@ export const getExternalProblemsForEducator = async (req, res) => {
 
         // Populate basic user info where possible
         const userIds = [...new Set(recent.map(r => r.userId))];
-        const users = await User.find({ _id: { $in: userIds } }, 'name imageUrl');
+        const users = await User.find({ _id: { $in: userIds } }, 'name email imageUrl');
         const userMap = {};
-        users.forEach(u => userMap[u._id] = u);
+        users.forEach(u => {
+            userMap[u._id] = {
+                ...u.toObject(),
+                name: normalizeDisplayName({
+                    fullName: u.name,
+                    email: u.email,
+                    fallback: 'Member',
+                }),
+            };
+        });
 
         const items = recent.map(r => ({
             _id: r._id,

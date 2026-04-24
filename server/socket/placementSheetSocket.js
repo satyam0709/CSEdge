@@ -23,8 +23,10 @@ async function getSnapshotForUser(userId) {
 async function getLeaderboardSnapshot(limit = 20) {
   const docs = await PlacementSheetProgress.find({}).lean();
   const userIds = docs.map((d) => String(d.userId));
-  const users = await User.find({ _id: { $in: userIds } }).select("_id name imageUrl").lean();
-  const userMap = new Map(users.map((u) => [String(u._id), { name: u.name, imageUrl: u.imageUrl }]));
+  const users = await User.find({ _id: { $in: userIds } }).select("_id name email imageUrl").lean();
+  const userMap = new Map(
+    users.map((u) => [String(u._id), { name: u.name, email: u.email, imageUrl: u.imageUrl }])
+  );
   return buildPlacementSheetLeaderboardRows(docs, userMap).slice(0, limit);
 }
 

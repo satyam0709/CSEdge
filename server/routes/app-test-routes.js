@@ -7,7 +7,8 @@ import {
   getAnalytics,
   getRecommendations,
   getQuestionsByLevel,
-  getAvailableLevels
+  getAvailableLevels,
+  getLevelSummary,
 } from "../controllers/testController.js";
 
 const router = express.Router();
@@ -22,6 +23,7 @@ router.get("/questions", getQuestionsByLevel);
 
 router.get("/question", requireAuth(), getNextQuestion);
 router.post("/submit", requireAuth(), submitAnswer);
+router.post("/level-summary", requireAuth(), getLevelSummary);
 router.post("/reset", requireAuth(), resetTest);
 router.get("/analytics", requireAuth(), getAnalytics);
 router.get("/recommendations", requireAuth(), getRecommendations);

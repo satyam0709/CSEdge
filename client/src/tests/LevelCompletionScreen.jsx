@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, Trophy, Star, TrendingUp, ChevronRight, RotateCcw } from 'lucide-react';
+import { CheckCircle2, Trophy, TrendingUp, ChevronRight, RotateCcw } from 'lucide-react';
 
 export default function LevelCompletionScreen({ 
   levelNumber, 
@@ -7,9 +7,11 @@ export default function LevelCompletionScreen({
   correctCount, 
   totalQuestions, 
   passed,
+  reviewRows = [],
   onRetry,
   onNextLevel,
-  onExit
+  onExit,
+  onDashboard,
 }) {
   const percentage = Math.round((correctCount / totalQuestions) * 100);
   const passThreshold = 60;
@@ -24,6 +26,8 @@ export default function LevelCompletionScreen({
   };
 
   const perfColor = getPerformanceColor();
+
+  const wrongCount = Math.max(0, totalQuestions - correctCount);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-6 md:p-12 flex items-center justify-center">
@@ -62,18 +66,10 @@ export default function LevelCompletionScreen({
               <div className="text-sm font-medium opacity-75">Correct</div>
             </div>
 
-            {/* Rating */}
+            {/* Wrong Answers */}
             <div className={`${perfColor.badge} rounded-2xl p-6 text-center`}>
-              <div className="flex justify-center gap-1 mb-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={24}
-                    className={i < Math.ceil((percentage / 100) * 5) ? 'fill-current' : 'opacity-30'}
-                  />
-                ))}
-              </div>
-              <div className="text-sm font-medium opacity-75">Rating</div>
+              <div className="text-3xl md:text-4xl font-black mb-1">{wrongCount}</div>
+              <div className="text-sm font-medium opacity-75">Wrong</div>
             </div>
           </div>
 
@@ -128,12 +124,36 @@ export default function LevelCompletionScreen({
             )}
 
             <button
-              onClick={onExit}
+              onClick={onDashboard || onExit}
               className="flex-1 py-4 px-6 bg-slate-600 text-white font-bold rounded-xl hover:bg-slate-700 transition-all hover:shadow-lg"
             >
-              Back to Levels
+              See in Dashboard
             </button>
           </div>
+
+          {reviewRows.length > 0 && (
+            <div className="mt-8 rounded-2xl border border-slate-200 bg-white/80 p-4 max-h-[320px] overflow-auto">
+              <h4 className="font-bold text-slate-900 mb-3">Level Overview (Correct/Wrong)</h4>
+              <div className="space-y-3">
+                {reviewRows.map((row, idx) => (
+                  <div
+                    key={row.questionId || idx}
+                    className={`rounded-xl border p-3 ${
+                      row.isCorrect ? "border-emerald-200 bg-emerald-50/60" : "border-rose-200 bg-rose-50/60"
+                    }`}
+                  >
+                    <p className="text-sm font-semibold text-slate-900">{idx + 1}. {row.question}</p>
+                    <p className="text-xs mt-1 text-slate-700">
+                      Your answer: <span className="font-semibold">{row.selectedAnswer || "Not answered"}</span>
+                    </p>
+                    <p className="text-xs text-slate-700">
+                      Right answer: <span className="font-semibold">{row.correctAnswer || "—"}</span>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer Encouragement */}

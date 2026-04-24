@@ -172,14 +172,18 @@ export default function SqlTest() {
           };
         });
         setIsSubmitted(true);
-        setLevelAnswers((prev) => ({
-          ...prev,
+        const nextAnswers = {
+          ...levelAnswers,
           [currentQuestion._id]: {
             selected: finalAnswer,
             correct: data.correct,
             explanation: data.explanation,
           },
-        }));
+        };
+        setLevelAnswers(nextAnswers);
+        if (questionsInLevel.length > 0 && currentQuestionIndex >= questionsInLevel.length - 1) {
+          await calculateLevelStats(nextAnswers);
+        }
       }
     } catch (error) {
       console.error("Error submitting SQL answer:", error);
@@ -203,14 +207,33 @@ export default function SqlTest() {
   };
 
   // ── Level completion ────────────────────────────────────────────────────────
-  const calculateLevelStats = () => {
-    const totalQuestions = Object.keys(levelAnswers).length;
-    const correctCount = Object.values(levelAnswers).filter((a) => a.correct).length;
-    setLevelStats({
+  const calculateLevelStats = async (answersSnapshot = levelAnswers) => {
+    const totalQuestions = Object.keys(answersSnapshot).length;
+    const correctCount = Object.values(answersSnapshot).filter((a) => a.correct).length;
+    let stats = {
       correctCount,
       totalQuestions: totalQuestions || 15,
       passed: (correctCount / (totalQuestions || 15)) * 100 >= 60,
-    });
+    };
+    const questionIds = Object.keys(answersSnapshot);
+    if (questionIds.length > 0) {
+      try {
+        const { data } = await axios.post(
+          "/api/test/level-summary",
+          { type: TYPE, level: selectedLevel, questionIds },
+          await withClerkAuth(getToken)
+        );
+        if (data?.success && data?.summary) {
+          stats = {
+            correctCount: data.summary.correctCount,
+            totalQuestions: data.summary.totalQuestions,
+            passed: data.summary.passed,
+            reviewRows: data.summary.rows || [],
+          };
+        }
+      } catch {}
+    }
+    setLevelStats(stats);
     setView("completion");
   };
 
@@ -229,6 +252,8 @@ export default function SqlTest() {
       setView("levels");
     }
   };
+
+  const goToDashboard = () => navigate("/dashboard");
 
   useEffect(() => {
     fetchLevels();
@@ -256,8 +281,10 @@ export default function SqlTest() {
         correctCount={levelStats.correctCount}
         totalQuestions={levelStats.totalQuestions}
         passed={levelStats.passed}
+        reviewRows={levelStats.reviewRows || []}
         onRetry={handleRetryLevel}
         onNextLevel={handleNextLevel}
+        onDashboard={goToDashboard}
         onExit={() => setView("levels")}
       />
     );

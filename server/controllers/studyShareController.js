@@ -4,6 +4,7 @@ import { clerkClient } from "@clerk/express";
 import { v2 as cloudinary } from "cloudinary";
 import fetch from "node-fetch";
 import StudyMaterial from "../models/StudyMaterial.js";
+import { normalizeDisplayName } from "../lib/userDisplayName.js";
 
 const FOLDER = "lms-study-share";
 
@@ -75,12 +76,17 @@ async function getDisplayName(userId) {
     const user = await clerkClient.users.getUser(userId);
     const fn = user.firstName || "";
     const ln = user.lastName || "";
-    if (fn || ln) return `${fn} ${ln}`.trim();
-    if (user.username) return user.username;
+    const email = user.emailAddresses?.[0]?.emailAddress || "";
+    return normalizeDisplayName({
+      fullName: `${fn} ${ln}`,
+      username: user.username,
+      email,
+      fallback: "Member",
+    });
   } catch {
     /* ignore */
   }
-  return "Student";
+  return "Member";
 }
 
 export const listStudyMaterials = async (req, res) => {
@@ -94,6 +100,16 @@ export const listStudyMaterials = async (req, res) => {
       .sort({ createdAt: -1 })
       .limit(80)
       .lean();
+    const uniqueUploaderIds = Array.from(
+      new Set(items.map((m) => String(m.uploaderId || "")).filter(Boolean))
+    );
+    const displayNameMap = new Map();
+    await Promise.all(
+      uniqueUploaderIds.map(async (uid) => {
+        const name = await getDisplayName(uid);
+        displayNameMap.set(uid, name);
+      })
+    );
 
     res.json({
       success: true,
@@ -104,7 +120,7 @@ export const listStudyMaterials = async (req, res) => {
         examFocus: m.examFocus,
         fileUrl: m.fileUrl,
         fileType: m.fileType,
-        uploaderName: m.uploaderName,
+        uploaderName: displayNameMap.get(String(m.uploaderId || "")) || m.uploaderName || "Member",
         uploaderId: m.uploaderId,
         createdAt: m.createdAt,
       })),

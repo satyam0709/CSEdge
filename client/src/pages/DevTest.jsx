@@ -161,14 +161,18 @@ export default function DevTest() {
           };
         });
         setIsSubmitted(true);
-        setLevelAnswers(prev => ({
-          ...prev,
+        const nextAnswers = {
+          ...levelAnswers,
           [currentQuestion._id]: {
             selected: finalAnswer,
             correct: data.correct,
             explanation: data.explanation
           }
-        }));
+        };
+        setLevelAnswers(nextAnswers);
+        if (questionsInLevel.length > 0 && currentQuestionIndex >= questionsInLevel.length - 1) {
+          await calculateLevelStats(nextAnswers);
+        }
       }
     } catch (error) {
       console.error("Error submitting answer:", error);
@@ -190,19 +194,37 @@ export default function DevTest() {
     }
   };
 
-  const calculateLevelStats = () => {
+  const calculateLevelStats = async (answersSnapshot = levelAnswers) => {
     let correctCount = 0;
-    let totalQuestions = Object.keys(levelAnswers).length;
+    let totalQuestions = Object.keys(answersSnapshot).length;
 
-    Object.values(levelAnswers).forEach(answer => {
+    Object.values(answersSnapshot).forEach(answer => {
       if (answer.correct) correctCount++;
     });
 
-    const stats = {
+    let stats = {
       correctCount,
       totalQuestions: totalQuestions || 15,
       passed: (correctCount / (totalQuestions || 15)) * 100 >= 60
     };
+    const questionIds = Object.keys(answersSnapshot);
+    if (questionIds.length > 0) {
+      try {
+        const { data } = await axios.post(
+          "/api/test/level-summary",
+          { type: testType, level: selectedLevel, questionIds },
+          await withClerkAuth(getToken)
+        );
+        if (data?.success && data?.summary) {
+          stats = {
+            correctCount: data.summary.correctCount,
+            totalQuestions: data.summary.totalQuestions,
+            passed: data.summary.passed,
+            reviewRows: data.summary.rows || [],
+          };
+        }
+      } catch {}
+    }
 
     setLevelStats(stats);
     setView("completion");
@@ -223,6 +245,8 @@ export default function DevTest() {
       setView("levels");
     }
   };
+
+  const goToDashboard = () => navigate("/dashboard");
 
   useEffect(() => { fetchLevels(); }, []);
 
@@ -250,8 +274,10 @@ export default function DevTest() {
         correctCount={levelStats.correctCount}
         totalQuestions={levelStats.totalQuestions}
         passed={levelStats.passed}
+        reviewRows={levelStats.reviewRows || []}
         onRetry={handleRetryLevel}
         onNextLevel={handleNextLevel}
+        onDashboard={goToDashboard}
         onExit={() => setView("levels")}
       />
     );
