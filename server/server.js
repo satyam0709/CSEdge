@@ -7,6 +7,7 @@ import { createServer } from "http";
 import { attachPresenceSocket } from "./socket/presenceSocket.js";
 import { attachAdminAnalyticsSocket } from "./socket/adminAnalyticsSocket.js";
 import { attachWeeklySprintSocket } from "./socket/weeklySprintSocket.js";
+import { attachPlacementSheetSocket } from "./socket/placementSheetSocket.js";
 import {
   getAllowedOriginStrings,
   createExpressOriginCallback,
@@ -35,6 +36,7 @@ import studyShareRoutes from "./routes/app-study-share-routes.js";
 import mockInterviewRoutes from "./routes/app-mock-interview-routes.js";
 import resumeRoutes from "./routes/app-resume-routes.js";
 import sprintRoutes from "./routes/app-sprint-routes.js";
+import placementSheetRoutes from "./routes/app-placement-sheet-routes.js";
 import mentorRoutes from "./routes/app-mentor-routes.js";
 import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
 import { seedSqlQuestions } from "./controllers/adminController.js";
@@ -82,6 +84,7 @@ app.use("/api/study-share", studyShareRoutes);
 app.use("/api/mock-interview", mockInterviewRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/sprint", sprintRoutes);
+app.use("/api/placement-sheets", placementSheetRoutes);
 app.use("/api/mentor", mentorRoutes);
 
 app.get("/", (_, res) => res.send("LMS API Running"));
@@ -100,6 +103,7 @@ const httpServer = createServer(app);
 attachPresenceSocket(httpServer, allowedOrigins);
 attachAdminAnalyticsSocket(httpServer, allowedOrigins);
 attachWeeklySprintSocket(httpServer, allowedOrigins);
+attachPlacementSheetSocket(httpServer, allowedOrigins);
 
 httpServer.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT} (HTTP + Socket.io presence)`);

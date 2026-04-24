@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import {
   Brain, Code2, Laptop, Building2, ArrowRight,
   BarChart3, BookOpen, Trophy, Mic, FileUser,
-  Database, Medal, ListChecks, Library, FileText,
+  Database, Medal, ListChecks, Library, Target,
   LayoutGrid, ExternalLink,
 } from 'lucide-react'
+import PlacementSheetsTracker from './PlacementSheetsTracker'
 
 /* ── Internal card components ─────────────────────────────────────── */
 
@@ -244,10 +245,10 @@ const PracticeSection = () => {
 
   const cpResources = [
     {
-      id: 'cses',
-      title: 'CSES Problem Set',
-      desc: 'Classic tasks from intro to advanced — build speed, patterns, and contest stamina.',
-      href: 'https://cses.fi/problemset/',
+      id: 'striver-sde',
+      title: "Striver's SDE Sheet",
+      desc: '191 high-impact interview problems curated for top product companies.',
+      href: 'https://takeuforward.org/dsa/strivers-sde-sheet-top-coding-interview-problems',
       icon: <ListChecks className="w-8 h-8 text-violet-600" />,
       color: 'bg-violet-50',
       hoverText: 'group-hover:text-violet-600',
@@ -256,10 +257,10 @@ const PracticeSection = () => {
       bgGlow: 'rgba(124,58,237,0.04)',
     },
     {
-      id: 'cp-algorithms',
-      title: 'CP-Algorithms',
-      desc: 'Clear write-ups on DS, graphs, strings, math, and more — your free reference library.',
-      href: 'https://cp-algorithms.com/',
+      id: 'striver-a2z',
+      title: "Striver's A2Z Sheet",
+      desc: 'Complete A-to-Z roadmap with 451 problems from basics to advanced DSA.',
+      href: 'https://takeuforward.org/dsa/strivers-a2z-sheet-learn-dsa-a-to-z',
       icon: <Library className="w-8 h-8 text-indigo-600" />,
       color: 'bg-indigo-50',
       hoverText: 'group-hover:text-indigo-600',
@@ -268,11 +269,11 @@ const PracticeSection = () => {
       bgGlow: 'rgba(79,70,229,0.04)',
     },
     {
-      id: 'handbook',
-      title: "CP Handbook (PDF)",
-      desc: "Antti Laaksonen's book — structured theory from basics to harder topics.",
-      href: 'https://cses.fi/book/book.pdf',
-      icon: <FileText className="w-8 h-8 text-fuchsia-600" />,
+      id: 'blind-75',
+      title: 'Blind 75 Sheet',
+      desc: 'The classic 75-question interview set widely used for focused prep.',
+      href: 'https://takeuforward.org/dsa/blind-75-leetcode-problems-detailed-video-solutions',
+      icon: <Target className="w-8 h-8 text-fuchsia-600" />,
       color: 'bg-fuchsia-50',
       hoverText: 'group-hover:text-fuchsia-600',
       glowColor: 'rgba(192,38,211,0.35)',
@@ -280,10 +281,10 @@ const PracticeSection = () => {
       bgGlow: 'rgba(192,38,211,0.04)',
     },
     {
-      id: 'tle-sheet',
-      title: 'TLE Eliminators Sheet',
-      desc: 'A curated roadmap of problems — stay consistent and level up with a guided checklist.',
-      href: 'https://www.tle-eliminators.com/cp-sheet',
+      id: 'love-babbar-450',
+      title: 'Love Babbar 450 Sheet',
+      desc: 'Popular 450 DSA problem list for placement revision and topic coverage.',
+      href: 'https://docs.google.com/spreadsheets/d/1AwCIidxvuZ241A1g6fzJ9SuyA2sVHKd4/edit?usp=sharing&ouid=102783754980211739433&rtpof=true&sd=true',
       icon: <LayoutGrid className="w-8 h-8 text-sky-600" />,
       color: 'bg-sky-50',
       hoverText: 'group-hover:text-sky-600',
@@ -328,6 +329,8 @@ const PracticeSection = () => {
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
+
+          <PlacementSheetsTracker />
         </div>
       </div>
 
@@ -343,13 +346,13 @@ const PracticeSection = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading
-            badge="For competitive programmers"
+            badge="Most famous placement sheets"
             badgeIcon={<Medal className="w-4 h-4" />}
             badgeColor="#7c3aed"
             badgeBg="rgba(124,58,237,0.08)"
             badgeBorder="rgba(124,58,237,0.25)"
-            title="Reading & Practice Beyond the Arena"
-            sub="Trusted problem banks, algorithms wiki, the classic handbook PDF, and a guided sheet — same polish as the rest of your journey."
+            title="Top DSA Sheets for Placements"
+            sub="Handpicked high-value sheets used by most placement aspirants. Open any sheet and continue your prep track instantly."
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
             {cpResources.map((item, index) => (
