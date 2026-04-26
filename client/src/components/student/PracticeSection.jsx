@@ -1,6 +1,7 @@
 // src/components/student/PracticeSection.jsx
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@clerk/clerk-react'
 import {
   Brain, Code2, Laptop, Building2, ArrowRight,
   BarChart3, BookOpen, Trophy, Mic, FileUser,
@@ -8,6 +9,7 @@ import {
   LayoutGrid, ExternalLink,
 } from 'lucide-react'
 import PlacementSheetsTracker from './PlacementSheetsTracker'
+import axios from '../../utils/axios'
 
 /* ── Internal card components ─────────────────────────────────────── */
 
@@ -136,8 +138,10 @@ const SectionHeading = ({ badge, badgeIcon, badgeColor, badgeBg, badgeBorder, ti
 /* ── Main component ───────────────────────────────────────────────── */
 const PracticeSection = () => {
   const navigate = useNavigate()
+  const { isSignedIn, getToken } = useAuth()
+  const [bpscAllowed, setBpscAllowed] = useState(false)
 
-  const practices = [
+  const practicesBase = [
     {
       id: 'aptitude',
       title: 'Aptitude & Logic',
@@ -187,6 +191,46 @@ const PracticeSection = () => {
       path: '/practice/sql',
     },
   ]
+
+  useEffect(() => {
+    let mounted = true
+    const check = async () => {
+      if (!isSignedIn) {
+        if (mounted) setBpscAllowed(false)
+        return
+      }
+      try {
+        const token = await getToken()
+        const { data } = await axios.get('/api/bpsc/access', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        if (mounted) setBpscAllowed(Boolean(data?.allowed))
+      } catch {
+        if (mounted) setBpscAllowed(false)
+      }
+    }
+    check()
+    return () => { mounted = false }
+  }, [getToken, isSignedIn])
+
+  const practices = useMemo(() => {
+    if (!bpscAllowed) return practicesBase
+    return [
+      ...practicesBase,
+      {
+        id: 'bpsc',
+        title: 'BPSC Special Set',
+        desc: 'Restricted BPSC practice track with dedicated dashboard and detailed review.',
+        icon: <BookOpen className="w-8 h-8 text-amber-700" />,
+        color: 'bg-amber-50',
+        hoverText: 'group-hover:text-amber-700',
+        glowColor: 'rgba(180,83,9,0.35)',
+        shadowColor: 'rgba(180,83,9,0.12)',
+        bgGlow: 'rgba(180,83,9,0.04)',
+        path: '/practice/bpsc',
+      },
+    ]
+  }, [bpscAllowed])
 
   const careerItems = [
     {

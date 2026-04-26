@@ -33,6 +33,9 @@ import MockInterview from "./pages/MockInterview.jsx";
 import ResumeBuilder from "./pages/ResumeBuilder.jsx";
 import SqlTest from "./pages/SqlTest.jsx";
 import ArenaPage from "./pages/ArenaPage.jsx";
+import BpscTest from "./pages/BpscTest.jsx";
+import BpscDashboard from "./pages/BpscDashboard.jsx";
+import EducatorBpscDashboard from "./pages/educator/BpscDashboard.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -163,6 +166,22 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/practice/bpsc"
+          element={
+            <ProtectedRoute>
+              <BpscTest />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/practice/bpsc-dashboard"
+          element={
+            <ProtectedRoute>
+              <BpscDashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/study-share" element={<StudyShare />} />
         <Route
           path="/mock-interview"
@@ -207,6 +226,7 @@ function App() {
           <Route path="admin-courses" element={<AdminCourses />} />
           <Route path="admin-analytics" element={<AdminAnalytics />} />
           <Route path="mentor-setup" element={<MentorSetup />} />
+          <Route path="bpsc-dashboard" element={<EducatorBpscDashboard />} />
         </Route>
 
         {/* 404 */}

@@ -17,9 +17,9 @@ const router = express.Router();
 // available levels and questions by level are exposed so the frontend can
 // display level lists without requiring authentication. Protected routes
 // still require Clerk auth.
-router.get("/levels", getAvailableLevels);
-router.get("/level-questions", getQuestionsByLevel);
-router.get("/questions", getQuestionsByLevel);
+router.get("/levels", requireAuth(), getAvailableLevels);
+router.get("/level-questions", requireAuth(), getQuestionsByLevel);
+router.get("/questions", requireAuth(), getQuestionsByLevel);
 
 router.get("/question", requireAuth(), getNextQuestion);
 router.post("/submit", requireAuth(), submitAnswer);

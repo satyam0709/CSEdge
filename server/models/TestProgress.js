@@ -7,7 +7,7 @@ const testProgressSchema = new mongoose.Schema({
   },
   testType: {
     type: String,
-    enum: ["aptitude", "dsa", "dev", "sql"],
+    enum: ["aptitude", "dsa", "dev", "sql", "bpsc"],
     required: true
   },
   currentLevel: {

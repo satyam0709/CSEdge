@@ -38,6 +38,7 @@ import resumeRoutes from "./routes/app-resume-routes.js";
 import sprintRoutes from "./routes/app-sprint-routes.js";
 import placementSheetRoutes from "./routes/app-placement-sheet-routes.js";
 import mentorRoutes from "./routes/app-mentor-routes.js";
+import bpscRoutes from "./routes/app-bpsc-routes.js";
 import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
 import { seedSqlQuestions } from "./controllers/adminController.js";
 
@@ -86,6 +87,7 @@ app.use("/api/resume", resumeRoutes);
 app.use("/api/sprint", sprintRoutes);
 app.use("/api/placement-sheets", placementSheetRoutes);
 app.use("/api/mentor", mentorRoutes);
+app.use("/api/bpsc", bpscRoutes);
 
 app.get("/", (_, res) => res.send("LMS API Running"));
 

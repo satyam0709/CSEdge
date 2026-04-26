@@ -8,7 +8,8 @@
     "server": "nodemon server.js",
     "start": "node server.js",
     "seed:questions": "node scripts/seedQuestions.js",
-    "seed:sql": "node scripts/seedSqlOnly.js"
+    "seed:sql": "node scripts/seedSqlOnly.js",
+    "seed:bpsc": "node scripts/seedBpsc.js"
   },
   "keywords": [],
   "author": "",

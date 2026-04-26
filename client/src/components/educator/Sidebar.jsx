@@ -1,12 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 import { assets } from "../../assets/assets";
 import { AppContext } from "../../context/AppContext";
+import axios from "../../utils/axios";
 
 export const Sidebar = () => {
   const { isEducator } = useContext(AppContext);
+  const { isSignedIn, getToken } = useAuth();
+  const [bpscAllowed, setBpscAllowed] = useState(false);
 
-  const menuItems = [
+  const menuItemsBase = [
     { name: "Dashboard", path: "/educator", icon: assets.home_icon },
     { name: "Add Course", path: "/educator/add-course", icon: assets.add_icon },
     { name: "My Courses", path: "/educator/my-courses", icon: assets.my_course_icon },
@@ -16,6 +20,35 @@ export const Sidebar = () => {
     { name: "Admin Analytics", path: "/educator/admin-analytics", icon: assets.home_icon },
     { name: "1:1 Mentor setup", path: "/educator/mentor-setup", icon: assets.person_tick_icon },
   ];
+
+  useEffect(() => {
+    let mounted = true;
+    const check = async () => {
+      if (!isSignedIn) {
+        if (mounted) setBpscAllowed(false);
+        return;
+      }
+      try {
+        const token = await getToken();
+        const { data } = await axios.get("/api/bpsc/access", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (mounted) setBpscAllowed(Boolean(data?.allowed));
+      } catch {
+        if (mounted) setBpscAllowed(false);
+      }
+    };
+    check();
+    return () => { mounted = false; };
+  }, [getToken, isSignedIn]);
+
+  const menuItems = useMemo(() => {
+    if (!bpscAllowed) return menuItemsBase;
+    return [
+      ...menuItemsBase,
+      { name: "BPSC Dashboard", path: "/educator/bpsc-dashboard", icon: assets.home_icon },
+    ];
+  }, [bpscAllowed]);
 
   return (
     isEducator && (

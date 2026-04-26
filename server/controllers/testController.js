@@ -3,6 +3,7 @@ import TestProgress from "../models/TestProgress.js";
 import TestAttempt from "../models/TestAttempt.js";
 import { emitUserAnalyticsUpdate } from "../socket/adminAnalyticsSocket.js";
 import { emitActiveSprintLeaderboardUpdate } from "../socket/weeklySprintSocket.js";
+import { hasBpscAccess } from "../lib/bpscAccess.js";
 
 /** Single canonical type for TestProgress + consistent analytics. */
 function normalizeProgressType(type) {
@@ -10,8 +11,23 @@ function normalizeProgressType(type) {
   if (t === "coding" || t === "dsa") return "dsa";
   if (t === "development" || t === "dev") return "dev";
   if (t === "sql" || t === "database") return "sql";
+  if (t === "bpsc") return "bpsc";
   if (t === "aptitude") return "aptitude";
   return t || "aptitude";
+}
+
+async function enforceBpscAccessIfNeeded(userId, rawType) {
+  const t = normalizeProgressType(rawType);
+  if (t !== "bpsc") return { ok: true };
+  const allowed = await hasBpscAccess(userId);
+  if (!allowed) {
+    return {
+      ok: false,
+      status: 403,
+      message: "BPSC practice is restricted to approved email IDs only.",
+    };
+  }
+  return { ok: true };
 }
 
 function normStr(v) {
@@ -27,6 +43,8 @@ export const getNextQuestion = async (req, res) => {
   try {
     const userId = req.auth().userId;
     let { type } = req.query;
+    const gate = await enforceBpscAccessIfNeeded(userId, type);
+    if (!gate.ok) return res.status(gate.status).json({ success: false, message: gate.message });
 
     // Normalize type aliases
     const typeMap = {
@@ -35,7 +53,8 @@ export const getNextQuestion = async (req, res) => {
       'dsa': ['dsa', 'coding'],
       'coding': ['dsa', 'coding'],
       'aptitude': ['aptitude'],
-      'sql': ['sql']
+      'sql': ['sql'],
+      'bpsc': ['bpsc']
     };
 
     const typesToCheck = typeMap[type] || [type];
@@ -118,6 +137,8 @@ export const submitAnswer = async (req, res) => {
   try {
     const userId = req.auth().userId;
     const { questionId, selectedAnswer, type, timeTaken } = req.body;
+    const gate = await enforceBpscAccessIfNeeded(userId, type);
+    if (!gate.ok) return res.status(gate.status).json({ success: false, message: gate.message });
 
     const question = await Question.findById(questionId);
     if (!question) {
@@ -200,6 +221,8 @@ export const getLevelSummary = async (req, res) => {
   try {
     const userId = req.auth().userId;
     const { type, level, questionIds = [] } = req.body || {};
+    const gate = await enforceBpscAccessIfNeeded(userId, type);
+    if (!gate.ok) return res.status(gate.status).json({ success: false, message: gate.message });
     const t = normalizeProgressType(type);
     const lvl = Number(level);
     if (!lvl) {
@@ -280,6 +303,8 @@ export const resetTest = async (req, res) => {
   try {
     const userId = req.auth().userId;
     const { type, mode } = req.body;
+    const gate = await enforceBpscAccessIfNeeded(userId, type);
+    if (!gate.ok) return res.status(gate.status).json({ success: false, message: gate.message });
     const progressType = normalizeProgressType(type);
 
     const progress = await TestProgress.findOne({
@@ -322,6 +347,8 @@ export const getAnalytics = async (req, res) => {
   try {
     const userId = req.auth().userId;
     const { type } = req.query;
+    const gate = await enforceBpscAccessIfNeeded(userId, type);
+    if (!gate.ok) return res.status(gate.status).json({ success: false, message: gate.message });
     const t = normalizeProgressType(type);
 
     const attempts = await TestAttempt.find({
@@ -375,6 +402,8 @@ export const getRecommendations = async (req, res) => {
   try {
     const userId = req.auth().userId;
     const { type } = req.query;
+    const gate = await enforceBpscAccessIfNeeded(userId, type);
+    if (!gate.ok) return res.status(gate.status).json({ success: false, message: gate.message });
     const t = normalizeProgressType(type);
 
     const attempts = await TestAttempt.find({ userId, type: t });
@@ -426,8 +455,11 @@ Query: ?type=aptitude
 */
 export const getAvailableLevels = async (req, res) => {
   try {
+    const userId = req.auth().userId;
     let { type } = req.query;
     if (!type) return res.status(400).json({ success: false, message: 'type required' });
+    const gate = await enforceBpscAccessIfNeeded(userId, type);
+    if (!gate.ok) return res.status(gate.status).json({ success: false, message: gate.message });
 
     // Normalize type aliases
     const typeMap = {
@@ -436,7 +468,8 @@ export const getAvailableLevels = async (req, res) => {
       'dsa': ['dsa', 'coding'],
       'coding': ['dsa', 'coding'],
       'aptitude': ['aptitude'],
-      'sql': ['sql']
+      'sql': ['sql'],
+      'bpsc': ['bpsc']
     };
 
     const typesToCheck = typeMap[type] || [type];
@@ -461,10 +494,13 @@ Query: ?type=aptitude&level=1&limit=10
 */
 export const getQuestionsByLevel = async (req, res) => {
   try {
+    const userId = req.auth().userId;
     const { type, level, limit } = req.query;
     if (!type || !level) {
       return res.status(400).json({ success: false, message: 'type and level required' });
     }
+    const gate = await enforceBpscAccessIfNeeded(userId, type);
+    if (!gate.ok) return res.status(gate.status).json({ success: false, message: gate.message });
 
     const typeMap = {
       dev: ["dev", "development"],
@@ -472,7 +508,8 @@ export const getQuestionsByLevel = async (req, res) => {
       dsa: ["dsa", "coding"],
       coding: ["dsa", "coding"],
       aptitude: ["aptitude"],
-      sql: ["sql"]
+      sql: ["sql"],
+      bpsc: ["bpsc"]
     };
 
     const typesToQuery = typeMap[type] || [type];
