@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "@clerk/clerk-react";
 import axios from "../utils/axios";
+import { withClerkAuth } from "../utils/testApiAuth";
 import { Target, TrendingUp, Clock, AlertCircle } from "lucide-react";
 
 export default function TestAnalytics({ type }) {
+  const { getToken } = useAuth();
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +15,10 @@ export default function TestAnalytics({ type }) {
       try {
         setLoading(true);
         setError(null);
-        const { data } = await axios.get(`/api/test/analytics?type=${type}`);
+        const { data } = await axios.get(
+          `/api/test/analytics?type=${type}`,
+          await withClerkAuth(getToken)
+        );
         if (data.success) {
           setAnalytics(data.analytics);
         }

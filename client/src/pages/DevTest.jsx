@@ -35,16 +35,17 @@ export default function DevTest() {
     try {
       setLoading(true);
       let lvlData, recData;
+      const authOpts = await withClerkAuth(getToken);
       
       // Try 'dev' first
-      const response = await axios.get(`/api/test/levels?type=dev`);
+      const response = await axios.get(`/api/test/levels?type=dev`, authOpts);
       lvlData = response.data;
       
       // Recommendation fetch
       try {
         const rResp = await axios.get(
           `/api/test/recommendations?type=dev`,
-          await withClerkAuth(getToken)
+          authOpts
         );
         recData = rResp.data;
       } catch (e) { recData = { recommendations: [] }; }
@@ -94,7 +95,11 @@ export default function DevTest() {
   const fetchLevelQuestions = async (level) => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/test/level-questions?type=${testType}&level=${level}`);
+      const authOpts = await withClerkAuth(getToken);
+      const { data } = await axios.get(
+        `/api/test/level-questions?type=${testType}&level=${level}`,
+        authOpts
+      );
       
       if (!data.success || !data.questions || data.questions.length === 0) {
         await fetchQuestion(level, 0);

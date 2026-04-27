@@ -33,12 +33,13 @@ export default function AptitudeTest() {
   const fetchLevels = async () => {
     try {
       setLoading(true);
-      const { data: lvlData } = await axios.get(`/api/test/levels?type=aptitude`);
+      const authOpts = await withClerkAuth(getToken);
+      const { data: lvlData } = await axios.get(`/api/test/levels?type=aptitude`, authOpts);
       let recData = { recommendations: [] };
       try {
         const r = await axios.get(
           `/api/test/recommendations?type=aptitude`,
-          await withClerkAuth(getToken)
+          authOpts
         );
         recData = r.data || recData;
       } catch {
@@ -80,8 +81,12 @@ export default function AptitudeTest() {
   const fetchLevelQuestions = async (level) => {
     try {
       setLoading(true);
+      const authOpts = await withClerkAuth(getToken);
       // Fetch all questions for this level (or fetch one by one if backend supports)
-      const { data } = await axios.get(`/api/test/level-questions?type=aptitude&level=${level}`);
+      const { data } = await axios.get(
+        `/api/test/level-questions?type=aptitude&level=${level}`,
+        authOpts
+      );
       
       if (!data.success || !data.questions || data.questions.length === 0) {
         // Fallback: fetch questions one by one

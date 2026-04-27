@@ -13,10 +13,8 @@ import {
 
 const router = express.Router();
 
-// Only protect routes that require a user context. Public endpoints like
-// available levels and questions by level are exposed so the frontend can
-// display level lists without requiring authentication. Protected routes
-// still require Clerk auth.
+// All /api/test/* routes use Clerk. The client must send Authorization: Bearer <token>
+// for levels, level-questions, analytics, and recommendations.
 router.get("/levels", requireAuth(), getAvailableLevels);
 router.get("/level-questions", requireAuth(), getQuestionsByLevel);
 router.get("/questions", requireAuth(), getQuestionsByLevel);

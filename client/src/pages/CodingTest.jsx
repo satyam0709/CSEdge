@@ -34,13 +34,14 @@ export default function CodingTest() {
   const fetchLevels = async () => {
     try {
       setLoading(true);
+      const authOpts = await withClerkAuth(getToken);
       let levelsRes;
       let primary = "dsa";
       try {
-        levelsRes = await axios.get(`/api/test/levels?type=dsa`);
+        levelsRes = await axios.get(`/api/test/levels?type=dsa`, authOpts);
         setTestType("dsa");
       } catch {
-        levelsRes = await axios.get(`/api/test/levels?type=coding`);
+        levelsRes = await axios.get(`/api/test/levels?type=coding`, authOpts);
         setTestType("coding");
         primary = "coding";
       }
@@ -49,7 +50,7 @@ export default function CodingTest() {
       try {
         const r = await axios.get(
           `/api/test/recommendations?type=${primary}`,
-          await withClerkAuth(getToken)
+          authOpts
         );
         recData = r.data || recData;
       } catch {
@@ -83,8 +84,10 @@ export default function CodingTest() {
   const fetchLevelQuestions = async (level) => {
     try {
       setLoading(true);
+      const authOpts = await withClerkAuth(getToken);
       const { data } = await axios.get(
-        `/api/test/level-questions?type=${testType}&level=${level}&limit=50`
+        `/api/test/level-questions?type=${testType}&level=${level}&limit=50`,
+        authOpts
       );
       
       if (!data.success || !data.questions || data.questions.length === 0) {

@@ -1,11 +1,14 @@
 // src/components/dev/DevDashboard.jsx
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '@clerk/clerk-react';
 import { Database, Layout, Server, Code, Globe, Lock, Cpu } from 'lucide-react';
 import axios from '../../utils/axios';
+import { withClerkAuth } from '../../utils/testApiAuth';
 import { Link } from 'react-router-dom';
 import DevTest from './DevTest';
 
 const DevDashboard = () => {
+  const { getToken } = useAuth();
   const [activeLevel, setActiveLevel] = useState(null);
   const [progress, setProgress] = useState({});
   const [view, setView] = useState('dashboard');
@@ -67,7 +70,10 @@ const DevDashboard = () => {
                 disabled={locked}
                 onClick={async () => { 
                   try {
-                    const { data } = await axios.get('/api/test/questions', { params: { type: 'dev', level: level.id, limit: 10 } });
+                    const { data } = await axios.get('/api/test/questions', {
+                      ...await withClerkAuth(getToken),
+                      params: { type: 'dev', level: level.id, limit: 10 },
+                    });
                     if (data.success && data.questions?.length) {
                       const mapped = data.questions.map((q) => ({
                         _id: q._id,

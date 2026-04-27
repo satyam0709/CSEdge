@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '@clerk/clerk-react';
 import { Terminal, Lock, Code2, Trophy, Star } from 'lucide-react';
 import axios from '../../utils/axios';
+import { withClerkAuth } from '../../utils/testApiAuth';
 import { Link } from 'react-router-dom';
 import CodingTest from './CodingTest';
 
 const CodingDashboard = () => {
+  const { getToken } = useAuth();
   const [activeLevel, setActiveLevel] = useState(null);
   const [progress, setProgress] = useState({});
   const [view, setView] = useState('dashboard'); // 'dashboard' | 'test' | 'result'
@@ -138,7 +141,10 @@ const isLevelLocked = (levelId) => false;
                 onClick={async () => { 
                   // fetch questions for this level
                   try {
-                    const { data } = await axios.get('/api/test/questions', { params: { type: 'dsa', level: level.id, limit: 10 } });
+                    const { data } = await axios.get('/api/test/questions', {
+                      ...await withClerkAuth(getToken),
+                      params: { type: 'dsa', level: level.id, limit: 10 },
+                    });
                     if (data.success) {
                       level.questions = data.questions.map((q) => ({
                         _id: q._id,

@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "@clerk/clerk-react";
 import axios from "../utils/axios";
+import { withClerkAuth } from "../utils/testApiAuth";
 import { TrendingDown, TrendingUp, Minus } from "lucide-react";
 
 export default function Recommendations({ type }) {
+  const { getToken } = useAuth();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +15,10 @@ export default function Recommendations({ type }) {
       try {
         setLoading(true);
         setError(null);
-        const { data } = await axios.get(`/api/test/recommendations?type=${type}`);
+        const { data } = await axios.get(
+          `/api/test/recommendations?type=${type}`,
+          await withClerkAuth(getToken)
+        );
         if (data.success) {
           setData(data.recommendations || []);
         }

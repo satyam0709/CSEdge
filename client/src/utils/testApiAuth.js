@@ -1,5 +1,6 @@
 /**
- * Clerk bearer token for protected /api/test/* routes (submit, question, recommendations, …).
+ * Clerk bearer token for protected /api/test/* routes
+ * (levels, level-questions, questions, submit, question, recommendations, analytics, …).
  */
 export async function withClerkAuth(getToken, config = {}) {
   if (typeof getToken !== "function") return config;

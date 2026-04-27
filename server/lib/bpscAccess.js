@@ -1,19 +1,14 @@
 import { clerkClient } from "@clerk/express";
 
-const HARDCODED_ALLOWED_BPSC_EMAILS = new Set([
-  "shivamsinghpatna09@gmail.com",
-]);
-
+/** Comma-separated allowlist. If empty/unset, any signed-in user can use BPSC (set to restrict). */
 function parseAllowedEmails() {
   const raw = String(process.env.BPSC_ALLOWED_EMAILS || "");
-  const fromEnv = new Set(
+  return new Set(
     raw
       .split(",")
       .map((v) => v.trim().toLowerCase())
       .filter(Boolean)
   );
-  HARDCODED_ALLOWED_BPSC_EMAILS.forEach((email) => fromEnv.add(email));
-  return fromEnv;
 }
 
 export async function getRequesterEmail(userId) {
@@ -27,8 +22,9 @@ export async function getRequesterEmail(userId) {
 }
 
 export async function hasBpscAccess(userId) {
+  if (!userId) return false;
   const allowed = parseAllowedEmails();
-  if (!allowed.size) return false;
+  if (!allowed.size) return true;
   const email = await getRequesterEmail(userId);
   return Boolean(email && allowed.has(email));
 }

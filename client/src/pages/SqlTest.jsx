@@ -44,14 +44,15 @@ export default function SqlTest() {
   const fetchLevels = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/test/levels?type=${TYPE}`);
+      const authOpts = await withClerkAuth(getToken);
+      const response = await axios.get(`/api/test/levels?type=${TYPE}`, authOpts);
       const lvlData = response.data;
 
       let recData = { recommendations: [] };
       try {
         const rResp = await axios.get(
           `/api/test/recommendations?type=${TYPE}`,
-          await withClerkAuth(getToken)
+          authOpts
         );
         recData = rResp.data || recData;
       } catch {
@@ -102,8 +103,10 @@ export default function SqlTest() {
   const fetchLevelQuestions = async (level) => {
     try {
       setLoading(true);
+      const authOpts = await withClerkAuth(getToken);
       const { data } = await axios.get(
-        `/api/test/level-questions?type=${TYPE}&level=${level}&limit=15`
+        `/api/test/level-questions?type=${TYPE}&level=${level}&limit=15`,
+        authOpts
       );
 
       if (!data.success || !data.questions || data.questions.length === 0) {

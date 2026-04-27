@@ -1,10 +1,13 @@
 // src/components/companies/CompanyDashboard.jsx
 import React, { useState } from 'react';
+import { useAuth } from '@clerk/clerk-react';
 import { Building2, ArrowRight } from 'lucide-react';
 import axios from '../../utils/axios';
+import { withClerkAuth } from '../../utils/testApiAuth';
 import CodingTest from '../coding/CodingTest'; // REUSING YOUR EXISTING COMPONENT
 
 const CompanyDashboard = () => {
+  const { getToken } = useAuth();
   const [activeCompany, setActiveCompany] = useState(null);
   const [questions, setQuestions] = useState([]);
 
@@ -57,7 +60,10 @@ const CompanyDashboard = () => {
               key={company.id}
               onClick={async () => {
                 try {
-                  const { data } = await axios.get('/api/test/questions', { params: { type: 'dev', level: 1, limit: 10 } });
+                  const { data } = await axios.get('/api/test/questions', {
+                    ...await withClerkAuth(getToken),
+                    params: { type: 'dev', level: 1, limit: 10 },
+                  });
                   if (data.success) setQuestions(data.questions.map(q => ({ id: q._id, question: q.question, options: q.options })));
                 } catch (err) { console.error(err); }
                 setActiveCompany(company);

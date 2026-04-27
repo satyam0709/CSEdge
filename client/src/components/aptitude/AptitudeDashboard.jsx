@@ -1,12 +1,15 @@
 // src/components/aptitude/AptitudeDashboard.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@clerk/clerk-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Trophy, Lock, Play, Star, TrendingUp, BookOpen } from 'lucide-react';
 import axios from '../../utils/axios';
+import { withClerkAuth } from '../../utils/testApiAuth';
 import AptitudeTest from './AptitudeTest';
 
 const AptitudeDashboard = () => {
+  const { getToken } = useAuth();
   const [activeLevel, setActiveLevel] = useState(null);
   const [userProgress, setUserProgress] = useState({});
   const [view, setView] = useState('dashboard'); // 'dashboard' | 'test' | 'result'
@@ -27,9 +30,13 @@ const AptitudeDashboard = () => {
     // fetch questions from backend for this level
     (async () => {
       try {
-        const { data } = await axios.get('/api/test/questions', {
-          params: { type: 'aptitude', level: level.id, limit: level.questionsCount || 10 }
-        });
+        const { data } = await axios.get(
+          '/api/test/questions',
+          {
+            ...await withClerkAuth(getToken),
+            params: { type: 'aptitude', level: level.id, limit: level.questionsCount || 10 },
+          }
+        );
         if (data.success) {
           // map server fields to what AptitudeTest expects
           const qlist = data.questions.map((q) => ({
