@@ -11,9 +11,9 @@ import LevelCompletionScreen from "../tests/LevelCompletionScreen";
 const TYPE = "bpsc";
 
 function getDifficulty(lvl) {
-  if (lvl <= 17) return "Easy";
-  if (lvl <= 34) return "Medium";
-  return "Hard";
+  if (lvl <= 2) return "Beginner";
+  if (lvl <= 4) return "Intermediate";
+  return "Advanced";
 }
 
 export default function BpscTest() {
@@ -73,9 +73,26 @@ export default function BpscTest() {
           accuracy: recs[lvl]?.accuracy || 0,
           status: recs[lvl]?.status || "unattempted",
           difficulty: getDifficulty(lvl),
-          questionsCount: 15,
+          questionsCount: 0,
         }));
-      setLevels(built);
+
+      const levelsWithCounts = await Promise.all(
+        built.map(async (item) => {
+          try {
+            const qResp = await axios.get(
+              `/api/test/level-questions?type=${TYPE}&level=${item.level}&limit=500`,
+              opts
+            );
+            return {
+              ...item,
+              questionsCount: qResp.data?.questions?.length || 0,
+            };
+          } catch {
+            return item;
+          }
+        })
+      );
+      setLevels(levelsWithCounts);
     } catch (error) {
       setAccessDenied(error?.response?.data?.message || "Could not load BPSC levels.");
       setLevels([]);
@@ -96,7 +113,7 @@ export default function BpscTest() {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `/api/test/level-questions?type=${TYPE}&level=${level}&limit=15`,
+        `/api/test/level-questions?type=${TYPE}&level=${level}&limit=500`,
         await withClerkAuth(getToken)
       );
       if (!data.success || !data.questions?.length) {
@@ -178,7 +195,7 @@ export default function BpscTest() {
     const questionIds = Object.keys(answersSnapshot);
     let stats = {
       correctCount: Object.values(answersSnapshot).filter((a) => a.correct).length,
-      totalQuestions: questionIds.length || 15,
+      totalQuestions: questionIds.length || questionsInLevel.length || 1,
       passed: false,
       reviewRows: [],
     };
@@ -230,6 +247,7 @@ export default function BpscTest() {
         onSelectLevel={startLevel}
         loading={loading}
         testType="BPSC Practice"
+        levelLabel="Test"
         onRetry={fetchLevels}
       />
     );
@@ -259,7 +277,7 @@ export default function BpscTest() {
           <button onClick={() => setView("levels")} className="text-slate-600 hover:text-indigo-600 font-bold">
             ← Back to Levels
           </button>
-          <span className="text-slate-600 text-sm font-medium">BPSC · Level {selectedLevel}</span>
+          <span className="text-slate-600 text-sm font-medium">BPSC · Test {selectedLevel}</span>
         </div>
       </nav>
       <div className="max-w-5xl mx-auto mt-8 px-4 md:px-6">
@@ -272,7 +290,7 @@ export default function BpscTest() {
               isSubmitted={isSubmitted}
               loading={loading}
               currentQuestionNumber={currentQuestionIndex + 1}
-              totalQuestions={questionsInLevel.length || 15}
+              totalQuestions={questionsInLevel.length || 1}
               onBack={() => setView("levels")}
             />
             <div className="mt-8 bg-white rounded-3xl border-2 border-slate-200 p-6 md:p-8 shadow-lg">
@@ -283,7 +301,7 @@ export default function BpscTest() {
                 onNext={goToNextQuestion}
                 onNextLevel={handleNextLevel}
                 onExit={() => setView("levels")}
-                canGoNextLevel={isSubmitted && currentQuestionIndex === (questionsInLevel.length - 1 || 14)}
+                canGoNextLevel={isSubmitted && currentQuestionIndex === Math.max(0, questionsInLevel.length - 1)}
               />
             </div>
           </>

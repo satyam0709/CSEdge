@@ -513,7 +513,10 @@ export const getQuestionsByLevel = async (req, res) => {
     };
 
     const typesToQuery = typeMap[type] || [type];
-    const qLimit = Math.max(1, Math.min(50, Number(limit) || 10));
+    const isBpsc = typesToQuery.includes("bpsc");
+    const maxLimit = isBpsc ? 500 : 50;
+    const defaultLimit = isBpsc ? 200 : 10;
+    const qLimit = Math.max(1, Math.min(maxLimit, Number(limit) || defaultLimit));
 
     const questions = await Question.find({
       type: { $in: typesToQuery },

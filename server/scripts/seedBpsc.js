@@ -20,34 +20,31 @@ function cleanText(v) {
   return String(v || "").replace(/\s+/g, " ").trim();
 }
 
-function levelFromDifficulty(difficulty, indexInBucket) {
-  const d = String(difficulty || "easy").toLowerCase();
-  const step = Math.floor(indexInBucket / 15);
-  if (d === "hard") return Math.min(50, 35 + step);
-  if (d === "medium") return Math.min(34, 18 + step);
-  return Math.min(17, 1 + step);
-}
-
 function flattenQuestions(raw) {
   const rows = [];
-  for (const exam of raw || []) {
-    for (const section of exam.sections || []) {
-      for (const q of section.questions || []) {
+  (raw || []).slice(0, 6).forEach((exam, examIndex) => {
+    const testNumber = examIndex + 1; // Test 1 ... Test 6
+    const sectionBlocks = Array.isArray(exam.sections)
+      ? exam.sections.map((s) => ({ sectionName: s.section_name || "", questions: s.questions || [] }))
+      : [{ sectionName: exam.section_name || "", questions: exam.questions || [] }];
+
+    sectionBlocks.forEach((section) => {
+      (section.questions || []).forEach((q) => {
         const options = Array.isArray(q.options) ? q.options.map(cleanText).filter(Boolean) : [];
         const question = cleanText(q.question_text);
         const correctAnswer = cleanText(q.correct_answer);
-        if (!question || options.length < 4 || !correctAnswer) continue;
+        if (!question || options.length < 4 || !correctAnswer) return;
         rows.push({
-          difficulty: cleanText(q.level || "easy").toLowerCase(),
-          topic: cleanText(q.topic || section.section_name || "General"),
+          testNumber,
+          topic: cleanText(q.topic || section.sectionName || "General Knowledge"),
           question,
           options,
           correctAnswer,
           explanation: cleanText(q.explanation || ""),
         });
-      }
-    }
-  }
+      });
+    });
+  });
   return rows;
 }
 
@@ -56,26 +53,18 @@ async function seed() {
   const raw = loadBpscJson();
   const rows = flattenQuestions(raw);
 
-  const buckets = { easy: [], medium: [], hard: [] };
-  for (const r of rows) {
-    const key = r.difficulty === "hard" ? "hard" : r.difficulty === "medium" ? "medium" : "easy";
-    buckets[key].push(r);
-  }
-
   const docs = [];
-  for (const key of ["easy", "medium", "hard"]) {
-    buckets[key].forEach((r, idx) => {
-      docs.push({
-        type: "bpsc",
-        level: levelFromDifficulty(key, idx),
-        topic: r.topic,
-        question: r.question,
-        options: r.options,
-        correctAnswer: r.correctAnswer,
-        explanation: r.explanation,
-      });
+  rows.forEach((r) => {
+    docs.push({
+      type: "bpsc",
+      level: r.testNumber, // test-wise levels: 1..6
+      topic: `Test ${r.testNumber} · ${r.topic}`,
+      question: r.question,
+      options: r.options,
+      correctAnswer: r.correctAnswer,
+      explanation: r.explanation,
     });
-  }
+  });
 
   const seen = new Set();
   const unique = docs.filter((d) => {
@@ -87,7 +76,13 @@ async function seed() {
 
   await Question.deleteMany({ type: "bpsc" });
   await Question.insertMany(unique);
+  const counts = await Question.aggregate([
+    { $match: { type: "bpsc" } },
+    { $group: { _id: "$level", total: { $sum: 1 } } },
+    { $sort: { _id: 1 } },
+  ]);
   console.log(`Seeded BPSC questions: ${unique.length}`);
+  console.log("BPSC test-wise totals:", counts.map((c) => `Test ${c._id}: ${c.total}`).join(", "));
   process.exit(0);
 }
 

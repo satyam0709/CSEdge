@@ -12,7 +12,14 @@ const getDifficultyColor = (difficulty) => {
   return colors[difficulty] || colors['Beginner'];
 };
 
-export default function LevelSelector({ levels, onSelectLevel, loading, testType = "Aptitude", onRetry }) {
+export default function LevelSelector({
+  levels,
+  onSelectLevel,
+  loading,
+  testType = "Aptitude",
+  onRetry,
+  levelLabel = "Level",
+}) {
   const navigate = useNavigate();
   
   if (loading) {
@@ -127,7 +134,9 @@ export default function LevelSelector({ levels, onSelectLevel, loading, testType
                   </div>
 
                   {/* Level Name */}
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">Level {level.level}</h3>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">
+                    {levelLabel} {level.level}
+                  </h3>
                   
                   {/* Status */}
                   <p className={`text-sm mb-3 ${isAttempted ? 'text-slate-600' : 'text-slate-500'}`}>
