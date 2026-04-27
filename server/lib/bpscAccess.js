@@ -1,13 +1,19 @@
 import { clerkClient } from "@clerk/express";
 
+const HARDCODED_ALLOWED_BPSC_EMAILS = new Set([
+  "shivamsinghpatna09@gmail.com",
+]);
+
 function parseAllowedEmails() {
   const raw = String(process.env.BPSC_ALLOWED_EMAILS || "");
-  return new Set(
+  const fromEnv = new Set(
     raw
       .split(",")
       .map((v) => v.trim().toLowerCase())
       .filter(Boolean)
   );
+  HARDCODED_ALLOWED_BPSC_EMAILS.forEach((email) => fromEnv.add(email));
+  return fromEnv;
 }
 
 export async function getRequesterEmail(userId) {
